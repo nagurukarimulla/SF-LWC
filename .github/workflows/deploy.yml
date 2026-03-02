@@ -17,4 +17,4 @@ jobs:
         run: echo "${{ secrets.SFDX_AUTH_URL }}" | sf org login sfdx-url --sfdx-url-stdin --set-default
 
       - name: 'Deploy Source'
-        run: sf project deploy start --source-dir force-app
+        run: sf project deploy start --source-dir force-app --target-org nagurukarimlwc@gmail.com
