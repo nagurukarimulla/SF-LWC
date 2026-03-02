@@ -8,20 +8,19 @@ public with sharing class sfpulse_MetadataScannerService {
         Map<String, Object_Health__c> healthMap = new Map<String, Object_Health__c>();
 
         // -------- FLOW COUNT --------
-        for (FlowDefinition fd : [
-            SELECT Id, DeveloperName, ActiveVersion.VersionNumber
-            FROM FlowDefinition
-        ]) {
-            if (!healthMap.containsKey(fd.DeveloperName)) {
-                healthMap.put(fd.DeveloperName, new Object_Health__c(
-                    Object_API_Name__c = fd.DeveloperName,
+        List<FlowDefinition> flowDefs = [SELECT Id, DeveloperName FROM FlowDefinition];
+        for (FlowDefinition flowDef : flowDefs) {
+            String devName = flowDef.DeveloperName;
+            if (!healthMap.containsKey(devName)) {
+                healthMap.put(devName, new Object_Health__c(
+                    Object_API_Name__c = devName,
                     Flow_Count__c = 1,
                     Trigger_Count__c = 0,
                     Validation_Count__c = 0,
                     Field_Count__c = 0
                 ));
             } else {
-                healthMap.get(fd.DeveloperName).Flow_Count__c++;
+                healthMap.get(devName).Flow_Count__c++;
             }
         }
 
