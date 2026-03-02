@@ -1,0 +1,20 @@
+name: Deploy LWC to Salesforce
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@v4
+
+      - name: 'Install Salesforce CLI'
+        run: npm install -g @salesforce/cli
+
+      - name: 'Authenticate Salesforce Org'
+        run: echo "${{ secrets.SFDX_AUTH_URL }}" | sf org login sfdx-url --sfdx-url-stdin --set-default
+
+      - name: 'Deploy Source'
+        run: sf project deploy start --source-dir force-app
