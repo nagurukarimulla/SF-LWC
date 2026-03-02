@@ -8,9 +8,9 @@ public with sharing class sfpulse_MetadataScannerService {
         Map<String, Object_Health__c> healthMap = new Map<String, Object_Health__c>();
 
         // -------- FLOW COUNT --------
-        List<FlowDefinition> flowDefs = [SELECT Id, DeveloperName FROM FlowDefinition];
-        for (FlowDefinition flowDef : flowDefs) {
-            String devName = flowDef.DeveloperName;
+        List<Flow> flows = [SELECT Id, DeveloperName FROM Flow];
+        for (Flow flow : flows) {
+            String devName = flow.DeveloperName;
             if (!healthMap.containsKey(devName)) {
                 healthMap.put(devName, new Object_Health__c(
                     Object_API_Name__c = devName,
