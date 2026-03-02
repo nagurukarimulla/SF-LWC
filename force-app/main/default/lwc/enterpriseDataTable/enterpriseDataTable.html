@@ -1,0 +1,26 @@
+<template>
+
+    <lightning-card>
+
+        <lightning-datatable
+    key-field="Id"
+    data={data}
+    columns={columns}
+    draft-values={draftValues}
+    onsave={handleSave}
+    onsort={handleSort}
+    sorted-by={sortBy}
+    sorted-direction={sortDirection}
+    enable-infinite-loading
+    onloadmore={handleLoadMore}
+    show-row-number-column>
+</lightning-datatable>
+
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading">
+            </lightning-spinner>
+        </template>
+
+    </lightning-card>
+
+</template>

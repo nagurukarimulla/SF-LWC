@@ -1,0 +1,33 @@
+<template>
+    <section class="edu-section fade">
+
+        <h2 class="edu-title">Education</h2>
+
+        <div class="edu-grid">
+
+            <template for:each={educationList} for:item="edu">
+                <div key={edu.degree} class="edu-card">
+
+                    <div class="year-badge">{edu.year}</div>
+
+                    <img src={edu.icon}
+                         alt={edu.institution}
+                         class="edu-logo"/>
+
+                    <div class="edu-degree">{edu.degree}</div>
+
+                    <div class="edu-institution">
+    {edu.institution}
+</div>
+
+<div class="edu-location">
+    {edu.location}
+</div>
+
+                </div>
+            </template>
+
+        </div>
+
+    </section>
+</template>

@@ -1,0 +1,24 @@
+<template>
+    <lightning-card title="Enterprise Account Browser">
+        <lightning-datatable
+            key-field="Id"
+            data={accounts}
+            columns={columns}>
+        </lightning-datatable>
+
+        <div class="slds-m-top_medium slds-align_absolute-center">
+            <lightning-button label="Previous"
+                              onclick={handlePrevious}
+                              disabled={isFirst}
+                              variant = "brand">
+            </lightning-button>
+
+            <lightning-button label="Next"
+                              onclick={handleNext}
+                              disabled={isDone}
+                              class="slds-m-left_small"
+                              variant = "brand">
+            </lightning-button>
+        </div>
+    </lightning-card>
+</template>

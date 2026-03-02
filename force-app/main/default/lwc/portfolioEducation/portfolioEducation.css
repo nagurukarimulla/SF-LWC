@@ -1,0 +1,99 @@
+.edu-section {
+    padding: 35px 20px;
+    text-align: center;
+}
+
+.edu-title {
+    font-size: 28px;
+    margin-bottom: 35px;
+    background: linear-gradient(90deg,#00d4ff,#6a11cb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: -75px;
+}
+
+/* ===== AUTO FIT 5 COLUMNS ===== */
+.edu-grid {
+    max-width: 1400px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 25px;
+}
+
+/* Card */
+.edu-card {
+    padding: 25px 20px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(0,212,255,0.25);
+    transition: 0.3s ease;
+    position: relative;
+    text-align: center;
+}
+
+.edu-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 30px rgba(0,212,255,0.25);
+}
+
+.edu-logo {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+/* Equal alignment */
+.edu-degree {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 8px;
+    min-height: 42px;
+}
+
+.edu-institution {
+    font-size: 13px;
+    color: #00d4ff;
+    margin-bottom: 6px;
+    min-height: 40px;
+}
+
+.edu-location {
+    font-size: 12px;
+    color: #aaaaaa;
+}
+
+/* Graduation Year Badge */
+.year-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: linear-gradient(90deg,#00d4ff,#6a11cb);
+    color: #0f2027;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+@media (max-width: 1200px) {
+    .edu-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .edu-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .edu-grid {
+        grid-template-columns: 1fr;
+    }
+}

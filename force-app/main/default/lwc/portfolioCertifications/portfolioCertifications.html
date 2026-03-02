@@ -1,0 +1,24 @@
+<template>
+    <section class="cert-section fade">
+
+        <h2 class="cert-title">Salesforce Certifications</h2>
+        <p style="color:#aaa; margin-bottom:25px;">
+    6x Salesforce Certified Professional
+</p>
+
+        <div class="cert-grid">
+
+            <template for:each={certifications} for:item="cert">
+                <div key={cert.name} class="cert-card">
+
+                    <img src={cert.icon} alt={cert.name} class="cert-image"/>
+
+                    <div class="cert-name">{cert.name}</div>
+
+                </div>
+            </template>
+
+        </div>
+
+    </section>
+</template>

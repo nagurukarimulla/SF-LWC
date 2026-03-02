@@ -1,0 +1,75 @@
+.section {
+    padding: 20px 15px;
+}
+
+.contact-wrapper {
+    border-top: 1px solid rgba(0, 212, 255, 0.25);
+}
+
+.contact-container {
+    max-width: 950px;
+    margin: auto;
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Glass Card */
+.glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+    transition: all 0.3s ease;
+}
+
+.glass:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 212, 255, 0.25);
+}
+
+.contact-info,
+.contact-form {
+    flex: 1;
+    min-width: 320px;
+    padding: 20px;
+}
+
+/* Titles - Cyan color */
+.contact-info h2,
+.form-title {
+    color: #00d4ff;
+    margin-bottom: 18px;
+    font-size: 24px;
+}
+
+
+
+/* Contact text */
+.contact-info p {
+    margin: 10px 0;
+    font-size: 15px;
+    transition: 0.3s ease;
+    color: #ffffff;
+}
+
+.contact-info p:hover {
+    color: #00d4ff;
+    transform: translateX(4px);
+}
+
+/* Left side labels - Cyan */
+.contact-info p strong {
+    color: #00d4ff;
+    margin-right: 8px;
+}
+
+
+
+/* Buttons */
+.resume-btn,
+.submit-btn {
+    margin-top: 18px;
+}

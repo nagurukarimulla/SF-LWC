@@ -1,0 +1,32 @@
+<template>
+    <section class="experience-section">
+
+        <h2 class="experience-title">Professional Experience</h2>
+
+        <div class="experience-container">
+
+            <template for:each={experienceList} for:item="exp">
+                <div key={exp.company} class="experience-card">
+
+                    <div class="experience-header">
+                        <div class="company-name">{exp.company}</div>
+                        <div class="duration">{exp.duration}</div>
+                    </div>
+
+                    <div class="role">{exp.role}</div>
+
+                    <div class="client">
+                        Client / Project: {exp.client}
+                    </div>
+
+                    <div class="description">
+                        {exp.description}
+                    </div>
+
+                </div>
+            </template>
+
+        </div>
+
+    </section>
+</template>

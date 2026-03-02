@@ -1,0 +1,23 @@
+<template>
+    <lightning-card title="Enterprise Operations Console">
+
+        <!-- Object Selector -->
+        <div class="slds-p-around_medium">
+            <c-object-selector-panel
+                onobjectchange={handleObjectChange}>
+            </c-object-selector-panel>
+        </div>
+
+        <!-- Dynamic Table -->
+        <template if:true={selectedObject}>
+            <div class="slds-p-around_medium">
+                <c-enterprise-data-table
+                    object-api-name={selectedObject}
+                    field-set-name="Operations_View"
+                    page-size="20">
+                </c-enterprise-data-table>
+            </div>
+        </template>
+
+    </lightning-card>
+</template>

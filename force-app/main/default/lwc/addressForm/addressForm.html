@@ -1,0 +1,18 @@
+<!-- addressForm.html -->
+<template>
+    <lightning-card title={formTitle} variant="narrow">
+        <div class="slds-p-around_medium">
+            <lightning-input data-field="street" label="Street" required></lightning-input>
+            <lightning-input data-field="city" label="City" required></lightning-input>
+            <template if:true={showPostalCode}>
+                <lightning-input data-field="postalCode" 
+                    label={postalCodeLabel} 
+                    required></lightning-input>
+            </template>
+            <lightning-input data-field="country" 
+                label="Country" 
+                value={countryCode} 
+                disabled></lightning-input>
+        </div>
+    </lightning-card>
+</template>

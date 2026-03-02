@@ -1,0 +1,46 @@
+<template>
+    <section class="section contact-wrapper fade">
+        <div class="contact-container">
+            <!-- LEFT SIDE -->
+            <div class="contact-info glass">
+                <h2>Get In Touch</h2>
+                <p><strong>Email:</strong> nkarim0311@gmail.com</p>
+                <p><strong>Phone:</strong> +91 8712314388</p>
+                <p><strong>Location:</strong> Hyderabad, India</p>
+                <lightning-button 
+                    label="Download Resume" 
+                    onclick={download}
+                    variant="brand"
+                    class="resume-btn">
+                </lightning-button>
+            </div>
+
+<div class="contact-form glass">
+    <h2 class="form-title">Submit Your Details</h2>
+    <div style="margin-bottom:14px;">
+        <label style="color:#00d4ff;font-size:15px;margin-bottom:6px;display:block;">Your Name</label>
+        <input type="text" value={name} onchange={handleName} style="width:100%;padding:10px;border-radius:12px;background:rgba(255,255,255,0.06);color:white;border:1px solid rgba(0,212,255,0.3);" />
+    </div>
+    <div style="margin-bottom:14px;">
+        <label style="color:#00d4ff;font-size:15px;margin-bottom:6px;display:block;">Your Email</label>
+        <input type="email" value={email} onchange={handleEmail} style="width:100%;padding:10px;border-radius:12px;background:rgba(255,255,255,0.06);color:white;border:1px solid rgba(0,212,255,0.3);" />
+    </div>
+    <div style="margin-bottom:18px;">
+        <label style="color:#00d4ff;font-size:15px;margin-bottom:6px;display:block;">Message</label>
+        <input type="text" value={message} onchange={handleMessage} style="width:100%;padding:10px;border-radius:12px;background:rgba(255,255,255,0.06);color:white;border:1px solid rgba(0,212,255,0.3);" />
+    </div>
+    <lightning-button
+    label="Send Message"
+    onclick={createLead}
+    variant="brand"
+    class="submit-btn">
+    </lightning-button>
+</div>
+          
+        </div>
+    </section>
+</template>
+
+
+
+

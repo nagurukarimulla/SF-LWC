@@ -1,0 +1,79 @@
+.section {
+    padding: 60px;
+    text-align: center;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    position: relative;
+    padding: 22px;
+    border-radius: 18px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.4s ease;
+
+    /* 🎨 BEFORE HOVER — Rich Gradient */
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+}
+
+/* Subtle floating (keep this) */
+.card:nth-child(odd) {
+    animation: floatSkill 6s ease-in-out infinite;
+}
+
+
+/* Animated border glow */
+.card::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 20px;
+    background: linear-gradient(90deg,#00d4ff,#6a11cb,#00d4ff);
+    background-size: 300% 300%;
+    z-index: -1;
+    animation: borderGlow 6s linear infinite;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+/* Hover effect */
+.card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 15px 35px rgba(0,212,255,0.35);
+}
+
+/* Subtle floating effect */
+.card:nth-child(odd) {
+    animation: floatSkill 6s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+}
+
+@keyframes floatSkill {
+    0%,100% { transform: translateY(0px); }
+    50% { transform: translateY(-3px); }
+}
+
+.Top{
+     font-size: 28px;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg,#00d4ff,#6a11cb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: -100px;
+}

@@ -1,0 +1,14 @@
+<template>
+    <section class="section">
+        <h1 class="top">Enterprise Projects</h1>
+
+        <template for:each={projects} for:item="proj">
+            <div key={proj.name} class="project">
+                <h3 onclick={toggle}>{proj.name}</h3>
+                <template if:true={proj.open}>
+                    <p>{proj.description}</p>
+                </template>
+            </div>
+        </template>
+    </section>
+</template>

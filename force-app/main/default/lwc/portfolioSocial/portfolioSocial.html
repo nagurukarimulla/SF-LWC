@@ -1,0 +1,29 @@
+<template>
+    <section class="social-section fade">
+
+        <h2 class="social-title">Professional Presence</h2>
+        <p class="social-subtitle">
+            Connect with me across platforms
+        </p>
+
+        <div class="social-grid">
+
+            <template for:each={platforms} for:item="platform">
+                <div key={platform.name}
+                     class="social-card"
+                     data-url={platform.url}
+                     onclick={redirect}>
+
+                    <img src={platform.icon}
+                         alt={platform.name}
+                         class="social-icon"/>
+
+                    <div class="social-name">{platform.name}</div>
+
+                </div>
+            </template>
+
+        </div>
+
+    </section>
+</template>
