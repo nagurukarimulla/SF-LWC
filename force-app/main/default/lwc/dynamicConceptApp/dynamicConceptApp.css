@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    height: 600px;
+}
+
+.left {
+    width: 30%;
+    border-right: 1px solid #ddd;
+    padding: 10px;
+}
+
+.right {
+    width: 70%;
+    padding: 20px;
+}

@@ -1,0 +1,20 @@
+<template>
+    <template lwc:if={isRiskEvaluator}>
+        <c-concept_imperative-risk-evaluator></c-concept_imperative-risk-evaluator>
+    </template>
+    <template lwc:if={isWireRevenue}>
+    <c-concept_wire-revenue-analytics></c-concept_wire-revenue-analytics>
+</template>
+<template lwc:if={isExposeApexStructuredService}>
+    <c-concept_expose-apex-structured-service>
+    </c-concept_expose-apex-structured-service>
+</template>
+<template lwc:if={isDeclarativeMultiEvent}>
+    <c-concept_declarative-multi-event-binding>
+    </c-concept_declarative-multi-event-binding>
+</template>
+<template lwc:if={isDynamicEventStrategySwitching}>
+    <c-concept_dynamic-event-strategy-switching>
+    </c-concept_dynamic-event-strategy-switching>
+</template>
+</template>

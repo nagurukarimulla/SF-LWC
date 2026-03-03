@@ -1,0 +1,18 @@
+<template>
+
+    <lightning-input 
+        type="search"
+        label="Search Concept"
+        onchange={handleSearch}>
+    </lightning-input>
+
+    <template for:each={filteredConcepts} for:item="concept">
+        <div key={concept.value}
+             class="concept-item"
+             onclick={selectConcept}
+             data-value={concept.value}>
+            {concept.label}
+        </div>
+    </template>
+
+</template>

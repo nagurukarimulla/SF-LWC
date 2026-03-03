@@ -1,0 +1,23 @@
+<template>
+    <lightning-card title="LWC Dynamic Concept Explorer">
+
+        <div class="container">
+            
+            <!-- Left Side -->
+            <div class="left">
+                <c-concept-selector 
+                    onconceptselect={handleConceptSelect}>
+                </c-concept-selector>
+            </div>
+
+            <!-- Right Side -->
+            <div class="right">
+                <c-dynamic-loader 
+                    selected-component={selectedComponent}>
+                </c-dynamic-loader>
+            </div>
+
+        </div>
+
+    </lightning-card>
+</template>

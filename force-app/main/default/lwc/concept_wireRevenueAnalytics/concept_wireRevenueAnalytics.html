@@ -1,0 +1,41 @@
+<template>
+    <lightning-card title="Reactive Revenue Analytics" icon-name="standard:account">
+
+        <div class="slds-p-around_medium">
+
+            <lightning-input
+                label="Account Id"
+                value={accountId}
+                onchange={handleAccountChange}>
+            </lightning-input>
+
+            <lightning-input
+                type="number"
+                label="Minimum Opportunity Amount"
+                value={minAmount}
+                onchange={handleAmountChange}>
+            </lightning-input>
+
+            <lightning-button
+                label="Refresh"
+                class="slds-m-top_small"
+                onclick={handleRefresh}>
+            </lightning-button>
+
+            <template lwc:if={summary}>
+                <div class="slds-m-top_large">
+                    <p><strong>Total Opportunities:</strong> {summary.totalOpportunities}</p>
+                    <p><strong>Total Revenue:</strong> ₹ {formattedRevenue}</p>
+                </div>
+            </template>
+
+            <template lwc:if={error}>
+                <div class="slds-text-color_error">
+                    {error.body.message}
+                </div>
+            </template>
+
+        </div>
+
+    </lightning-card>
+</template>

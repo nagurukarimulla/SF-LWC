@@ -1,0 +1,28 @@
+<template>
+    <lightning-card title="Dynamic Event Strategy Switching" icon-name="utility:retweet">
+
+        <div class="slds-p-around_medium">
+
+            <p><strong>Current Strategy:</strong> {currentStrategy}</p>
+
+            <c-ui_event-emitter lwc:on={eventBindings}>
+            </c-ui_event-emitter>
+
+            <lightning-button
+                label="Switch Event Strategy"
+                class="slds-m-top_medium"
+                onclick={switchStrategy}>
+            </lightning-button>
+
+            <div class="slds-m-top_large">
+                <strong>Event Log:</strong>
+
+                <template for:each={eventLog} for:item="log">
+                    <p key={log.id}>{log.message}</p>
+                </template>
+            </div>
+
+        </div>
+
+    </lightning-card>
+</template>
