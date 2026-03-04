@@ -50,4 +50,11 @@ get isInputChangeHandling() {
 get isRemoveEventListeners() {
     return this.selectedComponent === 'concept_removeEventListeners';
 }
+get isConfigureEventPropagation() {
+    return this.selectedComponent ===
+        'concept_configureEventPropagation';
+}
+get isEventDefaultPropagation() {
+    return this.selectedComponent === 'concept_eventDefaultPropagation';
+}
 }

@@ -41,4 +41,12 @@
     <c-concept_remove-event-listeners>
     </c-concept_remove-event-listeners>
 </template>
+<template lwc:if={isConfigureEventPropagation}>
+    <c-concept_configure-event-propagation>
+    </c-concept_configure-event-propagation>
+</template>
+<template lwc:if={isEventDefaultPropagation}>
+    <c-concept_event-default-propagation>
+    </c-concept_event-default-propagation>
+</template>
 </template>
