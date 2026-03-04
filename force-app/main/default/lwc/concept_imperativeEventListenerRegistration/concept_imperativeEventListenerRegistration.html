@@ -1,0 +1,25 @@
+<template>
+
+    <lightning-card
+        title="Imperative Event Listener Registration"
+        icon-name="utility:notification">
+
+        <div class="slds-p-around_medium">
+
+            <c-ui_notification-emitter></c-ui_notification-emitter>
+
+            <div class="slds-m-top_medium">
+
+                <strong>Notifications:</strong>
+
+                <template for:each={notifications} for:item="item">
+                    <p key={item.id}>{item.message}</p>
+                </template>
+
+            </div>
+
+        </div>
+
+    </lightning-card>
+
+</template>

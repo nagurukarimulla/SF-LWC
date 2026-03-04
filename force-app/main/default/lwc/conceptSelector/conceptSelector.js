@@ -6,6 +6,12 @@ export default class ConceptSelector extends LightningElement {
 
     concepts = [
         { label: 'Wire Example', value: 'wireExample' },
+        {label: 'Input Change Handling',value: 'concept_inputChangeHandling'},
+        {label: 'Event Target vs CurrentTarget',value: 'concept_eventTargetVsCurrentTarget'},
+        {label: 'Event Retargeting',value: 'concept_eventRetargeting'},
+        {label: 'Event Listener Scope and Event Target',value: 'concept_eventListenerScopeAndTarget'},
+        
+        {label: 'Imperative Event Listener Registration', value: 'concept_imperativeEventListenerRegistration'},
         { label: 'Dynamic Event Strategy Switching', value: 'concept_dynamicEventStrategySwitching' },
         { label: 'Declarative Multi Event Binding', value: 'concept_declarativeMultiEventBinding' },
         { label: 'Imperative – Risk Evaluator', value: 'concept_imperativeRiskEvaluator' },

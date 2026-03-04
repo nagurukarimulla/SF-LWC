@@ -30,4 +30,21 @@ get isDeclarativeMultiEvent() {
 get isDynamicEventStrategySwitching() {
     return this.selectedComponent === 'concept_dynamicEventStrategySwitching';
 }
+get isImperativeEventListenerRegistration() {
+    return this.selectedComponent ===
+        'concept_imperativeEventListenerRegistration';
+}
+get isEventListenerScopeAndTarget() {
+    return this.selectedComponent === 'concept_eventListenerScopeAndTarget';
+}
+get isEventRetargeting() {
+    return this.selectedComponent === 'concept_eventRetargeting';
+}
+get isEventTargetVsCurrentTarget() {
+    return this.selectedComponent ===
+        'concept_eventTargetVsCurrentTarget';
+}
+get isInputChangeHandling() {
+    return this.selectedComponent === 'concept_inputChangeHandling';
+}
 }
