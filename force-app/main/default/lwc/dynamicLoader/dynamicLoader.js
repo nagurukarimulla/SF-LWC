@@ -47,4 +47,7 @@ get isEventTargetVsCurrentTarget() {
 get isInputChangeHandling() {
     return this.selectedComponent === 'concept_inputChangeHandling';
 }
+get isRemoveEventListeners() {
+    return this.selectedComponent === 'concept_removeEventListeners';
+}
 }

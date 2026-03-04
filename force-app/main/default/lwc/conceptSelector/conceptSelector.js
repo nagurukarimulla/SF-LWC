@@ -6,6 +6,7 @@ export default class ConceptSelector extends LightningElement {
 
     concepts = [
         { label: 'Wire Example', value: 'wireExample' },
+        {label: 'Remove Event Listeners', value: 'concept_removeEventListeners'},
         {label: 'Input Change Handling',value: 'concept_inputChangeHandling'},
         {label: 'Event Target vs CurrentTarget',value: 'concept_eventTargetVsCurrentTarget'},
         {label: 'Event Retargeting',value: 'concept_eventRetargeting'},
