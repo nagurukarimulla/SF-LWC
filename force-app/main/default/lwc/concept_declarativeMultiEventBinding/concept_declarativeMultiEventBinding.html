@@ -1,0 +1,23 @@
+<template>
+    <lightning-card title="Declarative Multi Event Binding" icon-name="utility:event">
+
+        <div class="slds-p-around_medium">
+
+            <c-ui_action-tile event-bindings={eventBindings}>
+                <div class="slds-box slds-theme_default">
+                    Hover or Click This Tile
+                </div>
+            </c-ui_action-tile>
+
+            <div class="slds-m-top_medium">
+                <strong>Interaction Log:</strong>
+
+                <template for:each={interactionLog} for:item="item">
+                    <p key={item.id}>{item.message}</p>
+                </template>
+            </div>
+
+        </div>
+
+    </lightning-card>
+</template>

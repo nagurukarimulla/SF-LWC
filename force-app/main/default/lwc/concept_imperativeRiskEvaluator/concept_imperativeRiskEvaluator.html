@@ -1,0 +1,47 @@
+<template>
+    <lightning-card title="Opportunity Risk Evaluator" icon-name="standard:opportunity">
+
+        <div class="slds-p-around_medium">
+
+            <lightning-input
+                label="Stage Name"
+                value={stageName}
+                onchange={handleStageChange}>
+            </lightning-input>
+
+            <lightning-input
+                type="number"
+                label="Minimum Amount"
+                value={minAmount}
+                onchange={handleAmountChange}>
+            </lightning-input>
+
+            <div class="slds-m-top_medium">
+                <lightning-button
+                    variant="brand"
+                    label="Evaluate Risk"
+                    onclick={handleEvaluate}
+                    disabled={isLoading}>
+                </lightning-button>
+            </div>
+
+            <template lwc:if={isLoading}>
+                <lightning-spinner size="medium"></lightning-spinner>
+            </template>
+
+            <template lwc:if={summary}>
+                <div class="slds-m-top_large">
+                    <p><strong>Total Evaluated:</strong> {summary.totalEvaluated}</p>
+                    <p><strong>High Risk:</strong> {summary.highRisk}</p>
+                </div>
+            </template>
+
+            <template lwc:if={error}>
+                <div class="slds-text-color_error slds-m-top_medium">
+                    {errorMessage}
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

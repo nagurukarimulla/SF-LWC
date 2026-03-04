@@ -1,0 +1,27 @@
+<template>
+
+    <lightning-card
+        title="Event Listener Scope and Target"
+        icon-name="utility:record">
+
+        <div class="slds-p-around_medium">
+
+            <c-ui_action-source label="Source A"></c-ui_action-source>
+
+            <c-ui_action-source label="Source B"></c-ui_action-source>
+
+            <div class="slds-m-top_medium">
+
+                <strong>Event Log:</strong>
+
+                <template for:each={logs} for:item="log">
+                    <p key={log.id}>{log.message}</p>
+                </template>
+
+            </div>
+
+        </div>
+
+    </lightning-card>
+
+</template>

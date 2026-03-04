@@ -1,0 +1,50 @@
+<template>
+    <section class="enterprise-section">
+
+        <h2 class="enterprise-title">Enterprise Application Hub</h2>
+
+        <p class="enterprise-subtitle">
+            Interactive Salesforce applications deployed across multiple org environments.
+            Explore live enterprise-grade systems demonstrating scalable architecture,
+            real-time integrations, and secure CRM engineering.
+        </p>
+
+        <div class="enterprise-card">
+
+            <div class="card-header">
+                <h3>Salesforce Experience Cloud Showcase</h3>
+                <span class="org-badge">Public Demo Org</span>
+            </div>
+
+            <p class="card-description">
+                This public Experience Cloud site hosts Salesforce
+                applications demonstrating event-driven architecture, middleware integration,
+                secure data handling, and scalable Lightning Web Components.
+            </p>
+
+            <div class="tech-stack">
+                <span>Apex</span>
+                <span>LWC</span>
+                <span>Platform Events</span>
+                <span>REST APIs</span>
+                <span>Experience Cloud</span>
+                <span>Async Processing</span>
+            </div>
+
+            <div class="metrics">
+                <div>3 Live Applications</div>
+                <div>Event-Driven Architecture</div>
+                <div>Secure Public Deployment</div>
+            </div>
+
+            <lightning-button
+                label="Launch Live Application Hub"
+                variant="brand"
+                onclick={openHub}
+                class="launch-btn">
+            </lightning-button>
+
+        </div>
+
+    </section>
+</template>

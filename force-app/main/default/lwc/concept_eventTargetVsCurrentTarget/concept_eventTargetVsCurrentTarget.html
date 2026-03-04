@@ -1,0 +1,40 @@
+<template>
+
+    <lightning-card
+        title="event.target vs event.currentTarget"
+        icon-name="utility:hierarchy">
+
+        <div class="slds-p-around_medium">
+
+            <div class="container" onclick={handleContainerClick}>
+
+                <lightning-button
+                    label="Action A"
+                    data-id="A">
+                </lightning-button>
+
+                <lightning-button
+                    label="Action B"
+                    data-id="B">
+                </lightning-button>
+
+                <lightning-button
+                    label="Action C"
+                    data-id="C">
+                </lightning-button>
+
+            </div>
+
+            <div class="slds-m-top_medium">
+
+                <p><strong>Target:</strong> {targetInfo}</p>
+
+                <p><strong>CurrentTarget:</strong> {currentTargetInfo}</p>
+
+            </div>
+
+        </div>
+
+    </lightning-card>
+
+</template>
