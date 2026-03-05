@@ -1,0 +1,24 @@
+<template>
+
+    <lightning-card
+        title="Full Event Propagation"
+        icon-name="utility:flow">
+
+        <div class="slds-p-around_medium"
+             oncrm__globalaction={handleEvent}>
+
+            <p>Grandparent Component</p>
+
+            <c-ui_full-propagation-parent></c-ui_full-propagation-parent>
+
+            <p class="slds-m-top_medium">
+
+                Grandparent Received: {grandMessage}
+
+            </p>
+
+        </div>
+
+    </lightning-card>
+
+</template>

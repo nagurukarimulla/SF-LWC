@@ -1,0 +1,34 @@
+<template>
+    <lightning-card
+        title="Reactive Wire Configuration"
+        icon-name="standard:account">
+
+        <div class="slds-p-around_medium">
+
+            <lightning-input
+                label="Enter Account Id"
+                value={recordId}
+                onchange={handleChange}>
+            </lightning-input>
+
+            <template lwc:if={account.data}>
+                <p class="slds-m-top_medium">
+                    <strong>Account Name:</strong> {accountName}<br/>
+                    <strong>Industry:</strong> {accountIndustry}<br/>
+                    <strong>Type:</strong> {accountType}<br/>
+                    <strong>Account Number:</strong> {accountNumber}<br/>
+                    <strong>Phone:</strong> {accountPhone}<br/>
+                    <strong>Website:</strong> {accountWebsite}
+                </p>
+            </template>
+
+            <template lwc:elseif={account.error}>
+                <p class="slds-text-color_error slds-m-top_medium">
+                    Error loading account
+                </p>
+            </template>
+
+        </div>
+
+    </lightning-card>
+</template>

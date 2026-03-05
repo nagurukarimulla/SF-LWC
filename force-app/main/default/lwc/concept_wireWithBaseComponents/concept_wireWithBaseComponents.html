@@ -1,0 +1,98 @@
+<template>
+
+<lightning-card title="Customer Profile Viewer" icon-name="standard:contact">
+
+<div class="slds-p-around_medium">
+
+<template lwc:if={contact.data}>
+
+<p>
+<strong>Name:</strong>
+<lightning-formatted-name
+first-name={firstName}
+last-name={lastName}>
+</lightning-formatted-name>
+</p>
+
+<p>
+<strong>Email:</strong>
+<lightning-formatted-email value={email}>
+</lightning-formatted-email>
+</p>
+
+<p>
+<strong>Phone:</strong>
+<lightning-formatted-phone value={phone}>
+</lightning-formatted-phone>
+</p>
+
+<p>
+<strong>Website:</strong>
+<lightning-formatted-url value={website}></lightning-formatted-url>
+</p>
+
+<p>
+<strong>Annual Revenue:</strong>
+<lightning-formatted-number
+value={revenue}
+format-style="currency">
+</lightning-formatted-number>
+</p>
+
+<p>
+<strong>Last Activity:</strong>
+<lightning-formatted-date-time value={lastActivity}>
+</lightning-formatted-date-time>
+</p>
+
+<p>
+<strong>Preferred Time:</strong>
+<lightning-formatted-time value={preferredTime}>
+</lightning-formatted-time>
+</p>
+
+<p>
+<strong>Notes:</strong>
+<lightning-formatted-text value={notes}>
+</lightning-formatted-text>
+</p>
+
+<p>
+<strong>Description:</strong>
+<lightning-formatted-rich-text value={description}>
+</lightning-formatted-rich-text>
+</p>
+
+<p>
+<strong>Location:</strong>
+<lightning-formatted-location
+latitude={latitude}
+longitude={longitude}>
+</lightning-formatted-location>
+</p>
+
+<p>
+<strong>Address:</strong>
+<lightning-formatted-address
+street={street}
+city={city}
+country={country}
+province={state}
+postal-code={postal}
+show-static-map>
+</lightning-formatted-address>
+</p>
+
+</template>
+
+<template lwc:if={contact.error}>
+<p class="slds-text-color_error">
+Error loading record
+</p>
+</template>
+
+</div>
+
+</lightning-card>
+
+</template>

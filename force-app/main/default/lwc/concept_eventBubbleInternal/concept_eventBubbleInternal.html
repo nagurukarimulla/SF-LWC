@@ -1,0 +1,21 @@
+<template>
+
+    <lightning-card
+        title="Event Bubbling Inside Shadow DOM"
+        icon-name="utility:flow">
+
+        <div class="slds-p-around_medium">
+
+            <p>Grandparent Component</p>
+
+            <c-ui_internal-bubble-parent
+                oninternalbubble={handleEvent}>
+            </c-ui_internal-bubble-parent>
+
+            <p>Message from Child: {childMessage}</p>
+
+        </div>
+
+    </lightning-card>
+
+</template>

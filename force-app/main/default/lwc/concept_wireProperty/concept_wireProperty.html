@@ -1,0 +1,32 @@
+<template>
+    <lightning-card
+        title="Wire Property Example"
+        icon-name="standard:account">
+
+        <div class="slds-p-around_medium">
+
+            <template lwc:if={record.data}>
+                <p><strong>Account Name:</strong></p>
+                <p>{record.data.fields.Name.value}</p>
+                
+                <p><strong>Industry:</strong></p>
+                <p>{record.data.fields.Industry.value}</p>
+
+                <p><strong>Type:</strong></p>
+                <p>{record.data.fields.Type.value}</p>
+            </template>
+
+            <template lwc:elseif={record.error}>
+                <p class="slds-text-color_error">
+                    Error retrieving record
+                </p>
+            </template>
+
+            <template lwc:else>
+                <p>Loading...</p>
+            </template>
+
+        </div>
+
+    </lightning-card>
+</template>

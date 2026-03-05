@@ -49,4 +49,40 @@
     <c-concept_event-default-propagation>
     </c-concept_event-default-propagation>
 </template>
+<template lwc:if={isEventBubbleInternal}>
+    <c-concept_event-bubble-internal>
+    </c-concept_event-bubble-internal>
+</template>
+<template lwc:if={isEventFullPropagation}>
+    <c-concept_event-full-propagation>
+    </c-concept_event-full-propagation>
+</template>
+<template lwc:if={isLightningMessageService}>
+    <c-concept_lightning-message-service>
+    </c-concept_lightning-message-service>
+</template>
+<template lwc:if={isWireProperty}>
+    <c-concept_wire-property
+        record-id="0015g00000rGmPDAA0">
+    </c-concept_wire-property>
+</template>
+<template lwc:if={isWireFunction}>
+    <c-concept_wire-function
+        record-id="0015g00000rGmPGAA0">
+    </c-concept_wire-function>
+</template>
+<template lwc:if={isWireReactiveConfig}>
+    <c-concept_wire-reactive-config>
+    </c-concept_wire-reactive-config>
+</template>
+<template lwc:if={isImportSchemaReferences}>
+    <c-concept_import-schema-references
+        record-id="0015g00000rGmPMAA0">
+    </c-concept_import-schema-references>
+</template>
+<template lwc:if={isWireWithBaseComponents}>
+<c-concept_wire-with-base-components
+record-id="0035g00000fuwSGAAY">
+</c-concept_wire-with-base-components>
+</template>
 </template>

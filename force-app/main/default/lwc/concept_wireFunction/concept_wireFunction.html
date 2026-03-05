@@ -1,0 +1,33 @@
+<template>
+
+    <lightning-card
+        title="Wire Function Example"
+        icon-name="standard:account">
+
+        <div class="slds-p-around_medium">
+
+            <template lwc:if={account}>
+
+                <p><strong>Name:</strong> {account.fields.Name.value}</p>
+
+                <p><strong>Industry:</strong> {account.fields.Industry.value}</p>
+
+                <p><strong>Type:</strong> {account.fields.Type.value}</p>
+
+                <p><strong>Account Number:</strong> {account.fields.AccountNumber.value}</p>
+
+            </template>
+
+            <template lwc:if={error}>
+
+                <p class="slds-text-color_error">
+                    Error loading account
+                </p>
+
+            </template>
+
+        </div>
+
+    </lightning-card>
+
+</template>

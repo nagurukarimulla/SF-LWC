@@ -5,7 +5,14 @@ export default class ConceptSelector extends LightningElement {
     @track searchKey = '';
 
     concepts = [
-        { label: 'Wire Example', value: 'wireExample' },
+        {label:'Wire Service with Base Components',value:'concept_wireWithBaseComponents'},
+        {label: 'Import Schema References',value: 'concept_importSchemaReferences'},
+        {label: 'Reactive Wire Configuration',value: 'concept_wireReactiveConfig'},
+        {label: 'Wire Function',value: 'concept_wireFunction'},
+        {label: 'Wire Property',value: 'concept_wireProperty'},
+        {label: 'Lightning Message Service',value: 'concept_lightningMessageService'},
+        {label: 'Full Event Propagation',value: 'concept_eventFullPropagation'},
+        {label: 'Event Bubbling Inside Shadow DOM',value: 'concept_eventBubbleInternal'},
         {label: 'Default Event Propagation',value: 'concept_eventDefaultPropagation'},
         {label: 'Configure Event Propagation', value: 'concept_configureEventPropagation'},
         {label: 'Remove Event Listeners', value: 'concept_removeEventListeners'},
