@@ -57,4 +57,28 @@ get isConfigureEventPropagation() {
 get isEventDefaultPropagation() {
     return this.selectedComponent === 'concept_eventDefaultPropagation';
 }
+get isEventBubbleInternal() {
+    return this.selectedComponent === 'concept_eventBubbleInternal';
+}
+get isEventFullPropagation() {
+    return this.selectedComponent === 'concept_eventFullPropagation';
+}
+get isLightningMessageService() {
+    return this.selectedComponent === 'concept_lightningMessageService';
+}
+get isWireProperty() {
+    return this.selectedComponent === 'concept_wireProperty';
+}
+get isWireFunction() {
+    return this.selectedComponent === 'concept_wireFunction';
+}
+get isWireReactiveConfig() {
+    return this.selectedComponent === 'concept_wireReactiveConfig';
+}
+get isImportSchemaReferences() {
+    return this.selectedComponent === 'concept_importSchemaReferences';
+}
+get isWireWithBaseComponents(){
+return this.selectedComponent === 'concept_wireWithBaseComponents';
+}
 }

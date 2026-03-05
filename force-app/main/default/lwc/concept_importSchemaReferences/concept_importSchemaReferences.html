@@ -1,0 +1,57 @@
+<template>
+
+    <lightning-card
+        title="Schema Import Example"
+        icon-name="standard:account">
+
+        <div class="slds-p-around_medium">
+
+            <template lwc:if={record.data}>
+
+                <p>
+                    <strong>Account Name:</strong>
+                    {accountName}
+                </p>
+
+                <p>
+                    <strong>Account Owner:</strong>
+                    {ownerName}
+                </p>
+
+                <p>
+                    <strong>Account Type:</strong>
+                    {accountType}
+                </p>
+                <p>
+                    <strong>Account Industry:</strong>
+                    {accountIndustry}
+                </p>    
+                <p>
+                    <strong>Account Number:</strong>
+                    {accountNumber}
+                </p>
+                <p>
+                    <strong>Account Phone:</strong>
+                    {accountPhone}
+                </p>
+                <p>
+                    <strong>Account Website:</strong>
+                    {accountWebsite}
+                </p>
+               
+
+            </template>
+
+            <template lwc:if={record.error}>
+
+                <p class="slds-text-color_error">
+                    Error loading record
+                </p>
+
+            </template>
+
+        </div>
+
+    </lightning-card>
+
+</template>
