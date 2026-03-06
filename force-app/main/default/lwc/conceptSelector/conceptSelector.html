@@ -1,18 +1,116 @@
 <template>
+    <!-- Search Section -->
+    <lightning-card title="Concept Explorer" variant="narrow">
+        <div class="slds-p-around_medium">
+            <lightning-input 
+                type="search"
+                label="Search Concepts"
+                placeholder="Type to filter concepts..."
+                onchange={handleSearch}
+                value={searchKey}
+                class="slds-m-bottom_medium">
+            </lightning-input>
 
-    <lightning-input 
-        type="search"
-        label="Search Concept"
-        onchange={handleSearch}>
-    </lightning-input>
+            <!-- Page Size Selector -->
+            <div class="slds-grid slds-gutters slds-m-bottom_medium">
+                <div class="slds-col slds-size_3-of-12">
+                    <lightning-combobox
+                        name="pageSize"
+                        label="Items per page"
+                        value={pageSize}
+                        placeholder="Select page size"
+                        options={pageSizeOptions}
+                        onchange={handlePageSizeChange}
+                        disabled={disablePageSizeChange}>
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_9-of-12 slds-align-bottom">
+                    <p class="slds-text-body_small slds-float_right">{pageInfo}</p>
+                </div>
+            </div>
 
-    <template for:each={filteredConcepts} for:item="concept">
-        <div key={concept.value}
-             class="concept-item"
-             onclick={selectConcept}
-             data-value={concept.value}>
-            {concept.label}
+            <!-- Concepts List -->
+            <template if:true={paginatedConcepts.length}>
+                <ul class="slds-has-dividers_top">
+                    <template for:each={paginatedConcepts} for:item="concept">
+                        <li key={concept.value} class="slds-item">
+                            <div class="concept-item slds-p-horizontal_small slds-p-vertical_xx-small"
+                                 onclick={selectConcept}
+                                 data-value={concept.value}
+                                 role="button"
+                                 tabindex="0">
+                                {concept.label}
+                            </div>
+                        </li>
+                    </template>
+                </ul>
+            </template>
+            
+            <!-- No Results Message -->
+            <template if:false={paginatedConcepts.length}>
+                <div class="slds-align_absolute-center slds-p-vertical_large">
+                    <p class="slds-text-color_weak">No concepts found matching your search</p>
+                </div>
+            </template>
+
+            <!-- Pagination Controls -->
+            <template if:true={paginatedConcepts.length}>
+                <div class="slds-grid slds-grid_align-center slds-m-top_medium slds-p-top_medium slds-border_top">
+                    <!-- First Page -->
+                    <button class="slds-button slds-button_icon" 
+                            onclick={handleFirstPage}
+                            disabled={firstPageDisabled}
+                            title="First Page">
+                        <lightning-icon icon-name="utility:first" size="x-small"></lightning-icon>
+                        <span class="slds-assistive-text">First Page</span>
+                    </button>
+
+                    <!-- Previous Page -->
+                    <button class="slds-button slds-button_icon" 
+                            onclick={handlePreviousPage}
+                            disabled={previousPageDisabled}
+                            title="Previous Page">
+                        <lightning-icon icon-name="utility:chevronleft" size="x-small"></lightning-icon>
+                        <span class="slds-assistive-text">Previous Page</span>
+                    </button>
+
+                    <!-- Page Input -->
+                    <div class="slds-form-element slds-m-horizontal_xx-small" style="width: 80px;">
+                        <label class="slds-form-element__label slds-assistive-text" for="pageInput">Page Number</label>
+                        <div class="slds-form-element__control">
+                            <input type="text" 
+                                   id="pageInput"
+                                   data-id="pageInput"
+                                   class="slds-input slds-text-align_center" 
+                                   value={currentPage}
+                                   onchange={handlePageInputChange}
+                                   onblur={handlePageInputBlur}
+                                   disabled={pageInputDisabled}
+                                   placeholder="Page"/>
+                        </div>
+                    </div>
+                    
+                    <span class="slds-m-horizontal_xx-small">of {totalPages}</span>
+
+                    <!-- Next Page -->
+                    <button class="slds-button slds-button_icon" 
+                            onclick={handleNextPage}
+                            disabled={nextPageDisabled}
+                            title="Next Page">
+                        <lightning-icon icon-name="utility:chevronright" size="x-small"></lightning-icon>
+                        <span class="slds-assistive-text">Next Page</span>
+                    </button>
+
+                    <!-- Last Page -->
+                    <button class="slds-button slds-button_icon" 
+                            onclick={handleLastPage}
+                            disabled={lastPageDisabled}
+                            title="Last Page">
+                        <lightning-icon icon-name="utility:last" size="x-small"></lightning-icon>
+                        <span class="slds-assistive-text">Last Page</span>
+                    </button>
+                </div>
+            </template>
         </div>
-    </template>
-
+    </lightning-card>
 </template>

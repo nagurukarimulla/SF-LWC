@@ -1,0 +1,41 @@
+<template>
+
+    <lightning-card title="Sales Dashboard" icon-name="standard:opportunity">
+
+        <div class="slds-p-around_medium">
+
+            <lightning-button label="Refresh Deals" variant="brand" onclick={handleRefresh}>
+            </lightning-button>
+
+        </div>
+
+        <template lwc:if={deals}>
+
+            <div class="slds-p-around_medium">
+
+                <template for:each={deals} for:item="deal">
+
+                    <p key={deal.Id}>
+
+                        <strong>{deal.Name}</strong> —
+
+                        <lightning-formatted-number value={deal.Amount} format-style="currency">
+                        </lightning-formatted-number>
+
+                    </p>
+
+                </template>
+
+            </div>
+
+        </template>
+
+        <template lwc:if={error}>
+            <p class="slds-text-color_error">
+                Error loading deals
+            </p>
+        </template>
+
+    </lightning-card>
+
+</template>

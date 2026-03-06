@@ -1,0 +1,45 @@
+.concept-item {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-radius: 4px;
+}
+
+.concept-item:hover {
+    background-color: #f3f3f3;
+}
+
+.concept-item:active {
+    background-color: #e8e8e8;
+}
+
+.concept-item:focus {
+    outline: none;
+    box-shadow: 0 0 3px #0070d2;
+}
+
+/* Ensure proper spacing in the list */
+.slds-item {
+    border-bottom: 1px solid #dddbda;
+}
+
+.slds-item:last-child {
+    border-bottom: none;
+}
+
+/* Style for disabled buttons */
+.slds-button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Page input styling */
+.slds-input.slds-text-align_center {
+    text-align: center;
+}
+
+/* Remove spinner buttons from number input */
+input[type="text"]::-webkit-outer-spin-button,
+input[type="text"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
