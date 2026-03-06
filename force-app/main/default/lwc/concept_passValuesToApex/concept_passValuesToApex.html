@@ -1,0 +1,47 @@
+<template>
+
+    <lightning-card title="Portfolio Risk Analyzer" icon-name="standard:account">
+
+        <div class="slds-p-around_medium">
+
+            <lightning-input label="Industry" value={industry} onchange={handleIndustry}>
+            </lightning-input>
+
+            <lightning-input type="number" label="Minimum Revenue" value={minRevenue} onchange={handleRevenue}>
+            </lightning-input>
+
+            <lightning-button label="Analyze Portfolio" variant="brand" onclick={handleAnalyze}
+                class="slds-m-top_small">
+            </lightning-button>
+
+        </div>
+
+        <template lwc:if={accounts}>
+
+            <div class="slds-p-around_medium">
+
+                <template for:each={accounts} for:item="acc">
+
+                    <p key={acc.Id}>
+
+                        <strong>{acc.Name}</strong> —
+                        <lightning-formatted-number value={acc.AnnualRevenue} format-style="currency">
+                        </lightning-formatted-number>
+
+                    </p>
+
+                </template>
+
+            </div>
+
+        </template>
+
+        <template lwc:if={error}>
+            <p class="slds-text-color_error slds-p-around_medium">
+                Error analyzing portfolio
+            </p>
+        </template>
+
+    </lightning-card>
+
+</template>
