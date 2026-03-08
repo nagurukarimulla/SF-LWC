@@ -104,4 +104,25 @@ export default class DynamicLoader extends LightningElement {
 return this.selectedComponent === 'concept_apexSchemaImport';
 
 }
+get isActionMenuComponents() {
+return this.selectedComponent === 'concept_actionMenuComponents';
+}
+get isContainerComponents(){
+        return this.selectedComponent === 'concept_containerComponents';
+    }
+    get isVisualComponents(){
+return this.selectedComponent === 'concept_visualComponents';
+}
+get isInputComponents(){
+return this.selectedComponent === 'concept_inputComponents';
+}
+get isRecordForms(){
+return this.selectedComponent === 'concept_enterpriseRecordForms';
+}
+get isNavigation(){
+return this.selectedComponent === 'concept_enterpriseNavigation';
+}
+get isNotifications(){
+return this.selectedComponent === 'concept_enterpriseNotifications';
+}
 }

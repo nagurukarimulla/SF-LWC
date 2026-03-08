@@ -108,4 +108,29 @@
     <template lwc:if={isApexSchemaImport}>
 <c-concept_apex-schema-import></c-concept_apex-schema-import>
 </template>
+<template lwc:if={isActionMenuComponents}>
+<c-concept_action-menu-components></c-concept_action-menu-components>
+</template>
+ <template lwc:if={isContainerComponents}>
+        <c-concept_container-components>
+        </c-concept_container-components>
+    </template>
+    <template lwc:if={isVisualComponents}>
+<c-concept_visual-components>
+</c-concept_visual-components>
+</template>
+<template lwc:if={isInputComponents}>
+<c-concept_input-components></c-concept_input-components>
+</template>
+<template lwc:if={isRecordForms}>
+<c-concept_enterprise-record-forms>
+</c-concept_enterprise-record-forms>
+</template>
+<template lwc:if={isNavigation}>
+<c-concept_enterprise-navigation></c-concept_enterprise-navigation>
+</template>
+<template lwc:if={isNotifications}>
+<c-concept_enterprise-notifications>
+</c-concept_enterprise-notifications>
+</template>
 </template>

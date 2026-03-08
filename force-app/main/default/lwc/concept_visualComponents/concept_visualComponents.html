@@ -1,0 +1,85 @@
+<template>
+
+    <lightning-card title="Visual Components Explorer" icon-name="utility:image">
+
+        <!-- Avatar + Badge -->
+
+        <div class="slds-p-around_medium">
+
+            <h3 class="slds-text-heading_small">Avatar + Badge</h3>
+
+            <lightning-avatar src="https://randomuser.me/api/portraits/men/75.jpg" fallback-icon-name="standard:user"
+                size="large">
+            </lightning-avatar>
+
+            <lightning-badge label="Premium Customer"></lightning-badge>
+
+        </div>
+
+
+        <!-- Dynamic Icon -->
+
+        <div class="slds-p-around_medium">
+
+            <h3 class="slds-text-heading_small">Dynamic Icon</h3>
+
+            <lightning-dynamic-icon type="trend" option="up" alternative-text="Trending Up">
+            </lightning-dynamic-icon>
+
+        </div>
+
+
+        <!-- Helptext -->
+
+        <div class="slds-p-around_medium">
+
+            <h3 class="slds-text-heading_small">
+                Customer Insights
+                <lightning-helptext content="Shows customer engagement metrics">
+                </lightning-helptext>
+            </h3>
+
+        </div>
+
+
+        <!-- Icon -->
+
+        <div class="slds-p-around_medium">
+
+            <h3 class="slds-text-heading_small">Icons</h3>
+
+            <lightning-icon icon-name="standard:account" size="medium">
+            </lightning-icon>
+
+            <lightning-icon icon-name="utility:settings" size="medium">
+            </lightning-icon>
+
+        </div>
+
+
+        <!-- Map -->
+
+        <div class="slds-p-around_medium">
+
+            <h3 class="slds-text-heading_small">Location Map</h3>
+
+            <lightning-map map-markers={mapMarkers} zoom-level="5">
+            </lightning-map>
+
+        </div>
+
+
+        <!-- Pills -->
+
+        <div class="slds-p-around_medium">
+
+            <h3 class="slds-text-heading_small">Pill Container</h3>
+
+            <lightning-pill-container items={pills} onitemremove={handleRemove}>
+            </lightning-pill-container>
+
+        </div>
+
+    </lightning-card>
+
+</template>

@@ -1,0 +1,123 @@
+<template>
+
+    <lightning-card title="Account Operations Panel" icon-name="standard:account">
+
+        <div class="slds-p-around_medium">
+
+            <!-- Button Group -->
+
+            <lightning-button-group>
+
+                <lightning-button label="Refresh Data" variant="brand" onclick={handleRefresh}>
+                </lightning-button>
+
+                <lightning-button label="Create Opportunity" onclick={handleCreateOpportunity}>
+                </lightning-button>
+
+            </lightning-button-group>
+
+        </div>
+
+
+        <div class="slds-p-around_medium">
+
+            <!-- Button Icon -->
+
+            <lightning-button-icon icon-name="utility:download" alternative-text="Download Report"
+                onclick={handleDownload} title="Download">
+            </lightning-button-icon>
+
+        </div>
+
+
+        <div class="slds-p-around_medium">
+
+            <!-- Stateful Button -->
+
+            <lightning-button-stateful label-when-off="Mark Favorite" label-when-on="Favorited"
+                icon-name-when-off="utility:favorite" icon-name-when-on="utility:favorite" selected={isFavorite}
+                onclick={toggleFavorite}>
+            </lightning-button-stateful>
+
+        </div>
+
+
+        <div class="slds-p-around_medium">
+
+            <!-- Icon Stateful Button -->
+
+            <lightning-button-icon-stateful icon-name="utility:like" selected={isLiked} alternative-text="Like"
+                onclick={toggleLike}>
+            </lightning-button-icon-stateful>
+
+        </div>
+
+
+        <div class="slds-p-around_medium">
+
+            <!-- Action Menu -->
+
+            <lightning-button-menu alternative-text="Account Actions" icon-size="small" onselect={handleMenuAction}>
+
+                <lightning-menu-item value="view" label="View Account">
+                </lightning-menu-item>
+
+                <lightning-menu-item value="email" label="Send Email">
+                </lightning-menu-item>
+
+                <lightning-menu-divider></lightning-menu-divider>
+
+                <lightning-menu-item value="activity" label="Log Activity">
+                </lightning-menu-item>
+
+            </lightning-button-menu>
+
+        </div>
+
+
+        <div class="slds-p-around_medium">
+
+            <!-- Click to Dial -->
+
+            <lightning-click-to-dial value={phoneNumber} record-id={recordId}>
+            </lightning-click-to-dial>
+
+        </div>
+
+
+        <div class="slds-p-around_medium">
+
+            <!-- Launch Flow -->
+
+            <lightning-button label="Launch Onboarding Flow" variant="brand" onclick={startFlow}>
+            </lightning-button>
+
+        </div>
+
+        <template lwc:if={showFlow}>
+
+            <div class="slds-p-around_medium">
+
+                <lightning-flow flow-api-name={flowName} onstatuschange={handleFlowStatus}>
+                </lightning-flow>
+
+            </div>
+
+        </template>
+
+
+        <!-- Error Display -->
+
+        <template lwc:if={errorMessage}>
+
+            <div class="slds-text-color_error slds-p-around_medium">
+
+                Error: {errorMessage}
+
+            </div>
+
+        </template>
+
+    </lightning-card>
+
+</template>
