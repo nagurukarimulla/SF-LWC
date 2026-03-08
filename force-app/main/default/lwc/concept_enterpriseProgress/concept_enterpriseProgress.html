@@ -1,0 +1,191 @@
+<template>
+    <lightning-card title="Enterprise Process Analytics">
+        
+        <div class="slds-p-around_medium">
+            <!-- Object selector with clear label -->
+            <lightning-combobox 
+                label="Select Object" 
+                value={objectApiName} 
+                options={objectOptions}
+                onchange={handleObjectChange}
+                placeholder="Choose an object"
+                required>
+            </lightning-combobox>
+            
+            <!-- Dynamic Record selector - only shows when object is selected -->
+            <template if:true={objectApiName}>
+                <lightning-combobox 
+                    label="Select Record" 
+                    value={selectedRecordId} 
+                    options={recordOptions}
+                    onchange={handleRecordChange}
+                    placeholder="Choose a record"
+                    class="slds-m-top_medium">
+                </lightning-combobox>
+            </template>
+            
+            <!-- Error Message Display -->
+            <template if:true={errorMessage}>
+                <div class="slds-m-top_medium slds-theme_error slds-p-around_small">
+                    {errorMessage}
+                </div>
+            </template>
+        </div>
+        
+        <!-- Loading Spinner -->
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading data..." size="large"></lightning-spinner>
+        </template>
+        
+        <!-- Main Content - Only shows when object is selected and not loading -->
+        <template if:true={showContent}>
+            <!-- Stats Summary Cards -->
+            <div class="slds-p-around_medium slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                    <div class="slds-box slds-box_xx-small slds-text-align_center slds-theme_shade">
+                        <h3 class="slds-text-heading_small slds-text-color_weak">Total Records</h3>
+                        <p class="slds-text-heading_large">{totalRecords}</p>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                    <div class="slds-box slds-box_xx-small slds-text-align_center slds-theme_shade">
+                        <h3 class="slds-text-heading_small slds-text-color_weak">Completion</h3>
+                        <p class="slds-text-heading_large">{progressValue}%</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Process Stage Path Section -->
+            <div class="slds-p-around_medium">
+                <h3 class="slds-text-heading_small slds-m-bottom_small">Process Stage Path</h3>
+                <template if:true={steps.length}>
+                    <div class="stage-path-container slds-m-bottom_medium">
+                        <!-- Progress Indicator -->
+                        <lightning-progress-indicator current-step={currentStep} type="base">
+                            <template for:each={steps} for:item="step">
+                                <lightning-progress-step 
+                                    key={step.value} 
+                                    label={step.label} 
+                                    value={step.value}>
+                                </lightning-progress-step>
+                            </template>
+                        </lightning-progress-indicator>
+                        
+                        <!-- Current Stage Display with Badge -->
+                        <div class="slds-m-top_medium slds-grid slds-grid_align-center">
+                            <div class="slds-box slds-box_xx-small slds-theme_info slds-text-align_center">
+                                <span class="slds-text-body_small">Current Stage: </span>
+                                <span class="slds-badge slds-theme_inverse slds-m-left_xx-small">
+                                    {currentStageDisplay}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Stage Counts Summary -->
+                        <div class="slds-m-top_small slds-grid slds-wrap slds-grid_align-spread">
+                            <template for:each={stageList} for:item="stage">
+                                <div key={stage.name} class="slds-col slds-size_1-of-5 slds-p-around_xx-small">
+                                    <div class="slds-text-align_center">
+                                        <span class="slds-text-body_small">{stage.name}</span>
+                                        <span class="slds-badge {stage.isClosed ? 'slds-theme_success' : 'slds-theme_default'} slds-m-left_xx-small">
+                                            {stage.count}
+                                        </span>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+                <template if:false={steps.length}>
+                    <p class="slds-text-color_weak slds-text-align_center">No stages found for this object</p>
+                </template>
+            </div>
+            
+            <!-- Progress Bar with Label -->
+            <div class="slds-p-around_medium">
+                <h3 class="slds-text-heading_small slds-m-bottom_small">Overall Progress</h3>
+                <div class="slds-grid slds-grid_vertical-align slds-wrap">
+                    <div class="slds-col slds-size_11-of-12 slds-p-right_small">
+                        <lightning-progress-bar 
+                            value={progressValue}
+                            size="large"
+                            variant={progressBarVariant}
+                            aria-label="Progress">
+                        </lightning-progress-bar>
+                    </div>
+                    <div class="slds-col slds-size_1-of-12">
+                        <span class="slds-badge slds-theme_inverse">{progressValue}%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Progress Ring -->
+            <div class="slds-p-around_medium slds-align_absolute-center">
+                <div class="slds-text-align_center">
+                    <lightning-progress-ring 
+                        value={progressValue} 
+                        size="large">
+                    </lightning-progress-ring>
+                    <p class="slds-m-top_medium slds-text-heading_small">{progressValue}% Complete</p>
+                    <p class="slds-text-body_small slds-text-color_weak">Overall completion rate</p>
+                </div>
+            </div>
+            
+            <!-- Stage Breakdown Grid -->
+            <div class="slds-p-around_medium">
+                <h3 class="slds-text-heading_small slds-m-bottom_small">Stage Breakdown</h3>
+                <div class="slds-grid slds-wrap">
+                    <template for:each={stageList} for:item="stage">
+                        <div key={stage.name} class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                            <div class="slds-box slds-box_xx-small {stage.isClosed ? 'slds-theme_success' : 'slds-theme_default'}">
+                                <div class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-text-body_small">
+                                        {stage.name}
+                                    </span>
+                                    <span class="slds-badge {stage.isClosed ? 'slds-theme_success' : 'slds-theme_info'}">
+                                        {stage.count}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+            
+            <!-- Selected Record Details -->
+            <template if:true={hasSelectedRecord}>
+                <div class="slds-p-around_medium">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">Selected Record Details</h3>
+                    <div class="slds-box slds-theme_shade">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_1-of-1 slds-p-bottom_xx-small">
+                                <strong>ID:</strong> {selectedRecordDetails.Id}
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-p-bottom_xx-small">
+                                <strong>Name:</strong> {selectedRecordDetails.Name}
+                            </div>
+                            <div class="slds-col slds-size_1-of-1">
+                                <strong>Object Type:</strong> 
+                                <span class="slds-badge slds-m-left_xx-small">{selectedRecordDetails.ObjectType}</span>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1">
+                    <strong>Current Stage/Status:</strong> 
+                    <span class="slds-badge slds-theme_info slds-m-left_xx-small">
+                        {selectedRecordDetails.Stage}
+                    </span>
+                </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </template>
+        
+        <!-- No Selection Message -->
+        <template if:false={objectApiName}>
+            <div class="slds-p-around_medium slds-text-align_center slds-p-vertical_xx-large">
+                <p class="slds-text-color_weak slds-m-top_medium">Please select an object to view analytics</p>
+                <p class="slds-text-body_small slds-text-color_weak">Choose from Opportunities, Cases, or Leads</p>
+            </div>
+        </template>
+    </lightning-card>
+</template>
