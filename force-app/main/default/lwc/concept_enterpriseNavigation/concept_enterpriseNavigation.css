@@ -1,0 +1,43 @@
+.nav-panel {
+    background-color: #f3f3f3;
+    border-radius: 4px;
+    padding: 0.5rem;
+    min-height: 400px;
+}
+
+.content-panel {
+    background-color: white;
+    border-radius: 4px;
+    padding: 1rem;
+    min-height: 400px;
+    border: 1px solid #dddbda;
+}
+
+.search-results {
+    position: absolute;
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+    margin-top: 2px;
+}
+
+.search-results lightning-icon {
+    --sds-c-icon-color-foreground-default: #0176d3;
+}
+
+.slds-breadcrumb_active {
+    font-weight: bold;
+    color: #0176d3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .nav-panel {
+        min-height: auto;
+    }
+    
+    .content-panel {
+        margin-top: 1rem;
+    }
+}

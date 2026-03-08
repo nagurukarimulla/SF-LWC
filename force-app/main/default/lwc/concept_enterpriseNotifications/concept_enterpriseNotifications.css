@@ -1,0 +1,52 @@
+.log-panel {
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #f3f3f3;
+    border-radius: 4px;
+}
+
+.severity-critical {
+    background-color: #c23934;
+    color: white;
+}
+
+.severity-error {
+    background-color: #c23934;
+    color: white;
+}
+
+.severity-warning {
+    background-color: #ffb75d;
+    color: black;
+}
+
+.severity-success {
+    background-color: #4bca81;
+    color: white;
+}
+
+.severity-info {
+    background-color: #706e6b;
+    color: white;
+}
+
+.badge-connected {
+    background-color: #4bca81;
+    color: white;
+}
+
+.badge-disconnected {
+    background-color: #706e6b;
+    color: white;
+}
+
+.badge-error {
+    background-color: #c23934;
+    color: white;
+}
+
+.record-field {
+    border-left: 3px solid #0070d2;
+    padding: 0.5rem;
+    background-color: white;
+}

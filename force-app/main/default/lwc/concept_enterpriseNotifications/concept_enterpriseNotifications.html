@@ -1,0 +1,177 @@
+<template>
+    <lightning-card title="Enterprise Notification Center" icon-name="utility:notification">
+        
+        <!-- Record Context Info -->
+        <div class="slds-p-around_medium slds-border_bottom">
+            <template if:true={currentRecord}>
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of2">
+                        <p><strong>Current Record:</strong> {currentRecord.Name}</p>
+                        <p><strong>Object:</strong> {currentRecord.ObjectType}</p>
+                    </div>
+                    <div class="slds-col slds-size_1-of2">
+                        <p><strong>Owner:</strong> {currentRecord.OwnerName}</p>
+                        <p><strong>Last Modified:</strong> {currentRecord.LastModifiedDate}</p>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <!-- Real-Time Data Controls -->
+        <div class="slds-p-around_medium slds-grid slds-wrap slds-border_bottom">
+            <div class="slds-col slds-size_1-of1 slds-m-bottom_medium">
+                <h3 class="slds-text-heading_small">Real-Time Monitoring</h3>
+            </div>
+            
+            <!-- Record Selection -->
+            <div class="slds-col slds-size_1-of3 slds-p-right_small">
+                <lightning-combobox
+                    name="objectType"
+                    label="Object Type"
+                    value={selectedObject}
+                    placeholder="Select Object"
+                    options={objectOptions}
+                    onchange={handleObjectChange}>
+                </lightning-combobox>
+            </div>
+            
+            <div class="slds-col slds-size_1-of3 slds-p-right_small">
+                <lightning-input
+                    type="text"
+                    label="Record ID"
+                    value={recordId}
+                    placeholder="Enter Record ID"
+                    onchange={handleRecordIdChange}>
+                </lightning-input>
+            </div>
+            
+            <div class="slds-col slds-size_1-of3 slds-align-bottom">
+                <lightning-button
+                    label="Load Record"
+                    variant="brand"
+                    onclick={loadRecord}
+                  disabled={isLoadButtonDisabled}> 
+                </lightning-button>
+            </div>
+
+            <!-- Monitoring Toggles -->
+            <div class="slds-col slds-size_1-of1 slds-m-top_medium">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of4">
+                        <lightning-input
+                            type="toggle"
+                            label="Record Changes"
+                            checked={monitorChanges}
+                            onchange={handleMonitorToggle}
+                            data-type="changes">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of4">
+                        <lightning-input
+                            type="toggle"
+                            label="Field Updates"
+                            checked={monitorFields}
+                            onchange={handleMonitorToggle}
+                            data-type="fields">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of4">
+                        <lightning-input
+                            type="toggle"
+                            label="Process Events"
+                            checked={monitorProcess}
+                            onchange={handleMonitorToggle}
+                            data-type="process">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of4">
+                        <lightning-input
+                            type="toggle"
+                            label="System Events"
+                            checked={monitorSystem}
+                            onchange={handleMonitorToggle}
+                            data-type="system">
+                        </lightning-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification Buttons with Context -->
+        <div class="slds-p-around_medium slds-grid slds-wrap">
+            <template for:each={contextualActions} for:item="action">
+                <div key={action.name} class="slds-m-right_small slds-m-bottom_small">
+                    <lightning-button
+                        label={action.label}
+                        data-type={action.name}
+                        onclick={handleAction}
+                        variant={action.variant}>
+                    </lightning-button>
+                </div>
+            </template>
+        </div>
+
+        <!-- Toast Container -->
+        <lightning-toast-container
+            max-toasts="5"
+            toast-position="top-right">
+        </lightning-toast-container>
+
+        <!-- Real-Time Data Display -->
+        <div class="slds-p-around_medium slds-border_top">
+            <h3 class="slds-text-heading_small">Real-Time Data Monitor</h3>
+            
+            <!-- Current Record Data -->
+            <template if:true={recordData}>
+                <div class="slds-grid slds-wrap slds-m-top_medium">
+                    <template for:each={recordFields} for:item="field">
+                        <div key={field.name} class="slds-col slds-size_1of3 slds-p-around_x-small">
+                            <div class="record-field slds-border_left slds-p-left_small">
+                                <p class="slds-text-color_weak">{field.label}</p>
+                                <p class="slds-text-body_regular">{field.value}</p>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </div>
+
+        <!-- Notification Log -->
+        <div class="log-panel slds-p-around_medium slds-border_top">
+            <h3 class="slds-text-heading_small">Notification Log</h3>
+            <div class="slds-m-top_medium">
+                <template for:each={logs} for:item="log">
+                    <div key={log.id} class="slds-grid slds-m-bottom_x-small">
+                        <div class="slds-col slds-size_1of6">
+                            <span class="slds-badge slds-m-right_small severity-{log.severity}">
+                                {log.severity}
+                            </span>
+                        </div>
+                        <div class="slds-col slds-size_4of6">
+                            {log.message}
+                        </div>
+                        <div class="slds-col slds-size_1of6 slds-text-align_right">
+                            <span class="slds-text-color_weak">{log.timestamp}</span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!-- Realtime Connection Status -->
+        <div class="slds-p-around_small slds-border_top slds-theme_shade">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1of2">
+                    <span class="slds-text-color_weak">Connection Status:</span>
+                    <span class="slds-badge slds-m-left_small badge-{connectionStatus}">
+                        {connectionStatus}
+                    </span>
+                </div>
+                <div class="slds-col slds-size_1of2 slds-text-align_right">
+                    <span class="slds-text-color_weak">Last Update:</span>
+                    <span class="slds-m-left_small">{lastUpdateTime}</span>
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+</template>

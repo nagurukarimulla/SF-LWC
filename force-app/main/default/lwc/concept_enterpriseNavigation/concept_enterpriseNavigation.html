@@ -1,0 +1,422 @@
+<template>
+    <lightning-card title="Enterprise Navigation Framework" icon-name="utility:trail">
+        <!-- Breadcrumb Navigation with Real Data -->
+        <div class="slds-p-around_medium">
+            <lightning-breadcrumbs>
+                <template for:each={breadcrumbs} for:item="crumb">
+                    <lightning-breadcrumb
+                        key={crumb.label}
+                        label={crumb.label}
+                        href="javascript:void(0)"
+                        onclick={handleBreadcrumb}
+                        class={crumb.activeClass}>
+                    </lightning-breadcrumb>
+                </template>
+            </lightning-breadcrumbs>
+        </div>
+
+        <!-- Global Search Bar -->
+        <div class="slds-p-horizontal_medium slds-p-bottom_small">
+            <lightning-input 
+                type="search"
+                label="Search Records"
+                placeholder="Search accounts, contacts, opportunities..."
+                value={searchTerm}
+                onchange={handleSearch}
+                onkeyup={handleSearchKeyUp}>
+            </lightning-input>
+            
+            <!-- Search Results -->
+            <template if:true={showSearchResults}>
+                <div class="search-results slds-dropdown slds-dropdown_left slds-p-vertical_none">
+                    <ul class="slds-dropdown__list" role="menu">
+                        <template for:each={searchResults} for:item="result">
+                            <li key={result.id} class="slds-dropdown__item" role="presentation">
+                                <a href="javascript:void(0)" onclick={handleResultSelect} data-id={result.id} data-object={result.objectApiName} role="menuitem">
+                                    <span class="slds-truncate">
+                                        <lightning-icon icon-name={result.icon} size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                                        {result.label}
+                                        <span class="slds-text-color_weak slds-m-left_x-small">({result.objectLabel})</span>
+                                    </span>
+                                </a>
+                            </li>
+                        </template>
+                        <template if:true={searchResults.length}>
+                            <!-- Results exist, already displayed above -->
+                        </template>
+                        <template if:true={noSearchResults}>
+                            <li class="slds-dropdown__item slds-text-color_weak slds-p-around_small" role="presentation">
+                                No records found
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </template>
+        </div>
+
+        <div class="slds-grid slds-gutters slds-p-around_medium">
+            <!-- Vertical Navigation with Real-time Badges -->
+            <div class="nav-panel slds-col slds-size_3-of-12">
+                <lightning-vertical-navigation
+                    selected-item={selectedItem}
+                    onselect={handleNavigation}>
+                    
+                    <!-- Dashboard - Home -->
+                    <lightning-vertical-navigation-item-icon
+                        name="dashboard"
+                        label="Dashboard"
+                        icon-name="utility:home">
+                    </lightning-vertical-navigation-item-icon>
+
+                    <!-- Account Section with Badge -->
+                    <lightning-vertical-navigation-item-badge
+                        name="accounts"
+                        label="Accounts"
+                        badge-count={accountCount}>
+                    </lightning-vertical-navigation-item-badge>
+
+                    <!-- Contacts Section -->
+                    <lightning-vertical-navigation-item-badge
+                        name="contacts"
+                        label="Contacts"
+                        badge-count={contactCount}>
+                    </lightning-vertical-navigation-item-badge>
+
+                    <!-- Opportunities with Revenue -->
+                    <lightning-vertical-navigation-item-icon
+                        name="opportunities"
+                        label="Opportunities"
+                        icon-name="utility:money">
+                    </lightning-vertical-navigation-item-icon>
+
+                    <!-- Cases with Priority -->
+                    <lightning-vertical-navigation-item-badge
+                        name="cases"
+                        label="Open Cases"
+                        badge-count={openCaseCount}>
+                    </lightning-vertical-navigation-item-badge>
+
+                    <!-- Tasks Section -->
+                    <lightning-vertical-navigation-item-badge
+                        name="tasks"
+                        label="My Tasks"
+                        badge-count={taskCount}>
+                    </lightning-vertical-navigation-item-badge>
+
+                    <!-- Reports Section -->
+                    <lightning-vertical-navigation-item-icon
+                        name="reports"
+                        label="Reports"
+                        icon-name="utility:chart">
+                    </lightning-vertical-navigation-item-icon>
+
+                    <!-- Recent Items Section -->
+                    <lightning-vertical-navigation-item-icon
+                        name="recent"
+                        label="Recent Items"
+                        icon-name="utility:recent">
+                    </lightning-vertical-navigation-item-icon>
+                </lightning-vertical-navigation>
+            </div>
+
+            <!-- Dynamic Content Area with Real Data -->
+            <div class="content-panel slds-col slds-size_9-of-12 slds-p-left_medium">
+                <!-- Loading Spinner -->
+                <div if:true={isLoading} class="slds-align_absolute-center slds-p-around_large">
+                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                </div>
+
+                <!-- Content Area -->
+                <template if:false={isLoading}>
+                    <template if:true={currentContent}>
+                        <!-- Header with Actions -->
+                        <div class="slds-grid slds-grid_align-spread slds-m-bottom_medium">
+                            <h2 class="slds-text-heading_medium">{currentContent.title}</h2>
+                            <div class="slds-grid">
+                                <lightning-button 
+                                    if:true={currentContent.canRefresh}
+                                    label="Refresh" 
+                                    icon-name="utility:refresh"
+                                    onclick={handleRefresh}
+                                    class="slds-m-right_x-small">
+                                </lightning-button>
+                                <lightning-button 
+                                    if:true={currentContent.canCreate}
+                                    label="New" 
+                                    variant="brand"
+                                    icon-name="utility:add"
+                                    onclick={handleCreate}>
+                                </lightning-button>
+                            </div>
+                        </div>
+
+                        <!-- Dashboard View -->
+                        <template if:true={isDashboard}>
+                            <div class="slds-grid slds-wrap slds-gutters">
+                                <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                                    <div class="slds-box">
+                                        <h3 class="slds-text-heading_small">Accounts</h3>
+                                        <p class="slds-text-heading_large">{accountCount}</p>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                                    <div class="slds-box">
+                                        <h3 class="slds-text-heading_small">Contacts</h3>
+                                        <p class="slds-text-heading_large">{contactCount}</p>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                                    <div class="slds-box">
+                                        <h3 class="slds-text-heading_small">Open Cases</h3>
+                                        <p class="slds-text-heading_large">{openCaseCount}</p>
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                                    <div class="slds-box">
+                                        <h3 class="slds-text-heading_small">Pending Tasks</h3>
+                                        <p class="slds-text-heading_large">{taskCount}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- Accounts View -->
+                        <template if:true={isAccounts}>
+                            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Industry</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={accountData} for:item="account">
+                                        <tr key={account.Id}>
+                                            <td>
+                                                <a href="javascript:void(0)" onclick={handleRecordSelect} data-id={account.Id} data-object="Account">
+                                                    {account.Name}
+                                                </a>
+                                            </td>
+                                            <td>{account.Type}</td>
+                                            <td>{account.Industry}</td>
+                                        </tr>
+                                    </template>
+                                    <template if:true={accountData.length}>
+                                        <!-- Accounts exist -->
+                                    </template>
+                                    <template if:true={noAccountData}>
+                                        <tr>
+                                            <td colspan="3" class="slds-text-align_center">No accounts found</td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </template>
+
+                        <!-- Contacts View -->
+                        <template if:true={isContacts}>
+                            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Title</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={contactData} for:item="contact">
+                                        <tr key={contact.Id}>
+                                            <td>
+                                                <a href="javascript:void(0)" onclick={handleRecordSelect} data-id={contact.Id} data-object="Contact">
+                                                    {contact.Name}
+                                                </a>
+                                            </td>
+                                            <td>{contact.Email}</td>
+                                            <td>{contact.Phone}</td>
+                                            <td>{contact.Title}</td>
+                                        </tr>
+                                    </template>
+                                    <template if:true={contactData.length}>
+                                        <!-- Contacts exist -->
+                                    </template>
+                                    <template if:true={noContactData}>
+                                        <tr>
+                                            <td colspan="4" class="slds-text-align_center">No contacts found</td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </template>
+
+                        <!-- Opportunities View -->
+                        <template if:true={isOpportunities}>
+                            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Amount</th>
+                                        <th>Stage</th>
+                                        <th>Close Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={opportunityData} for:item="opp">
+                                        <tr key={opp.Id}>
+                                            <td>
+                                                <a href="javascript:void(0)" onclick={handleRecordSelect} data-id={opp.Id} data-object="Opportunity">
+                                                    {opp.Name}
+                                                </a>
+                                            </td>
+                                            <td>{opp.Amount}</td>
+                                            <td>{opp.StageName}</td>
+                                            <td>{opp.CloseDate}</td>
+                                        </tr>
+                                    </template>
+                                    <template if:true={opportunityData.length}>
+                                        <!-- Opportunities exist -->
+                                    </template>
+                                    <template if:true={noOpportunityData}>
+                                        <tr>
+                                            <td colspan="4" class="slds-text-align_center">No opportunities found</td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </template>
+
+                        <!-- Cases View -->
+                        <template if:true={isCases}>
+    <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+        <thead>
+            <tr>
+                <th>Case Number</th>
+                <th>Subject</th>
+                <th>Status</th>
+                <th>Priority</th>
+            </tr>
+        </thead>
+        <tbody>
+            <template for:each={caseData} for:item="caseItem">
+                <tr key={caseItem.Id}>
+                    <td>
+                        <a href="javascript:void(0)" onclick={handleRecordSelect} data-id={caseItem.Id} data-object="Case">
+                            {caseItem.CaseNumber}
+                        </a>
+                    </td>
+                    <td>{caseItem.Subject}</td>
+                    <td>{caseItem.Status}</td>
+                    <td>{caseItem.Priority}</td>
+                </tr>
+            </template>
+            <template if:true={caseData.length}>
+                <!-- Cases exist -->
+            </template>
+            <template if:true={noCaseData}>
+                <tr>
+                    <td colspan="4" class="slds-text-align_center">No cases found</td>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+</template>
+
+                        <!-- Tasks View -->
+                        <template if:true={isTasks}>
+                            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                                <thead>
+                                    <tr>
+                                        <th>Subject</th>
+                                        <th>Status</th>
+                                        <th>Due Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={taskData} for:item="task">
+                                        <tr key={task.Id}>
+                                            <td>{task.Subject}</td>
+                                            <td>{task.Status}</td>
+                                            <td>{task.ActivityDate}</td>
+                                            <td>
+                                                <lightning-button 
+                                                    label="Complete" 
+                                                    variant="brand" 
+                                                    size="small"
+                                                    onclick={handleTaskComplete}
+                                                    data-id={task.Id}>
+                                                </lightning-button>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                    <template if:true={taskData.length}>
+                                        <!-- Tasks exist -->
+                                    </template>
+                                    <template if:true={noTaskData}>
+                                        <tr>
+                                            <td colspan="4" class="slds-text-align_center">No tasks found</td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </template>
+
+                        <!-- Reports View -->
+                        <template if:true={isReports}>
+                            <div class="slds-box">
+                                <p>Reports dashboard coming soon...</p>
+                            </div>
+                        </template>
+
+                        <!-- Recent Items View -->
+                        <template if:true={isRecent}>
+                            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Object Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={recentItems} for:item="item">
+                                        <tr key={item.id}>
+                                            <td>
+                                                <a href="javascript:void(0)" onclick={handleRecentItemSelect} data-id={item.id} data-object={item.objectApiName}>
+                                                    {item.name}
+                                                </a>
+                                            </td>
+                                            <td>{item.objectLabel}</td>
+                                        </tr>
+                                    </template>
+                                    <template if:true={recentItems.length}>
+                                        <!-- Recent items exist -->
+                                    </template>
+                                    <template if:true={noRecentData}>
+                                        <tr>
+                                            <td colspan="2" class="slds-text-align_center">No recent items found</td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </template>
+                    </template>
+                </template>
+            </div>
+        </div>
+
+        <!-- Footer with System Status -->
+        <div class="slds-p-around_small slds-text-color_weak slds-border_top" slot="footer">
+            <div class="slds-grid slds-grid_align-spread">
+                <div>
+                    <lightning-icon icon-name="utility:last_sync" size="xx-small" class="slds-m-right_x-small"></lightning-icon>
+                    Last Synced: {lastSyncTime}
+                </div>
+                <div>
+                    <lightning-icon icon-name={connectionStatus.icon} size="xx-small" class="slds-m-right_x-small"></lightning-icon>
+                    {connectionStatus.message}
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+</template>

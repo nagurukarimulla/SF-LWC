@@ -1,0 +1,152 @@
+<template>
+    <lightning-card title="Input Components Explorer" icon-name="utility:form">
+
+        <!-- BASIC INPUTS -->
+        <lightning-layout multiple-rows>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input label="Text" type="text"></lightning-input>
+                <lightning-input label="Email" type="email"></lightning-input>
+                <lightning-input label="Password" type="password"></lightning-input>
+                <lightning-input label="Phone" type="tel"></lightning-input>
+                <lightning-input label="URL" type="url"></lightning-input>
+                <lightning-input label="Number" type="number"></lightning-input>
+                <lightning-input label="Search" type="search"></lightning-input>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="date" label="Date"></lightning-input>
+                <lightning-input type="datetime" label="Date Time"></lightning-input>
+                <lightning-input type="time" label="Time"></lightning-input>
+                <lightning-input type="toggle" label="Toggle"></lightning-input>
+                <lightning-input type="checkbox" label="Checkbox"></lightning-input>
+                <lightning-input type="checkbox-button" label="Checkbox Button"></lightning-input>
+            </lightning-layout-item>
+        </lightning-layout>
+
+        <!-- TEXTAREA -->
+        <div class="slds-p-around_medium">
+            <lightning-textarea label="Description"></lightning-textarea>
+        </div>
+
+        <!-- RADIO GROUP -->
+        <div class="slds-p-around_medium">
+            <lightning-radio-group 
+                label="Subscription" 
+                options={radioOptions} 
+                value={selectedRadio}>
+            </lightning-radio-group>
+        </div>
+
+        <!-- CHECKBOX GROUP (FIXED) -->
+        <div class="slds-p-around_medium">
+            <lightning-checkbox-group 
+                label="Technologies" 
+                options={checkboxOptions}
+                value={selectedCheckboxes}>
+            </lightning-checkbox-group>
+        </div>
+
+        <!-- COMBOBOX -->
+        <div class="slds-p-around_medium">
+            <lightning-combobox 
+                label="Country" 
+                options={countryOptions} 
+                value={selectedCountry}
+                placeholder="Select Country">
+            </lightning-combobox>
+        </div>
+
+        <!-- SELECT -->
+        <div class="slds-p-around_medium">
+    <lightning-select 
+        label="Department" 
+        options={departmentOptions}
+        value={selectedDepartment}>
+    </lightning-select>
+</div>
+
+        <!-- DUAL LISTBOX -->
+        <div class="slds-p-around_medium">
+            <lightning-dual-listbox 
+                label="Skills" 
+                source-label="Available" 
+                selected-label="Selected" 
+                options={skills}
+                value={selectedSkills}>
+            </lightning-dual-listbox>
+        </div>
+
+        <!-- SLIDER -->
+        <div class="slds-p-around_medium">
+            <lightning-slider 
+                label="Experience" 
+                value={sliderValue} 
+                min="0" 
+                max="10"
+                step="1">
+            </lightning-slider>
+        </div>
+
+        <!-- FILE UPLOAD - Standalone Version -->
+        <div class="slds-p-around_medium">
+            <lightning-file-upload 
+                label="Upload Resume (Demo Mode)" 
+                onuploadfinished={handleUploadFinished}>
+                <p slot="help">File upload works without record ID in demo mode</p>
+            </lightning-file-upload>
+        </div>
+
+        <!-- FILE INPUT -->
+        <div class="slds-p-around_medium">
+            <lightning-input type="file" label="Upload File" multiple></lightning-input>
+        </div>
+
+        <!-- ADDRESS -->
+        <div class="slds-p-around_medium">
+            <lightning-input-address 
+                address-label="Address" 
+                street-label="Street" 
+                city-label="City"
+                province-label="State/Province"
+                postal-code-label="ZIP/Postal Code"
+                country-label="Country"
+                show-address-lookup="false">
+            </lightning-input-address>
+        </div>
+
+        <!-- LOCATION (Fixed for standalone) -->
+        <div class="slds-p-around_medium">
+            <lightning-input-location 
+                label="Location">
+            </lightning-input-location>
+        </div>
+
+        <!-- NAME (Fixed for standalone) -->
+        <div class="slds-p-around_medium">
+    <lightning-input-name 
+        label="Full Name">
+    </lightning-input-name>
+</div>
+
+        <!-- RECORD PICKER - Using Simple Combobox Instead for Standalone -->
+        <div class="slds-p-around_medium">
+            <lightning-combobox 
+                label="Select Account (Demo)" 
+                placeholder="Account selection demo"
+                options={accountOptions}
+                value={selectedAccount}>
+            </lightning-combobox>
+            <p class="slds-text-body_small slds-text-color_weak slds-m-top_xx-small">
+                Record picker requires record context. Using combobox for demo.
+            </p>
+        </div>
+
+        <!-- RICH TEXT -->
+        <div class="slds-p-around_medium">
+            <lightning-input-rich-text 
+                label="Rich Text Editor">
+            </lightning-input-rich-text>
+        </div>
+
+    </lightning-card>
+</template>

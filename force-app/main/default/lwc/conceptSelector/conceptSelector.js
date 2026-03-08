@@ -3,10 +3,20 @@ import { LightningElement, track } from 'lwc';
 export default class ConceptSelector extends LightningElement {
     @track searchKey = '';
     @track currentPage = 1;
-    @track pageSize = 10;
+    @track pageSize = 5;
     @track pageSizes = [5, 10, 20, 50, 100];
     
     concepts = [
+        {label:'Notification Components',value:'concept_enterpriseNotifications'},
+        {label:'Navigation Components',value:'concept_enterpriseNavigation'},
+        {label:'Record Form Components',value:'concept_enterpriseRecordForms'},
+        {label:'Input Components',value:'concept_inputComponents'},
+        {label: 'Visual Components', value: 'concept_visualComponents'},
+         { label: 'Container Components', value: 'concept_containerComponents' },
+        {label: 'Action Menu Components', value: 'concept_actionMenuComponents'},
+        {label:'Apex Schema Field Imports',value:'concept_apexSchemaImport'},
+        {label:'Refresh Wired Function',value:'concept_refreshWiredFunction'},
+        {label:'Refresh Wired Property',value:'concept_refreshWiredProperty'},
         {label:'Refresh Apex Cache',value:'concept_refreshApexCache'},
         {label:'Apex Client-Side Caching',value:'concept_apexClientCaching'},
         {label:'Pass Values to Apex',value:'concept_passValuesToApex'},
