@@ -93,4 +93,15 @@ export default class DynamicLoader extends LightningElement {
     get isRefreshApexCache() {
         return this.selectedComponent === 'concept_refreshApexCache';
     }
+    get isRefreshWiredProperty() {
+        return this.selectedComponent === 'concept_refreshWiredProperty';
+    }
+    get isRefreshWiredFunction() {
+        return this.selectedComponent === 'concept_refreshWiredFunction';
+    }
+    get isApexSchemaImport(){
+
+return this.selectedComponent === 'concept_apexSchemaImport';
+
+}
 }

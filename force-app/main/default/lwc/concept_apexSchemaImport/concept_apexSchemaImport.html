@@ -1,0 +1,61 @@
+<template>
+    <lightning-card title="Customer Relationship Snapshot" icon-name="standard:account">
+        
+        <!-- Account Selector -->
+        <div class="slds-p-around_medium slds-border_bottom">
+            <lightning-combobox
+                name="accountSelector"
+                label="Select Account"
+                value={selectedAccountId}
+                placeholder="Choose an Account..."
+                options={accountOptions}
+                onchange={handleAccountChange}
+                required>
+            </lightning-combobox>
+        </div>
+
+        <!-- Account Details - Only show when we have data -->
+        <template lwc:if={hasAccountData}>
+            <div class="slds-p-around_medium">
+                <p>
+                    <strong>Account:</strong>
+                    {accountName}
+                </p>
+                <p>
+                    <strong>Industry:</strong>
+                    {industry}
+                </p>
+                <p>
+                    <strong>Account Number:</strong>
+                    {accountNumber}
+                </p>
+                <p>
+                    <strong>Account Type:</strong>
+                    {accountType}
+                </p>
+            </div>
+        </template>
+
+        <!-- Loading State -->
+        <template lwc:elseif={isLoading}>
+            <div class="slds-p-around_medium">
+                <lightning-spinner alternative-text="Loading..." size="small">
+                </lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Error State -->
+        <template lwc:elseif={hasError}>
+            <div class="slds-p-around_medium slds-text-color_error">
+                Error: {errorMessage}
+            </div>
+        </template>
+
+        <!-- No Selection State -->
+        <template lwc:else>
+            <div class="slds-p-around_medium slds-text-color_weak">
+                Please select an account from the dropdown above.
+            </div>
+        </template>
+    </lightning-card>
+</template>

@@ -1,0 +1,53 @@
+<template>
+
+    <lightning-card title="Customer Escalation Console" icon-name="standard:case">
+
+        <div class="slds-p-around_medium">
+
+            <lightning-button label="Escalate High Priority Cases" variant="brand" onclick={handleEscalate}>
+            </lightning-button>
+
+        </div>
+
+        <template lwc:if={cases}>
+
+            <div class="slds-p-around_medium">
+
+                <template for:each={cases} for:item="caseRec">
+
+                    <div key={caseRec.Id} class="slds-m-bottom_medium">
+
+                        <p>
+                            <strong>Case:</strong> {caseRec.CaseNumber}
+                        </p>
+
+                        <p>{caseRec.Subject}</p>
+
+                        <p>
+
+                            <lightning-badge label={caseRec.Status}>
+                            </lightning-badge>
+
+                        </p>
+
+                    </div>
+
+                </template>
+
+            </div>
+
+        </template>
+
+        <template lwc:if={error}>
+
+            <div class="slds-p-around_medium slds-text-color_error">
+
+                Error: {errorMessage}
+
+            </div>
+
+        </template>
+
+    </lightning-card>
+
+</template>

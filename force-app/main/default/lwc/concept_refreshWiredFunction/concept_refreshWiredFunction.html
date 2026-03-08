@@ -1,0 +1,53 @@
+<template>
+
+    <lightning-card title="Customer Interaction Timeline" icon-name="standard:task">
+
+        <div class="slds-p-around_medium">
+
+            <lightning-button label="Log Interaction" variant="brand" onclick={handleLogInteraction}>
+            </lightning-button>
+
+        </div>
+
+        <template lwc:if={interactions}>
+
+            <div class="slds-p-around_medium">
+
+                <template for:each={interactions} for:item="task">
+
+                    <div key={task.Id} class="slds-m-bottom_small">
+
+                        <p>
+                            <strong>{task.Subject}</strong>
+                        </p>
+
+                        <p>
+                            <lightning-formatted-date-time value={task.ActivityDate}>
+                            </lightning-formatted-date-time>
+                        </p>
+
+                        <p>
+                            <lightning-badge label={task.Status}></lightning-badge>
+                        </p>
+
+                    </div>
+
+                </template>
+
+            </div>
+
+        </template>
+
+        <template lwc:if={error}>
+
+            <div class="slds-p-around_medium slds-text-color_error">
+
+                Error: {errorMessage}
+
+            </div>
+
+        </template>
+
+    </lightning-card>
+
+</template>

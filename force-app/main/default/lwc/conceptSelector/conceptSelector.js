@@ -7,6 +7,9 @@ export default class ConceptSelector extends LightningElement {
     @track pageSizes = [5, 10, 20, 50, 100];
     
     concepts = [
+        {label:'Apex Schema Field Imports',value:'concept_apexSchemaImport'},
+        {label:'Refresh Wired Function',value:'concept_refreshWiredFunction'},
+        {label:'Refresh Wired Property',value:'concept_refreshWiredProperty'},
         {label:'Refresh Apex Cache',value:'concept_refreshApexCache'},
         {label:'Apex Client-Side Caching',value:'concept_apexClientCaching'},
         {label:'Pass Values to Apex',value:'concept_passValuesToApex'},

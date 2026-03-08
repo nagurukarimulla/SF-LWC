@@ -97,4 +97,15 @@
         <c-concept_refresh-apex-cache>
         </c-concept_refresh-apex-cache>
     </template>
+    <template lwc:if={isRefreshWiredProperty}>
+        <c-concept_refresh-wired-property>
+        </c-concept_refresh-wired-property>
+    </template>
+    <template lwc:if={isRefreshWiredFunction}>
+        <c-concept_refresh-wired-function record-id="0015g00000rGmPOAA0">
+        </c-concept_refresh-wired-function>
+    </template>
+    <template lwc:if={isApexSchemaImport}>
+<c-concept_apex-schema-import></c-concept_apex-schema-import>
+</template>
 </template>
