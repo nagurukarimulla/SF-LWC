@@ -125,4 +125,7 @@ return this.selectedComponent === 'concept_enterpriseNavigation';
 get isNotifications(){
 return this.selectedComponent === 'concept_enterpriseNotifications';
 }
+get isProgress(){
+return this.selectedComponent === 'concept_enterpriseProgress';
+}
 }
