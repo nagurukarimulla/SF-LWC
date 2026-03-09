@@ -7,6 +7,9 @@ export default class ConceptSelector extends LightningElement {
     @track pageSizes = [5, 10, 20, 50, 100];
     
     concepts = [
+
+        { label:'Utility Modules', value:'concept_enterpriseUtilities' },
+        { label:'Tables & Trees Components', value:'concept_enterpriseTablesTrees' },
         {label:'Progress Components',value:'concept_enterpriseProgress'},
         {label:'Notification Components',value:'concept_enterpriseNotifications'},
         {label:'Navigation Components',value:'concept_enterpriseNavigation'},

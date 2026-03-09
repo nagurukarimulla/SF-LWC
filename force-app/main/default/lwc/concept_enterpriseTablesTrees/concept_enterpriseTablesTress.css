@@ -1,0 +1,91 @@
+.nav-sidebar {
+    background-color: #f3f2f2;
+    min-height: 600px;
+    border-right: 1px solid #dddbda;
+    padding: 1rem;
+    width: 100%;
+}
+
+.content-area {
+    background-color: white;
+    min-height: 600px;
+    padding: 1.5rem;
+    width: 100%;
+    overflow-x: auto;
+}
+
+lightning-tree {
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+lightning-tree .slds-tree__item {
+    padding: 0.5rem 0;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+lightning-tree .slds-tree__item-label {
+    white-space: normal;
+    word-wrap: break-word;
+    max-width: 100%;
+}
+
+lightning-datatable {
+    min-height: 400px;
+    width: 100%;
+}
+
+.hierarchy-grid {
+    min-height: 400px;
+    width: 100%;
+}
+
+.slds-illustration {
+    padding: 3rem 1rem;
+    text-align: center;
+    color: #706e6b;
+}
+
+/* Fix for long text in tree */
+.slds-tree-container {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-sidebar {
+        min-height: auto;
+        border-right: none;
+        border-bottom: 1px solid #dddbda;
+    }
+    
+    .content-area {
+        min-height: auto;
+        padding: 1rem;
+    }
+}
+.nav-sidebar {
+    background-color: #f3f2f2;
+    min-height: 600px;
+    border-right: 1px solid #dddbda;
+    padding: 1rem;
+    width: 100%;
+    overflow-y: auto; 
+}
+
+lightning-tree .slds-tree__item-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    max-width: 95%;
+}
+.hierarchy-grid .slds-cell {
+    white-space: normal !important;   
+    word-wrap: break-word !important; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
