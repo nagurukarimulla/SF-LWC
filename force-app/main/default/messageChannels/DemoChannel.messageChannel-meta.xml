@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <masterLabel>DemoChannel</masterLabel>
+    <isExposed>true</isExposed>
+    <description>Message channel for Enterprise Utilities demo - enables communication between components</description>
+    <lightningMessageFields>
+        <fieldName>source</fieldName>
+        <description>The source component that published the message</description>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <fieldName>timestamp</fieldName>
+        <description>ISO timestamp when the message was published</description>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <fieldName>message</fieldName>
+        <description>The main message content</description>
+    </lightningMessageFields>
+    <lightningMessageFields>
+        <fieldName>data</fieldName>
+        <description>Additional JSON data payload</description>
+    </lightningMessageFields>
+</LightningMessageChannel>

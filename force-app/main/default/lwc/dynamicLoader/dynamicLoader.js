@@ -128,4 +128,10 @@ return this.selectedComponent === 'concept_enterpriseNotifications';
 get isProgress(){
 return this.selectedComponent === 'concept_enterpriseProgress';
 }
+get isTablesTrees(){
+return this.selectedComponent === 'concept_enterpriseTablesTrees';
+}
+get isUtilities(){
+return this.selectedComponent === 'concept_enterpriseUtilities';
+}
 }

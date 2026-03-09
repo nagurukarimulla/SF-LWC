@@ -1,0 +1,78 @@
+<template>
+    <lightning-card title="Utility Modules Playground" icon-name="utility:settings">
+        <div class="slds-p-around_medium">
+            <div class="slds-grid slds-wrap slds-gutters">
+                <div class="slds-col slds-size_1-of-1 slds-m-bottom_medium">
+                    <lightning-button-group>
+                        <lightning-button label="Navigate to Account Home" 
+                                        onclick={navigateToAccount}
+                                        variant="outline-brand">
+                        </lightning-button>
+                        
+                        <lightning-button label="Generate Record URL" 
+                                        onclick={generateUrl}
+                                        variant="outline-brand">
+                        </lightning-button>
+                        
+                        <lightning-button label="Encode Default Fields" 
+                                        onclick={encodeFields}
+                                        variant="outline-brand">
+                        </lightning-button>
+                        
+                        <lightning-button label="Log Event" 
+                                        onclick={logEvent}
+                                        variant="outline-brand">
+                        </lightning-button>
+                        
+                        <lightning-button label="Check Cookie Consent" 
+                                        onclick={checkCookie}
+                                        variant="outline-brand">
+                        </lightning-button>
+                    </lightning-button-group>
+                </div>
+                
+                <!-- Status messages -->
+                <div class="slds-col slds-size_1-of-1 slds-m-top_medium">
+                    <template if:true={showSpinner}>
+                        <lightning-spinner alternative-text="Processing..." size="small">
+                        </lightning-spinner>
+                    </template>
+                    
+                    <template if:true={resultMessage}>
+                        <div class="slds-alert slds-alert_info" role="alert">
+                            <span class="slds-assistive-text">info</span>
+                            <h2 class="slds-text-heading_label">{resultMessage}</h2>
+                        </div>
+                    </template>
+                    
+                    <template if:true={errorMessage}>
+                        <div class="slds-alert slds-alert_error" role="alert">
+                            <span class="slds-assistive-text">error</span>
+                            <h2 class="slds-text-heading_label">{errorMessage}</h2>
+                        </div>
+                    </template>
+                </div>
+                
+                <!-- Generated URL display -->
+                <div class="slds-col slds-size_1-of-1 slds-m-top_medium">
+                    <template if:true={generatedUrl}>
+                        <div class="slds-box slds-box_x-small">
+                            <p class="slds-text-heading_small slds-m-bottom_x-small">Generated URL:</p>
+                            <a href={generatedUrl} target="_blank" class="slds-text-body_small">
+                                {generatedUrl}
+                            </a>
+                        </div>
+                    </template>
+                </div>
+                
+                <!-- Output section -->
+                <div class="slds-col slds-size_1-of-1 slds-m-top_medium">
+                    <div class="slds-box">
+                        <p class="slds-text-heading_small slds-m-bottom_x-small">Output:</p>
+                        <p class="slds-text-body_small">{outputMessage}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+</template>
