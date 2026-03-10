@@ -8,6 +8,7 @@ export default class ConceptSelector extends LightningElement {
     
     concepts = [
 
+        { label:'Apex FFLIB', value:'concept_ffLibFramework'},
         { label:'Utility Modules', value:'concept_enterpriseUtilities' },
         { label:'Tables & Trees Components', value:'concept_enterpriseTablesTrees' },
         {label:'Progress Components',value:'concept_enterpriseProgress'},
