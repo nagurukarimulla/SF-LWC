@@ -134,4 +134,8 @@ return this.selectedComponent === 'concept_enterpriseTablesTrees';
 get isUtilities(){
 return this.selectedComponent === 'concept_enterpriseUtilities';
 }
+get isFfLibFramework() {
+        return this.selectedComponent === 'concept_ffLibFramework';
+    }
+
 }

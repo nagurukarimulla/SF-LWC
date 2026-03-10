@@ -1,0 +1,349 @@
+<template>
+    <lightning-card title="fflib Framework Demo - Dynamic CRUD" icon-name="custom:custom63">
+        <div class="slds-p-around_medium">
+            <!-- Object Selection -->
+            <lightning-combobox
+                label="Select Object"
+                value={selectedObject}
+                options={objectOptions}
+                onchange={handleObjectChange}
+                required>
+            </lightning-combobox>
+
+            <!-- Loading Spinner -->
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading..." size="medium"></lightning-spinner>
+            </template>
+
+            <!-- Error Display -->
+            <template if:true={error}>
+                <div class="slds-alert slds-alert_error slds-m-top_medium" role="alert">
+                    <span class="slds-assistive-text">error</span>
+                    <h2 class="slds-text-heading_small">{error}</h2>
+                </div>
+            </template>
+
+            <!-- CRUD Operation Buttons -->
+            <template if:true={showCreateButton}>
+                <div class="slds-grid slds-wrap slds-gutters slds-p-top_medium">
+                    <div class="slds-col slds-size_1-of-4">
+                        <lightning-button label="Create New Record" 
+                                        onclick={showCreateFormHandler}
+                                        variant="brand"
+                                        disabled={isLoading}>
+                        </lightning-button>
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <lightning-button label="Read Current Record" 
+                                        onclick={handleRead}
+                                        variant="neutral"
+                                        disabled={isLoading}>
+                        </lightning-button>
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <lightning-button label="Update Current Record" 
+                                        onclick={showUpdateFormHandler}
+                                        variant="neutral"
+                                        disabled={isLoading}>
+                        </lightning-button>
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <lightning-button label="Delete Current Record" 
+                                        onclick={handleDelete}
+                                        variant="destructive"
+                                        disabled={isLoading}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Create Form -->
+            <template if:true={showCreateForm}>
+                <div class="slds-box slds-m-top_medium">
+                    <h3 class="slds-text-heading_small slds-m-bottom_medium">Create New {selectedObject}</h3>
+                    
+                    <template for:each={currentFields} for:item="field">
+                        <div key={field.name} class="slds-m-bottom_small">
+                            <template if:true={field.isPicklist}>
+                                <lightning-combobox
+                                    name={field.name}
+                                    label={field.label}
+                                    placeholder="Select an option"
+                                    options={field.picklistOptions}
+                                    onchange={handlePicklistChange}
+                                    data-field={field.name}
+                                    required={field.required}>
+                                </lightning-combobox>
+                            </template>
+                            <template if:false={field.isPicklist}>
+                                <lightning-input
+                                    type={field.inputType}
+                                    label={field.label}
+                                    onchange={handleInputChange}
+                                    data-field={field.name}
+                                    required={field.required}
+                                    step={field.step}>
+                                </lightning-input>
+                            </template>
+                        </div>
+                    </template>
+
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col">
+                            <lightning-button label="Create" 
+                                            onclick={handleCreate}
+                                            variant="brand"
+                                            disabled={isLoading}>
+                            </lightning-button>
+                        </div>
+                        <div class="slds-col">
+                            <lightning-button label="Cancel" 
+                                            onclick={cancelForm}
+                                            variant="neutral"
+                                            disabled={isLoading}>
+                            </lightning-button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Update Form -->
+            <template if:true={showUpdateForm}>
+                <div class="slds-box slds-m-top_medium">
+                    <h3 class="slds-text-heading_small slds-m-bottom_medium">Update {selectedObject}</h3>
+                    
+                    <template for:each={currentFields} for:item="field">
+                        <div key={field.name} class="slds-m-bottom_small">
+                            <template if:true={field.isPicklist}>
+                                <lightning-combobox
+                                    name={field.name}
+                                    label={field.label}
+                                    placeholder="Select an option"
+                                    options={field.picklistOptions}
+                                    onchange={handlePicklistChange}
+                                    data-field={field.name}
+                                    required={field.required}>
+                                </lightning-combobox>
+                            </template>
+                            <template if:false={field.isPicklist}>
+                                <lightning-input
+                                    type={field.inputType}
+                                    label={field.label}
+                                    onchange={handleInputChange}
+                                    data-field={field.name}
+                                    required={field.required}
+                                    step={field.step}>
+                                </lightning-input>
+                            </template>
+                        </div>
+                    </template>
+
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col">
+                            <lightning-button label="Update" 
+                                            onclick={handleUpdate}
+                                            variant="brand"
+                                            disabled={isLoading}>
+                            </lightning-button>
+                        </div>
+                        <div class="slds-col">
+                            <lightning-button label="Cancel" 
+                                            onclick={cancelForm}
+                                            variant="neutral"
+                                            disabled={isLoading}>
+                            </lightning-button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Current Record Display - SIMPLIFIED -->
+            <template if:true={record}>
+                <div class="slds-box slds-m-top_medium">
+                    <h3 class="slds-text-heading_small">Current Record Details</h3>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                            <span class="slds-text-color_weak">Record ID:</span>
+                            <span class="slds-m-left_xx-small">{record.Id}</span>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                            <span class="slds-text-color_weak">Record Name:</span>
+                            <span class="slds-m-left_xx-small">{record.Name}</span>
+                        </div>
+                        <template if:true={record.Phone}>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                                <span class="slds-text-color_weak">Phone:</span>
+                                <span class="slds-m-left_xx-small">{record.Phone}</span>
+                            </div>
+                        </template>
+                        <template if:true={record.Email}>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                                <span class="slds-text-color_weak">Email:</span>
+                                <span class="slds-m-left_xx-small">{record.Email}</span>
+                            </div>
+                        </template>
+                        <template if:true={record.Industry}>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                                <span class="slds-text-color_weak">Industry:</span>
+                                <span class="slds-m-left_xx-small">{record.Industry}</span>
+                            </div>
+                        </template>
+                        <template if:true={record.StageName}>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                                <span class="slds-text-color_weak">Stage:</span>
+                                <span class="slds-m-left_xx-small">{record.StageName}</span>
+                            </div>
+                        </template>
+                        <template if:true={record.Amount}>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                                <span class="slds-text-color_weak">Amount:</span>
+                                <span class="slds-m-left_xx-small">{record.Amount}</span>
+                            </div>
+                        </template>
+                        <template if:true={record.CloseDate}>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                                <span class="slds-text-color_weak">Close Date:</span>
+                                <span class="slds-m-left_xx-small">{record.CloseDate}</span>
+                            </div>
+                        </template>
+                        <template if:true={record.FirstName}>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                                <span class="slds-text-color_weak">First Name:</span>
+                                <span class="slds-m-left_xx-small">{record.FirstName}</span>
+                            </div>
+                        </template>
+                        <template if:true={record.LastName}>
+                            <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                                <span class="slds-text-color_weak">Last Name:</span>
+                                <span class="slds-m-left_xx-small">{record.LastName}</span>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Search Section -->
+            <div class="slds-m-top_large">
+                <h3 class="slds-text-heading_small">Search Records</h3>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="slds-col slds-size_3-of-4">
+                        <lightning-input label="Search Term" 
+                                        value={searchTerm}
+                                        onchange={handleSearchTermChange}
+                                        placeholder="Enter search term...">
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <lightning-button label="Search" 
+                                        onclick={handleSearch}
+                                        variant="brand"
+                                        disabled={isLoading}>
+                        </lightning-button>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-4">
+            <lightning-button label="Clear" 
+                            onclick={clearSearch}
+                            variant="neutral"
+                            disabled={isLoading}>
+            </lightning-button>
+        </div>
+    </div>
+
+                <!-- Search Results -->
+                <template if:true={searchResults.length}>
+                    <div class="slds-box slds-m-top_small">
+                        <h4 class="slds-text-heading_small">Search Results ({searchResults.length})</h4>
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Details</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={searchResults} for:item="result">
+                                    <tr key={result.Id}>
+                                        <td>{result.Name}</td>
+                                        <td>
+                                            <template if:true={result.Phone}>
+                                                Phone: {result.Phone}<br>
+                                            </template>
+                                            <template if:true={result.Email}>
+                                                Email: {result.Email}
+                                            </template>
+                                            <template if:true={result.Industry}>
+                                                Industry: {result.Industry}
+                                            </template>
+                                        </td>
+                                        <td>
+                                            <lightning-button label="Select" 
+                                                            data-id={result.Id}
+                                                            onclick={selectSearchResult}
+                                                            variant="base"
+                                                            size="small">
+                                            </lightning-button>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </template>
+            </div>
+
+            <!-- Query Section -->
+            <div class="slds-m-top_large">
+                <h3 class="slds-text-heading_small">Query Recent Records</h3>
+                <lightning-button label="Run Query" 
+                                onclick={handleQuery}
+                                variant="brand"
+                                disabled={isLoading}>
+                </lightning-button>
+
+                <!-- Query Results -->
+                <template if:true={queryResults.length}>
+                    <div class="slds-box slds-m-top_small">
+                        <h4 class="slds-text-heading_small">Query Results ({queryResults.length})</h4>
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Details</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={queryResults} for:item="result">
+                                    <tr key={result.Id}>
+                                        <td>{result.Name}</td>
+                                        <td>
+                                            <template if:true={result.Industry}>
+                                                Industry: {result.Industry}<br>
+                                            </template>
+                                            <template if:true={result.StageName}>
+                                                Stage: {result.StageName}<br>
+                                            </template>
+                                            <template if:true={result.Amount}>
+                                                Amount: {result.Amount}
+                                            </template>
+                                        </td>
+                                        <td>
+                                            <lightning-button label="Select" 
+                                                            data-id={result.Id}
+                                                            onclick={selectQueryResult}
+                                                            variant="base"
+                                                            size="small">
+                                            </lightning-button>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </template>
+            </div>
+        
+    </lightning-card>
+</template>
