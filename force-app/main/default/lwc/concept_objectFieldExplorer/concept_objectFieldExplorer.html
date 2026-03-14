@@ -1,0 +1,105 @@
+<template>
+    <lightning-card title="Object Field Explorer" icon-name="standard:object">
+        <div class="slds-p-around_medium">
+            
+            <!-- Object Selection -->
+            <lightning-combobox
+                label="Select Object"
+                value={selectedObject}
+                options={objectOptions}
+                onchange={handleObjectChange}
+                required>
+            </lightning-combobox>
+
+            <!-- Loading State -->
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Loading object metadata..."></lightning-spinner>
+            </template>
+
+            <!-- Error State -->
+            <template if:true={error}>
+                <div class="slds-theme_error slds-p-around_small">
+                    <p>{error}</p>
+                </div>
+            </template>
+
+            <!-- Object Details -->
+            <template if:true={objectData}>
+                <div class="slds-m-top_medium">
+                    <!-- Object Summary Card -->
+                    <div class="slds-box slds-theme_shade slds-m-bottom_small">
+                        <h3 class="slds-text-heading_small">{objectData.label}</h3>
+                        <p class="slds-text-body_small">API Name: {objectData.apiName}</p>
+                        <div class="slds-grid slds-gutters slds-m-top_small">
+                            <div class="slds-col">
+                                <lightning-badge variant={createableVariant}>{createableText}</lightning-badge>
+                            </div>
+                            <div class="slds-col">
+                                <lightning-badge variant={updateableVariant}>{updateableText}</lightning-badge>
+                            </div>
+                            <div class="slds-col">
+                                <lightning-badge variant={deletableVariant}>{deletableText}</lightning-badge>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Field Search -->
+                    <lightning-input
+                        label="Search Fields"
+                        placeholder="Type to filter fields..."
+                        value={searchTerm}
+                        onchange={handleSearch}
+                        class="slds-m-bottom_small">
+                    </lightning-input>
+
+                    <!-- Fields List -->
+                    <div class="slds-box">
+                        <h4 class="slds-text-heading_small slds-m-bottom_small">Fields ({filteredFields.length})</h4>
+                        
+                        <template if:true={hasFilteredFields}>
+                            <div class="slds-grid slds-wrap slds-gutters">
+                                <template for:each={filteredFields} for:item="field">
+                                    <div key={field.apiName} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 slds-p-around_x-small">
+                                        <article class="slds-card slds-p-around_small">
+                                            <div class="slds-media">
+                                                <div class="slds-media__body">
+                                                    <p class="slds-text-heading_small">{field.label}</p>
+                                                    <p class="slds-text-body_small slds-m-top_xx-small">API: {field.apiName}</p>
+                                                    <div class="slds-m-top_xx-small">
+                                                        <lightning-badge label={field.dataType} variant="light"></lightning-badge>
+                                                    </div>
+                                                    <div class="slds-grid slds-gutters slds-m-top_xx-small">
+                                                        <template if:true={field.required}>
+                                                            <div class="slds-col">
+                                                                <lightning-badge variant="warning">Required</lightning-badge>
+                                                            </div>
+                                                        </template>
+                                                        <template if:true={field.unique}>
+                                                            <div class="slds-col">
+                                                                <lightning-badge variant="inverse">Unique</lightning-badge>
+                                                            </div>
+                                                        </template>
+                                                        <template if:true={field.externalId}>
+                                                            <div class="slds-col">
+                                                                <lightning-badge variant="brand">External ID</lightning-badge>
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+
+                        <!-- No Fields Found -->
+                        <template if:false={hasFilteredFields}>
+                            <p class="slds-text-align_center slds-p-vertical_medium">No fields match your search</p>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

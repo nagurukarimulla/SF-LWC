@@ -1,0 +1,203 @@
+<template>
+    <lightning-card title="Dynamic Record Updater" icon-name="standard:record">
+        <div class="slds-p-around_medium">
+            
+            <!-- Object Selection -->
+            <lightning-combobox
+                label="Select Object"
+                value={selectedObject}
+                options={objectOptions}
+                onchange={handleObjectChange}
+                required>
+            </lightning-combobox>
+
+            <!-- Record Selection -->
+            <lwc:if lwc:if={records}>
+                <div class="slds-m-top_medium">
+                    <lightning-combobox
+                        label="Select Record to Update"
+                        value={selectedRecordId}
+                        options={recordOptions}
+                        onchange={handleRecordChange}
+                        required>
+                    </lightning-combobox>
+                </div>
+            </lwc:if>
+
+            <!-- Update Form -->
+            <lwc:if lwc:if={selectedRecord}>
+                <div class="slds-m-top_medium slds-box">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">Update {selectedObject} Fields</h3>
+                    
+                    <!-- Account Fields -->
+                    <lwc:if lwc:if={isAccount}>
+                        <lightning-input 
+                            label="Account Name"
+                            value={fieldValues.Name}
+                            data-field="Name"
+                            onchange={handleFieldChange}
+                            required>
+                        </lightning-input>
+                        <lightning-input 
+                            label="Phone"
+                            value={fieldValues.Phone}
+                            data-field="Phone"
+                            onchange={handleFieldChange}
+                            type="tel">
+                        </lightning-input>
+                        <lightning-input 
+                            label="Website"
+                            value={fieldValues.Website}
+                            data-field="Website"
+                            onchange={handleFieldChange}
+                            type="url">
+                        </lightning-input>
+                    </lwc:if>
+
+                    <!-- Contact Fields -->
+                    <lwc:if lwc:if={isContact}>
+                        <lightning-input 
+                            label="First Name"
+                            value={fieldValues.FirstName}
+                            data-field="FirstName"
+                            onchange={handleFieldChange}>
+                        </lightning-input>
+                        <lightning-input 
+                            label="Last Name"
+                            value={fieldValues.LastName}
+                            data-field="LastName"
+                            onchange={handleFieldChange}
+                            required>
+                        </lightning-input>
+                        <lightning-input 
+                            label="Email"
+                            value={fieldValues.Email}
+                            data-field="Email"
+                            onchange={handleFieldChange}
+                            type="email">
+                        </lightning-input>
+                        <lightning-input 
+                            label="Phone"
+                            value={fieldValues.Phone}
+                            data-field="Phone"
+                            onchange={handleFieldChange}
+                            type="tel">
+                        </lightning-input>
+                    </lwc:if>
+
+                    <!-- Case Fields -->
+                    <lwc:if lwc:if={isCase}>
+                        <lightning-input 
+                            label="Subject"
+                            value={fieldValues.Subject}
+                            data-field="Subject"
+                            onchange={handleFieldChange}
+                            required>
+                        </lightning-input>
+                        <lightning-textarea 
+                            label="Description"
+                            value={fieldValues.Description}
+                            data-field="Description"
+                            onchange={handleFieldChange}>
+                        </lightning-textarea>
+                        <lightning-combobox
+                            label="Status"
+                            value={fieldValues.Status}
+                            data-field="Status"
+                            options={statusOptions}
+                            onchange={handleFieldChange}>
+                        </lightning-combobox>
+                        <lightning-combobox
+                            label="Priority"
+                            value={fieldValues.Priority}
+                            data-field="Priority"
+                            options={priorityOptions}
+                            onchange={handleFieldChange}>
+                        </lightning-combobox>
+                    </lwc:if>
+
+                    <!-- Opportunity Fields -->
+                    <lwc:if lwc:if={isOpportunity}>
+                        <lightning-input 
+                            label="Opportunity Name"
+                            value={fieldValues.Name}
+                            data-field="Name"
+                            onchange={handleFieldChange}
+                            required>
+                        </lightning-input>
+                        <lightning-combobox
+                            label="Stage"
+                            value={fieldValues.StageName}
+                            data-field="StageName"
+                            options={stageOptions}
+                            onchange={handleFieldChange}
+                            required>
+                        </lightning-combobox>
+                        <lightning-input 
+                            label="Close Date"
+                            value={fieldValues.CloseDate}
+                            data-field="CloseDate"
+                            onchange={handleFieldChange}
+                            type="date"
+                            required>
+                        </lightning-input>
+                        <lightning-input 
+                            label="Amount"
+                            value={fieldValues.Amount}
+                            data-field="Amount"
+                            onchange={handleFieldChange}
+                            type="number"
+                            formatter="currency">
+                        </lightning-input>
+                    </lwc:if>
+
+                    <!-- Lead Fields -->
+                    <lwc:if lwc:if={isLead}>
+                        <lightning-input 
+                            label="First Name"
+                            value={fieldValues.FirstName}
+                            data-field="FirstName"
+                            onchange={handleFieldChange}>
+                        </lightning-input>
+                        <lightning-input 
+                            label="Last Name"
+                            value={fieldValues.LastName}
+                            data-field="LastName"
+                            onchange={handleFieldChange}
+                            required>
+                        </lightning-input>
+                        <lightning-input 
+                            label="Company"
+                            value={fieldValues.Company}
+                            data-field="Company"
+                            onchange={handleFieldChange}
+                            required>
+                        </lightning-input>
+                        <lightning-input 
+                            label="Email"
+                            value={fieldValues.Email}
+                            data-field="Email"
+                            onchange={handleFieldChange}
+                            type="email">
+                        </lightning-input>
+                    </lwc:if>
+
+                    <!-- Update Button -->
+                    <div class="slds-m-top_medium">
+                        <lightning-button
+                            label="Update Record"
+                            variant="brand"
+                            onclick={handleUpdate}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </lwc:if>
+
+            <!-- Loading Spinner -->
+            <lwc:if lwc:if={isLoading}>
+                <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+            </lwc:if>
+
+        </div>
+    </lightning-card>
+</template>

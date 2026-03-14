@@ -149,5 +149,17 @@ return this.selectedComponent === 'concept_apexPaginationCursor';
 get isCreateRecord(){
 return this.selectedComponent === 'concept_dynamicRecordCreator';
 }
+get isDeleteRecord(){
+return this.selectedComponent === 'concept_dynamicRecordDeletion';
+}
+get isUpdateRecord(){
+return this.selectedComponent === 'concept_dynamicRecordUpdater';
+}
+get isGetObjectInfo(){
+return this.selectedComponent === 'concept_objectFieldExplorer';
+}
+get isGetObjectInfos(){
+return this.selectedComponent === 'concept_getObjectInfosComparator';
+}
 }
 
