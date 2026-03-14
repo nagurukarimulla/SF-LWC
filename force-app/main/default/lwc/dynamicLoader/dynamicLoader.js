@@ -137,5 +137,17 @@ return this.selectedComponent === 'concept_enterpriseUtilities';
 get isFfLibFramework() {
         return this.selectedComponent === 'concept_ffLibFramework';
     }
-
+ get isFflibSendCases(){
+return this.selectedComponent === 'concept_fflibSendCases';
 }
+get isCursor(){
+return this.selectedComponent === 'concept_apexCursorMonitor';
+}
+get isPaginationCursor(){
+return this.selectedComponent === 'concept_apexPaginationCursor';
+}
+get isCreateRecord(){
+return this.selectedComponent === 'concept_dynamicRecordCreator';
+}
+}
+
