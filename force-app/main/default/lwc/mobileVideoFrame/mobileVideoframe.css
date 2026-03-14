@@ -1,0 +1,31 @@
+.phone-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.phone-frame {
+
+    width: 420px;
+    min-height: 740px;
+
+    background: white;
+
+    border-radius: 20px;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+
+    padding: 12px;
+
+}
+
+.content {
+    width: 100%;
+}
+.phone-frame {
+
+    width: 520px;
+    height: 900px;
+
+}

@@ -1,0 +1,357 @@
+<template>
+    <lightning-card title="Dynamic Record Creator" icon-name="standard:record">
+        <div class="slds-p-around_medium">
+            <!-- Object Selection -->
+            <lightning-combobox
+                label="Select Object"
+                value={selectedObject}
+                options={objectOptions}
+                onchange={handleObjectChange}
+                required>
+            </lightning-combobox>
+
+            <!-- Account Fields -->
+            <template if:true={isAccount}>
+                <div class="slds-box slds-theme_shade slds-m-bottom_small">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">Account Information</h3>
+                    
+                    <lightning-input 
+                        label="Account Name (Required)"
+                        value={accountFields.Name}
+                        onchange={handleAccountFieldChange}
+                        data-field="Name"
+                        required>
+                    </lightning-input>
+
+                    <lightning-input 
+                        label="Phone"
+                        value={accountFields.Phone}
+                        onchange={handleAccountFieldChange}
+                        data-field="Phone"
+                        type="tel">
+                    </lightning-input>
+
+                    <lightning-input 
+                        label="Website"
+                        value={accountFields.Website}
+                        onchange={handleAccountFieldChange}
+                        data-field="Website"
+                        type="url">
+                    </lightning-input>
+
+                    <lightning-textarea 
+                        label="Description"
+                        value={accountFields.Description}
+                        onchange={handleAccountFieldChange}
+                        data-field="Description">
+                    </lightning-textarea>
+
+                    <lightning-combobox
+                        label="Industry"
+                        value={accountFields.Industry}
+                        placeholder="Select Industry"
+                        options={industryOptions}
+                        onchange={handleAccountFieldChange}
+                        data-field="Industry">
+                    </lightning-combobox>
+
+                    <lightning-combobox
+                        label="Type"
+                        value={accountFields.Type}
+                        placeholder="Select Type"
+                        options={accountTypeOptions}
+                        onchange={handleAccountFieldChange}
+                        data-field="Type">
+                    </lightning-combobox>
+                </div>
+            </template>
+
+            <!-- Contact Fields -->
+            <template if:true={isContact}>
+                <div class="slds-box slds-theme_shade slds-m-bottom_small">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">Contact Information</h3>
+                    
+                    <lightning-input 
+                        label="First Name"
+                        value={contactFields.FirstName}
+                        onchange={handleContactFieldChange}
+                        data-field="FirstName">
+                    </lightning-input>
+
+                    <lightning-input 
+                        label="Last Name (Required)"
+                        value={contactFields.LastName}
+                        onchange={handleContactFieldChange}
+                        data-field="LastName"
+                        required>
+                    </lightning-input>
+
+                    <lightning-input 
+                        label="Email"
+                        value={contactFields.Email}
+                        onchange={handleContactFieldChange}
+                        data-field="Email"
+                        type="email">
+                    </lightning-input>
+
+                    <lightning-input 
+                        label="Phone"
+                        value={contactFields.Phone}
+                        onchange={handleContactFieldChange}
+                        data-field="Phone"
+                        type="tel">
+                    </lightning-input>
+
+                    <lightning-input 
+                        label="Mobile Phone"
+                        value={contactFields.MobilePhone}
+                        onchange={handleContactFieldChange}
+                        data-field="MobilePhone"
+                        type="tel">
+                    </lightning-input>
+
+                    <lightning-input 
+                        label="Title"
+                        value={contactFields.Title}
+                        onchange={handleContactFieldChange}
+                        data-field="Title">
+                    </lightning-input>
+
+                    <lightning-combobox
+                        label="Lead Source"
+                        value={contactFields.LeadSource}
+                        placeholder="Select Lead Source"
+                        options={leadSourceOptions}
+                        onchange={handleContactFieldChange}
+                        data-field="LeadSource">
+                    </lightning-combobox>
+                </div>
+            </template>
+
+            <!-- Case Fields -->
+            <template if:true={isCase}>
+                <div class="slds-box slds-theme_shade slds-m-bottom_small">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">Case Information</h3>
+                    
+                    <lightning-input 
+                        label="Subject (Required)"
+                        value={caseFields.Subject}
+                        onchange={handleCaseFieldChange}
+                        data-field="Subject"
+                        required>
+                    </lightning-input>
+
+                    <lightning-textarea 
+                        label="Description"
+                        value={caseFields.Description}
+                        onchange={handleCaseFieldChange}
+                        data-field="Description">
+                    </lightning-textarea>
+
+                    <lightning-combobox
+                        label="Status"
+                        value={caseFields.Status}
+                        placeholder="Select Status"
+                        options={statusOptions}
+                        onchange={handleCaseFieldChange}
+                        data-field="Status">
+                    </lightning-combobox>
+
+                    <lightning-combobox
+                        label="Priority"
+                        value={caseFields.Priority}
+                        placeholder="Select Priority"
+                        options={priorityOptions}
+                        onchange={handleCaseFieldChange}
+                        data-field="Priority">
+                    </lightning-combobox>
+
+                    <lightning-combobox
+                        label="Origin"
+                        value={caseFields.Origin}
+                        placeholder="Select Origin"
+                        options={originOptions}
+                        onchange={handleCaseFieldChange}
+                        data-field="Origin">
+                    </lightning-combobox>
+
+                    <lightning-input 
+                        label="Contact ID"
+                        value={caseFields.ContactId}
+                        onchange={handleCaseFieldChange}
+                        data-field="ContactId"
+                        placeholder="Enter Contact ID">
+                    </lightning-input>
+                </div>
+            </template>
+
+            <!-- Opportunity Fields -->
+            <template if:true={isOpportunity}>
+                <div class="slds-box slds-theme_shade slds-m-bottom_small">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">Opportunity Information</h3>
+                    
+                    <lightning-input 
+                        label="Opportunity Name (Required)"
+                        value={opportunityFields.Name}
+                        onchange={handleOpportunityFieldChange}
+                        data-field="Name"
+                        required>
+                    </lightning-input>
+
+                    <lightning-input 
+                        label="Account ID (Required)"
+                        value={opportunityFields.AccountId}
+                        onchange={handleOpportunityFieldChange}
+                        data-field="AccountId"
+                        placeholder="Enter Account ID"
+                        required>
+                    </lightning-input>
+
+                    <lightning-combobox
+                        label="Stage (Required)"
+                        value={opportunityFields.StageName}
+                        placeholder="Select Stage"
+                        options={stageOptions}
+                        onchange={handleOpportunityFieldChange}
+                        data-field="StageName"
+                        required>
+                    </lightning-combobox>
+
+                    <lightning-input 
+                        label="Close Date (Required)"
+                        value={opportunityFields.CloseDate}
+                        onchange={handleOpportunityFieldChange}
+                        data-field="CloseDate"
+                        type="date"
+                        required>
+                    </lightning-input>
+
+                    <lightning-input 
+                        label="Amount"
+                        value={opportunityFields.Amount}
+                        onchange={handleOpportunityFieldChange}
+                        data-field="Amount"
+                        type="number"
+                        formatter="currency">
+                    </lightning-input>
+
+                    <lightning-input 
+                        label="Probability (%)"
+                        value={opportunityFields.Probability}
+                        onchange={handleOpportunityFieldChange}
+                        data-field="Probability"
+                        type="number"
+                        min="0"
+                        max="100">
+                    </lightning-input>
+
+                    <lightning-combobox
+                        label="Type"
+                        value={opportunityFields.Type}
+                        placeholder="Select Type"
+                        options={opportunityTypeOptions}
+                        onchange={handleOpportunityFieldChange}
+                        data-field="Type">
+                    </lightning-combobox>
+                </div>
+            </template>
+
+            <!-- Lead Fields -->
+            <template if:true={isLead}>
+                <div class="slds-box slds-theme_shade slds-m-bottom_small">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">Lead Information</h3>
+                    
+                    <lightning-input 
+                        label="First Name"
+                        value={leadFields.FirstName}
+                        onchange={handleLeadFieldChange}
+                        data-field="FirstName">
+                    </lightning-input>
+
+                    <lightning-input 
+                        label="Last Name (Required)"
+                        value={leadFields.LastName}
+                        onchange={handleLeadFieldChange}
+                        data-field="LastName"
+                        required>
+                    </lightning-input>
+
+                    <lightning-input 
+                        label="Company (Required)"
+                        value={leadFields.Company}
+                        onchange={handleLeadFieldChange}
+                        data-field="Company"
+                        required>
+                    </lightning-input>
+
+                    <lightning-input 
+                        label="Email"
+                        value={leadFields.Email}
+                        onchange={handleLeadFieldChange}
+                        data-field="Email"
+                        type="email">
+                    </lightning-input>
+
+                    <lightning-input 
+                        label="Phone"
+                        value={leadFields.Phone}
+                        onchange={handleLeadFieldChange}
+                        data-field="Phone"
+                        type="tel">
+                    </lightning-input>
+
+                    <lightning-combobox
+                        label="Lead Source"
+                        value={leadFields.LeadSource}
+                        placeholder="Select Lead Source"
+                        options={leadSourceOptions}
+                        onchange={handleLeadFieldChange}
+                        data-field="LeadSource">
+                    </lightning-combobox>
+
+                    <lightning-combobox
+                        label="Status"
+                        value={leadFields.Status}
+                        placeholder="Select Status"
+                        options={leadStatusOptions}
+                        onchange={handleLeadFieldChange}
+                        data-field="Status">
+                    </lightning-combobox>
+
+                    <lightning-input 
+                        label="Annual Revenue"
+                        value={leadFields.AnnualRevenue}
+                        onchange={handleLeadFieldChange}
+                        data-field="AnnualRevenue"
+                        type="number"
+                        formatter="currency">
+                    </lightning-input>
+
+                    <lightning-input 
+                        label="Number of Employees"
+                        value={leadFields.NumberOfEmployees}
+                        onchange={handleLeadFieldChange}
+                        data-field="NumberOfEmployees"
+                        type="number">
+                    </lightning-input>
+                </div>
+            </template>
+
+            <!-- Create Button -->
+            <div class="slds-m-top_medium">
+                <lightning-button
+                    label="Create Record"
+                    variant="brand"
+                    onclick={handleCreateRecord}>
+                </lightning-button>
+            </div>
+
+            <!-- Validation Messages -->
+            <template if:true={validationError}>
+                <div class="slds-m-top_medium slds-theme_error slds-p-around_small">
+                    {validationError}
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

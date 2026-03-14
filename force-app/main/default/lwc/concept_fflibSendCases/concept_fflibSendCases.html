@@ -1,0 +1,21 @@
+<template>
+    <lightning-card title="Case Sender" icon-name="standard:case">
+        <div class="slds-p-around_medium">
+            <!-- Data table showing Cases with related Account & Contact -->
+            <lightning-datatable
+                key-field="Id"
+                data={cases}
+                columns={columns}
+                selected-rows={selectedCaseIds}
+                onrowselection={handleRowSelection}>
+            </lightning-datatable>
+
+            <lightning-button
+                variant="brand"
+                label="Send Selected"
+                onclick={handleSend}
+                class="slds-m-top_medium">
+            </lightning-button>
+        </div>
+    </lightning-card>
+</template>

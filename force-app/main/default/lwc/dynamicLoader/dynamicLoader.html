@@ -146,4 +146,16 @@
 <template lwc:if={isFfLibFramework}>
     <c-concept_ff-lib-framework></c-concept_ff-lib-framework>
 </template>  
+<template lwc:if={isFflibSendCases}>
+<c-concept_fflib-send-cases></c-concept_fflib-send-cases>
+</template>
+<template lwc:if={isCursor}>
+<c-concept_apex-cursor-monitor></c-concept_apex-cursor-monitor>
+</template>
+<template lwc:if={isPaginationCursor}>
+<c-concept_apex-pagination-cursor></c-concept_apex-pagination-cursor>   
+</template>
+<template lwc:if={isCreateRecord}>
+<c-concept_dynamic-record-creator></c-concept_dynamic-record-creator>
+</template>
 </template>

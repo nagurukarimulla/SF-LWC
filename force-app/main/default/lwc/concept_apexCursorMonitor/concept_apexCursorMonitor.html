@@ -1,0 +1,50 @@
+<template>
+    <lightning-card title="Apex Cursor Processing Monitor">
+        <div class="slds-p-around_medium">
+            <lightning-button 
+                label="Start Cursor Job"
+                onclick={startJob}
+                variant="brand"
+                disabled={isJobRunning}>
+            </lightning-button>
+        </div>
+        
+        <template if:true={error}>
+            <div class="slds-p-around_medium slds-text-color_error">
+                Error: {error}
+            </div>
+        </template>
+        
+        <div class="slds-p-around_medium">
+            <lightning-layout multiple-rows>
+                <lightning-layout-item size="12">
+                    <p><strong>Job ID:</strong> {jobId}</p>
+                </lightning-layout-item>
+                <lightning-layout-item size="6">
+                    <p><strong>Status:</strong> {status}</p>
+                </lightning-layout-item>
+                <lightning-layout-item size="6">
+                    <p><strong>Total Records:</strong> {totalRecords}</p>
+                </lightning-layout-item>
+                <lightning-layout-item size="6">
+                    <p><strong>Processed:</strong> {processed}</p>
+                </lightning-layout-item>
+                <lightning-layout-item size="6">
+                    <p><strong>Failed:</strong> {failed}</p>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+        
+        <template if:true={processed}>
+            <div class="slds-p-around_medium">
+                <!-- FIXED: Use progressPercentage instead of processed -->
+                <lightning-progress-bar 
+                    value={progressPercentage}
+                    size="large">
+                </lightning-progress-bar>
+                <!-- Optional: Show percentage text -->
+                <p class="slds-text-align_center">{progressPercentage}% Complete</p>
+            </div>
+        </template>
+    </lightning-card>
+</template>
