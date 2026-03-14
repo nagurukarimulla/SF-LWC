@@ -158,4 +158,19 @@
 <template lwc:if={isCreateRecord}>
 <c-concept_dynamic-record-creator></c-concept_dynamic-record-creator>
 </template>
+<template lwc:if={isDeleteRecord}>
+<c-concept_dynamic-record-deletion></c-concept_dynamic-record-deletion>
 </template>
+<template lwc:if={isUpdateRecord}>
+<c-concept_dynamic-record-updater></c-concept_dynamic-record-updater>
+</template>
+<template lwc:if={isUpdateRecord}>
+<c-concept_dynamic-record-updater></c-concept_dynamic-record-updater>
+</template>
+<template lwc:if={isGetObjectInfo}>
+<c-concept_object-field-explorer></c-concept_object-field-explorer>
+</template>
+<template lwc:if={isGetObjectInfos}>
+<c-concept_get-object-infos-comparator></c-concept_get-object-infos-comparator>
+</template>
+</template> 

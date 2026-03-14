@@ -7,6 +7,10 @@ export default class ConceptSelector extends LightningElement {
     @track pageSizes = [5, 10, 20, 50, 100];
     
     concepts = [
+        {label: "Get Object Infos",value: "concept_getObjectInfosComparator"},
+        {label: "Get Object Info",value: "concept_objectFieldExplorer"},
+        {label: "Update Record (UI API)",value: "concept_dynamicRecordUpdater"},
+        {label: "Delete Record (UI API)",value: "concept_dynamicRecordDeletion"},
         {label: "Create Record (UI API)",value: "concept_dynamicRecordCreator"},
         {label:'Apex Pagination Cursor',value:'concept_apexPaginationCursor'},
         {label:'Apex Cursor Processing',value:'concept_apexCursorMonitor'},

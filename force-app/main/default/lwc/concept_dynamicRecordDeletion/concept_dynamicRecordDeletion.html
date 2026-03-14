@@ -1,0 +1,41 @@
+<template>
+    <lightning-card title="Dynamic Record Deletion Console" icon-name="standard:record">
+        <div class="slds-p-around_medium">
+            
+            <!-- Object Selection -->
+            <lightning-combobox
+                label="Select Object"
+                value={selectedObject}
+                options={objectOptions}
+                onchange={handleObjectChange}
+                required>
+            </lightning-combobox>
+
+            <!-- Loading Spinner -->
+            <lwc:if lwc:if={isLoading}>
+                <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+            </lwc:if>
+
+            <!-- Records Table -->
+            <lwc:if lwc:if={records}>
+                <div class="slds-m-top_medium">
+                    <lightning-datatable
+                        key-field="Id"
+                        data={records}
+                        columns={columns}
+                        onrowaction={handleRowAction}
+                        hide-checkbox-column>
+                    </lightning-datatable>
+                </div>
+            </lwc:if>
+
+            <!-- No Records Message -->
+            <lwc:if lwc:if={showNoRecords}>
+                <div class="slds-m-top_medium slds-align_absolute-center">
+                    <p>No records found for {selectedObject}</p>
+                </div>
+            </lwc:if>
+
+        </div>
+    </lightning-card>
+</template>

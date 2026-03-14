@@ -2,6 +2,103 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 100vh;
+    background: #f0f2f5;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.phone-frame {
+    width: 360px; /* Standard phone width for Reels/YouTube */
+    height: 780px; /* Standard phone height for Reels/YouTube (19.5:9 ratio) */
+    background: white;
+    border-radius: 40px; /* More modern, rounded look */
+    box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.25),
+        0 0 0 8px #e8e8e8; /* Phone border effect */
+    padding: 16px;
+    overflow: hidden; /* Prevents content from overflowing */
+    position: relative;
+    box-sizing: border-box;
+    
+    /* For notch effect (optional) */
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 30px;
+        background: #000;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        z-index: 10;
+    }
+}
+
+.content {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto; /* Allows scrolling if content is long */
+    overflow-x: hidden;
+    border-radius: 30px; /* Inner content rounding */
+    background: #ffffff;
+    
+    /* Hide scrollbar for cleaner look (optional) */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    
+    &::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
+    }
+}
+
+/* Ensure any LWC component fits perfectly */
+.content > * {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* For components that need full viewport height */
+.content > [style*="height: 100vh"],
+.content > [style*="min-height: 100vh"] {
+    min-height: 100% !important;
+    height: auto !important;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 480px) {
+    .phone-wrapper {
+        padding: 8px;
+    }
+    
+    .phone-frame {
+        width: 100%;
+        max-width: 360px;
+        height: auto;
+        min-height: 700px;
+        border-radius: 30px;
+    }
+    
+    .phone-frame::before {
+        width: 100px;
+        height: 25px;
+    }
+}
+
+/* For very tall content */
+@media (min-height: 900px) {
+    .phone-frame {
+        height: 850px;
+    }
+}
+/*.phone-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 20px;
 }
 
@@ -28,4 +125,4 @@
     width: 520px;
     height: 900px;
 
-}
+}*/
