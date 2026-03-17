@@ -1,0 +1,99 @@
+<template>
+    <lightning-card title="List View Creator Console" icon-name="utility:list">
+        <div class="slds-p-around_medium">
+            <!-- Object Selection -->
+            <lightning-combobox
+                label="Select Object"
+                options={objectOptions}
+                value={selectedObject}
+                onchange={handleObjectChange}
+                required>
+            </lightning-combobox>
+
+            <!-- List View Details Section -->
+            <template if:true={selectedObject}>
+                <div class="slds-m-top_medium">
+                    <lightning-input
+                        label="List View API Name"
+                        value={listViewApiName}
+                        onchange={handleNameChange}
+                        required
+                        placeholder="e.g., My_Accounts_List (no spaces)">
+                    </lightning-input>
+
+                    <lightning-input
+                        label="List View Label"
+                        value={listViewLabel}
+                        onchange={handleLabelChange}
+                        required
+                        placeholder="e.g., My Accounts List">
+                    </lightning-input>
+
+                    <!-- Visibility Selection -->
+                    <lightning-combobox
+                        label="Visibility"
+                        options={visibilityOptions}
+                        value={selectedVisibility}
+                        onchange={handleVisibilityChange}
+                        required>
+                    </lightning-combobox>
+
+                    <!-- Fields Selection -->
+                    <div class="slds-m-top_medium">
+                        <p class="slds-text-title_bold slds-m-bottom_small">Select Fields to Display</p>
+                        <template if:true={availableFields.length}>
+                            <template for:each={availableFields} for:item="field">
+                                <div key={field.value} class="slds-checkbox slds-m-bottom_xx-small">
+                                    <input type="checkbox"
+                                        name="field-selection"
+                                        value={field.value}
+                                        checked={field.selected}
+                                        onchange={handleFieldSelection}
+                                        id={field.value}/>
+                                    <label class="slds-checkbox__label" for={field.value}>
+                                        <span class="slds-checkbox_faux"></span>
+                                        <span class="slds-form-element__label">{field.label}</span>
+                                    </label>
+                                </div>
+                            </template>
+                        </template>
+                        <template if:false={availableFields.length}>
+                            <p class="slds-text-color_weak">Select an object to view available fields</p>
+                        </template>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Create Button -->
+            <div class="slds-m-top_medium">
+                <lightning-button
+                    label="Create List View"
+                    variant="brand"
+                    onclick={handleCreate}>
+                </lightning-button>
+            </div>
+
+            <!-- Success Result Display -->
+            <template if:true={displayColumns}>
+                <div class="slds-m-top_large slds-border_top slds-pt_medium">
+                    <p class="slds-text-heading_small slds-m-bottom_small slds-text-color_success">
+                        ✅ List View Created Successfully
+                    </p>
+                    <div class="slds-box slds-theme_success slds-p-around_medium">
+                        <p class="slds-text-title_bold">List View Details:</p>
+                        <p><strong>Name:</strong> {listViewApiName}</p>
+                        <p><strong>Label:</strong> {listViewLabel}</p>
+                        <p><strong>Object:</strong> {selectedObject}</p>
+                        <p><strong>Visibility:</strong> {selectedVisibility}</p>
+                        <p class="slds-text-title_bold slds-m-top_small">Display Fields:</p>
+                        <template for:each={displayColumns} for:item="col">
+                            <div key={col.fieldApiName} class="slds-m-left_small">
+                                • {col.label} ({col.fieldApiName})
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

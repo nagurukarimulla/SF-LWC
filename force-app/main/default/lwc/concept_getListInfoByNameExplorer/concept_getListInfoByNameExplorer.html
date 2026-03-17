@@ -1,0 +1,156 @@
+<template>
+    <lightning-card title="List View Metadata Explorer" icon-name="utility:list">
+        <div class="slds-p-around_medium">
+            <!-- Object Selection -->
+            <lightning-combobox
+                label="Select Object"
+                options={objectOptions}
+                value={selectedObject}
+                onchange={handleObjectChange}
+                required>
+            </lightning-combobox>
+
+            <!-- List View Selection -->
+            <template if:true={selectedObject}>
+                <div class="slds-m-top_medium">
+                    <lightning-combobox
+                        label="Select List View"
+                        options={listViewOptions}
+                        value={selectedListView}
+                        onchange={handleListViewChange}
+                        placeholder="Choose a list view..."
+                        required>
+                    </lightning-combobox>
+                </div>
+            </template>
+
+            <!-- Loading Indicator -->
+            <template if:true={isLoading}>
+                <div class="slds-align_absolute-center slds-m-top_medium">
+                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                </div>
+            </template>
+
+            <!-- Error Display -->
+            <template if:true={error}>
+                <div class="slds-m-top_large">
+                    <div class="slds-notify slds-notify_alert slds-theme_error" role="alert">
+                        <span class="slds-assistive-text">error</span>
+                        <h2>
+                            <lightning-icon icon-name="utility:error" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                            <span>Error: {formattedError}</span>
+                        </h2>
+                    </div>
+                </div>
+            </template>
+
+            <!-- List View Metadata Display -->
+            <template if:true={listViewData}>
+                <div class="slds-m-top_large slds-border_top slds-pt_medium">
+                    <!-- Header -->
+                    <div class="slds-media slds-media_center slds-m-bottom_medium">
+                        <div class="slds-media__figure">
+                            <lightning-icon icon-name="standard:list" size="medium"></lightning-icon>
+                        </div>
+                        <div class="slds-media__body">
+                            <h2 class="slds-text-heading_medium">{listViewData.label}</h2>
+                            <p class="slds-text-color_weak">API Name: {listViewData.listViewApiName}</p>
+                        </div>
+                    </div>
+
+                    <!-- Basic Info Card -->
+                    <div class="slds-box slds-m-bottom_medium">
+                        <h3 class="slds-text-title_bold slds-m-bottom_small">Basic Information</h3>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_1-of2 slds-p-bottom_small">
+                                <p class="slds-text-color_weak">Object</p>
+                                <p class="slds-text-body_regular">{selectedObject}</p>
+                            </div>
+                            <div class="slds-col slds-size_1-of2 slds-p-bottom_small">
+                                <p class="slds-text-color_weak">Developer Name</p>
+                                <p class="slds-text-body_regular">{listViewData.developerName}</p>
+                            </div>
+                            <div class="slds-col slds-size_1-of2 slds-p-bottom_small">
+                                <p class="slds-text-color_weak">Visibility</p>
+                                <p class="slds-text-body_regular">{listViewData.visibility}</p>
+                            </div>
+                            <div class="slds-col slds-size_1-of2 slds-p-bottom_small">
+                                <p class="slds-text-color_weak">Last Modified</p>
+                                <p class="slds-text-body_regular">{formattedLastModified}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Display Columns -->
+                    <div class="slds-box slds-m-bottom_medium">
+                        <h3 class="slds-text-title_bold slds-m-bottom_small">
+                            Display Columns ({listViewData.displayColumns.length})
+                        </h3>
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="slds-text-title_caps" scope="col">Field Label</th>
+                                    <th class="slds-text-title_caps" scope="col">Field API Name</th>
+                                    <th class="slds-text-title_caps" scope="col">Sortable</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={listViewData.displayColumns} for:item="col">
+                                    <tr key={col.fieldApiName}>
+                                        <td>{col.label}</td>
+                                        <td>
+                                            <code class="slds-code">{col.fieldApiName}</code>
+                                        </td>
+                                        <td>
+                                            <template if:true={col.sortable}>
+                                                <lightning-icon icon-name="utility:success" 
+                                                               size="x-small" 
+                                                               class="slds-text-color_success">
+                                                </lightning-icon>
+                                            </template>
+                                            <template if:false={col.sortable}>
+                                                <lightning-icon icon-name="utility:ban" 
+                                                               size="x-small" 
+                                                               class="slds-text-color_error">
+                                                </lightning-icon>
+                                            </template>
+                                            <span>{col.sortable ? 'Yes' : 'No'}</span>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Filters Section -->
+                    <template if:true={listViewData.filters}>
+                        <div class="slds-box slds-m-bottom_medium">
+                            <h3 class="slds-text-title_bold slds-m-bottom_small">Filters</h3>
+                            <template for:each={listViewData.filters} for:item="filter">
+                                <div key={filter.field} class="slds-grid slds-m-bottom_xx-small">
+                                    <div class="slds-col slds-size_1-of-4">
+                                        <code class="slds-code">{filter.field}</code>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-4">
+                                        {filter.operator}
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-4">
+                                        {filter.value}
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                </div>
+            </template>
+
+            <!-- No Data Message -->
+            <template if:false={listViewData}>
+                <div class="slds-align_absolute-center slds-m-top_large slds-text-color_weak">
+                    <p>Select a list view to view its metadata</p>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

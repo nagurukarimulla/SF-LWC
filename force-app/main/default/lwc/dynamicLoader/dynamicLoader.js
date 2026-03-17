@@ -161,5 +161,23 @@ return this.selectedComponent === 'concept_objectFieldExplorer';
 get isGetObjectInfos(){
 return this.selectedComponent === 'concept_getObjectInfosComparator';
 }
+get isGetPicklistValues(){
+return this.selectedComponent === 'concept_picklistValuesExplorer';
+}
+get isGetCreateListInfo(){
+return this.selectedComponent === 'concept_createListInfoExplorer';
+}
+get isGetDeleteListInfo(){
+return this.selectedComponent === 'concept_deleteListInfoExplorer';
+}
+get isGetListInfo(){
+return this.selectedComponent === 'concept_getListInfoByNameExplorer';
+}
+get isGetLayout(){
+return this.selectedComponent === 'concept_getLayoutExplorer';
+}
+get isGetApexStringMethods(){
+return this.selectedComponent === 'concept_apexStringMethods';
+}
 }
 

@@ -1,0 +1,65 @@
+<template>
+    <lightning-card title="Picklist Values Explorer" icon-name="standard:picklist_type">
+        <div class="slds-p-around_medium">
+            <!-- Object Selection -->
+            <lightning-combobox
+                label="Select Object"
+                value={selectedObject}
+                options={objectOptions}
+                onchange={handleObjectChange}>
+            </lightning-combobox>
+
+            <!-- Field Selection based on selected Object -->
+            <template if:true={showFieldSelector}>
+                <lightning-combobox
+                    label="Select Picklist Field"
+                    value={selectedField}
+                    placeholder="Choose a picklist field..."
+                    options={fieldOptions}
+                    onchange={handleFieldChange}>
+                </lightning-combobox>
+            </template>
+
+            <!-- Loading indicator -->
+            <template if:true={isLoading}>
+                <div class="slds-align_absolute-center slds-m-top_medium">
+                    <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+                </div>
+            </template>
+
+            <!-- Picklist Values Display -->
+            <template if:true={picklistValues}>
+                <div class="slds-m-top_medium">
+                    <div class="slds-text-title_bold slds-m-bottom_small">
+                        Picklist Values ({picklistValues.length})
+                    </div>
+                    <template if:true={picklistValues.length}>
+                        <template for:each={picklistValues} for:item="item">
+                            <div key={item.value} class="slds-box slds-m-bottom_x-small slds-theme_shade">
+                                <div class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-text-body_regular">{item.label}</span>
+                                    <span class="slds-text-color_weak">({item.value})</span>
+                                </div>
+                                <template if:true={item.defaultValue}>
+                                    <div class="slds-badge slds-m-top_xx-small">Default Value</div>
+                                </template>
+                            </div>
+                        </template>
+                    </template>
+                    <template if:false={picklistValues.length}>
+                        <div class="slds-align_absolute-center slds-m-top_medium">
+                            <span class="slds-text-color_weak">No picklist values available for this field</span>
+                        </div>
+                    </template>
+                </div>
+            </template>
+
+            <!-- No Values Message when no field selected -->
+            <template if:false={selectedField}>
+                <div class="slds-m-top_medium slds-align_absolute-center">
+                    <span class="slds-text-color_weak">Select a picklist field to view its values</span>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>
