@@ -1,0 +1,210 @@
+<template>
+    <lightning-card title="🔤 Apex String Methods Demo">
+        <!-- Header with search -->
+        <div class="slds-m-around_medium">
+            <div class="slds-grid slds-wrap slds-gutters">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-input 
+                        label="Input Text"
+                        value={inputText}
+                        onchange={handleInputChange}
+                        placeholder="Enter text to analyze"
+                        variant="label-stacked">
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning-input 
+                        label="Search Text"
+                        value={searchText}
+                        onchange={handleSearchChange}
+                        placeholder="Enter text to search"
+                        variant="label-stacked">
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-m-top_small">
+                    <lightning-button 
+                        label="Analyze String"
+                        onclick={fetchData}
+                        variant="brand"
+                        class="slds-m-right_small">
+                    </lightning-button>
+                    <lightning-button 
+                        label="Reset"
+                        onclick={resetData}
+                        variant="neutral">
+                    </lightning-button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading spinner -->
+        <template if:true={isLoading}>
+            <div class="slds-align_absolute-center slds-p-around_xx-large">
+                <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+            </div>
+        </template>
+
+        <!-- Results -->
+        <template if:true={data}>
+            <div class="slds-m-around_medium">
+                
+                <!-- 1. Basic Operations -->
+                <lightning-accordion class="slds-m-top_small">
+                    <lightning-accordion-section name="basic" label="1. 📊 Basic Operations">
+                        <div class="slds-box">
+                            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                                <tbody>
+                                    <tr><td>Original:</td><td class="slds-text-color_weak">"{data.basicOps.original}"</td></tr>
+                                    <tr><td>length():</td><td><strong>{data.basicOps.length}</strong></td></tr>
+                                    <tr><td>trim():</td><td>"{data.basicOps.trim}"</td></tr>
+                                    <tr><td>toLowerCase():</td><td>{data.basicOps.lowerCase}</td></tr>
+                                    <tr><td>toUpperCase():</td><td>{data.basicOps.upperCase}</td></tr>
+                                    <tr><td>charAt(2):</td><td>{data.basicOps.charAt2}</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </lightning-accordion-section>
+
+                    <!-- 2. Comparison Methods -->
+                    <lightning-accordion-section name="comp" label="2. ⚖️ Comparison Methods">
+                        <div class="slds-box">
+                            <table class="slds-table slds-table_cell-buffer">
+                                <tbody>
+                                    <tr><td>equals('hello'):</td><td><lightning-badge label={data.comparison.equals} variant={data.comparison.equals}></lightning-badge></td></tr>
+                                    <tr><td>equalsIgnoreCase('hello'):</td><td><lightning-badge label={data.comparison.equalsIgnoreCase} variant={data.comparison.equalsIgnoreCase}></lightning-badge></td></tr>
+                                    <tr><td>contains('{searchText}'):</td><td><lightning-badge label={data.comparison.contains} variant={data.comparison.contains}></lightning-badge></td></tr>
+                                    <tr><td>containsIgnoreCase('{searchText}'):</td><td><lightning-badge label={data.comparison.containsIgnoreCase} variant={data.comparison.containsIgnoreCase}></lightning-badge></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </lightning-accordion-section>
+
+                    <!-- 3. Search Methods -->
+                    <lightning-accordion-section name="search" label="3. 🔍 Search Methods">
+                        <div class="slds-box">
+                            <table class="slds-table slds-table_cell-buffer">
+                                <tbody>
+                                    <tr><td>indexOf('{searchText}'):</td><td><strong>{data.search.indexOf}</strong></td></tr>
+                                    <tr><td>lastIndexOf('o'):</td><td><strong>{data.search.lastIndexOf}</strong></td></tr>
+                                    <tr><td>indexOfAny('xyz'):</td><td><strong>{data.search.indexOfAny}</strong></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </lightning-accordion-section>
+
+                    <!-- 4. Substring Extraction -->
+                    <lightning-accordion-section name="sub" label="4. ✂️ Substring Extraction">
+                        <div class="slds-box">
+                            <table class="slds-table slds-table_cell-buffer">
+                                <tbody>
+                                    <tr><td>substring(4) on "Salesforce.com":</td><td><strong>{data.substring.substring}</strong></td></tr>
+                                    <tr><td>left(4):</td><td><strong>{data.substring.left}</strong></td></tr>
+                                    <tr><td>right(3):</td><td><strong>{data.substring.right}</strong></td></tr>
+                                    <tr><td>mid(4,3):</td><td><strong>{data.substring.mid}</strong></td></tr>
+                                    <tr><td>substringAfter('.'):</td><td><strong>{data.substring.substringAfter}</strong></td></tr>
+                                    <tr><td>substringBefore('.'):</td><td><strong>{data.substring.substringBefore}</strong></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </lightning-accordion-section>
+
+                    <!-- 5. String Manipulation -->
+                    <lightning-accordion-section name="manip" label="5. 🔧 String Manipulation">
+                        <div class="slds-box">
+                            <table class="slds-table slds-table_cell-buffer">
+                                <tbody>
+                                    <tr><td>replace('World','Salesforce'):</td><td>{data.manipulation.replace}</td></tr>
+                                    <tr><td>replaceAll('[aeiou]','*'):</td><td>{data.manipulation.replaceAll}</td></tr>
+                                    <tr><td>reverse():</td><td>{data.manipulation.reverse}</td></tr>
+                                    <tr><td>capitalize():</td><td>{data.manipulation.capitalize}</td></tr>
+                                    <tr><td>swapCase():</td><td>{data.manipulation.swapCase}</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </lightning-accordion-section>
+
+                    <!-- 6. Validation Methods -->
+                    <lightning-accordion-section name="valid" label="6. ✅ Validation Methods">
+                        <div class="slds-box">
+                            <div class="slds-grid slds-wrap slds-gutters">
+                                <template for:each={validationList} for:item="v">
+                                    <div key={v.name} class="slds-col slds-size_1-of-3 slds-p-around_x-small">
+                                        <div class="slds-box slds-box_xx-small">
+                                            <span class="slds-text-body_small">{v.name}:</span><br/>
+                                            <lightning-badge label={v.value} variant={v.variant}></lightning-badge>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </lightning-accordion-section>
+
+                    <!-- 7. Practical Examples -->
+                    <lightning-accordion-section name="practical" label="7. 💡 Practical Examples">
+                        <div class="slds-box">
+                            <template if:true={practicalExamples}>
+                                <div class="slds-grid slds-wrap slds-gutters">
+                                    <!-- Email Example -->
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-box slds-box_xx-small slds-theme_shade">
+                                            <h4 class="slds-text-heading_x-small">📧 Email Parsing</h4>
+                                            <p>Full: {practicalExamples.email.full}</p>
+                                            <p>Username: <strong>{practicalExamples.email.username}</strong></p>
+                                            <p>Domain: <strong>{practicalExamples.email.domain}</strong></p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- CSV Example -->
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-box slds-box_xx-small slds-theme_shade">
+                                            <h4 class="slds-text-heading_x-small">📋 CSV Parsing</h4>
+                                            <template for:each={practicalExamples.csv} for:item="field" for:var="index">
+                                                <p key={index}>Field {index}: <strong>{field}</strong></p>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Phone Example -->
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-box slds-box_xx-small slds-theme_shade">
+                                            <h4 class="slds-text-heading_x-small">📞 Phone Cleaning</h4>
+                                            <p>Original: {practicalExamples.phone.original}</p>
+                                            <p>Cleaned: <strong>{practicalExamples.phone.cleaned}</strong></p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- URL Example -->
+                                    <div class="slds-col slds-size_1-of-2">
+                                        <div class="slds-box slds-box_xx-small slds-theme_shade">
+                                            <h4 class="slds-text-heading_x-small">🌐 URL Parsing</h4>
+                                            <p>Protocol: {practicalExamples.url.protocol}</p>
+                                            <p>Domain: {practicalExamples.url.domain}</p>
+                                            <p>Path: {practicalExamples.url.path}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </lightning-accordion-section>
+                </lightning-accordion>
+            </div>
+        </template>
+
+        <!-- No Data Message -->
+        <template if:true={showNoData}>
+            <div class="slds-align_absolute-center slds-p-around_xx-large slds-text-color_weak">
+                Click "Analyze String" to see results
+            </div>
+        </template>
+
+        <!-- Error Message -->
+        <template if:true={error}>
+            <div class="slds-m-around_medium">
+                <div class="slds-notify slds-notify_alert slds-alert_error" role="alert">
+                    <lightning-icon icon-name="utility:error" size="small"></lightning-icon>
+                    <span class="slds-m-left_x-small">Error: {error}</span>
+                </div>
+            </div>
+        </template>
+    </lightning-card>
+</template>

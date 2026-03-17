@@ -1,0 +1,99 @@
+<template>
+    <lightning-card title="List View Deletion Console" icon-name="utility:delete">
+        <div class="slds-p-around_medium">
+            <!-- Object Selection -->
+            <lightning-combobox
+                label="Select Object"
+                options={objectOptions}
+                value={selectedObject}
+                onchange={handleObjectChange}
+                required>
+            </lightning-combobox>
+
+            <!-- List View Selection Section -->
+            <template if:true={selectedObject}>
+                <div class="slds-m-top_medium">
+                    <!-- Manual List View API Name Input -->
+                    <lightning-input
+                        label="List View API Name"
+                        value={listViewApiName}
+                        onchange={handleNameChange}
+                        required
+                        placeholder="e.g., My_Accounts_List">
+                    </lightning-input>
+
+                    <!-- Or Select from Existing List Views (Optional Enhancement) -->
+                    <div class="slds-m-top_medium">
+                        <p class="slds-text-title_bold">Available List Views</p>
+                        <p class="slds-text-color_weak slds-m-bottom_small">(Coming soon: List view picker)</p>
+                    </div>
+
+                    <!-- Warning Message -->
+                    <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-m-top_medium" role="alert">
+                        <span class="slds-assistive-text">warning</span>
+                        <h2 class="slds-m-bottom_xx-small">
+                            <lightning-icon icon-name="utility:warning" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                            <span class="slds-text-color_destructive">Warning: This action cannot be undone!</span>
+                        </h2>
+                        <p>Deleting a list view is permanent. Make sure you have the correct list view API name.</p>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Delete Button -->
+            <div class="slds-m-top_medium">
+                <lightning-button
+                    label="Delete List View"
+                    variant="destructive"
+                    onclick={handleDelete}>
+                </lightning-button>
+            </div>
+
+            <!-- Confirmation Modal -->
+            <template if:true={showConfirmation}>
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium">Confirm Delete</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <p>Are you sure you want to delete the list view <strong>"{listViewApiName}"</strong> from <strong>{selectedObject}</strong>?</p>
+                            <p class="slds-text-color_weak slds-m-top_small">This action cannot be undone.</p>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <lightning-button label="Cancel" onclick={cancelDelete}></lightning-button>
+                            <lightning-button label="Delete Permanently" variant="destructive" onclick={confirmDelete}></lightning-button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </template>
+
+            <!-- Success Message -->
+            <template if:true={deleted}>
+                <div class="slds-m-top_large slds-border_top slds-pt_medium">
+                    <div class="slds-notify slds-notify_alert slds-theme_success slds-m-top_medium" role="alert">
+                        <span class="slds-assistive-text">success</span>
+                        <h2>
+                            <lightning-icon icon-name="utility:success" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                            <span>List View "{deletedListViewName}" deleted successfully from {deletedObjectName}</span>
+                        </h2>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Error Message -->
+            <template if:true={errorMessage}>
+                <div class="slds-m-top_large slds-border_top slds-pt_medium">
+                    <div class="slds-notify slds-notify_alert slds-theme_error slds-m-top_medium" role="alert">
+                        <span class="slds-assistive-text">error</span>
+                        <h2>
+                            <lightning-icon icon-name="utility:error" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                            <span>Error: {errorMessage}</span>
+                        </h2>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

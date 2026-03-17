@@ -7,6 +7,12 @@ export default class ConceptSelector extends LightningElement {
     @track pageSizes = [5, 10, 20, 50, 100];
     
     concepts = [
+        {label: "Apex String Methods",value: "concept_apexStringMethods"},
+        {label: "Get Layout",value: "concept_getLayoutExplorer"},
+        {label: "List Info By name",value: "concept_getListInfoByNameExplorer"},
+        {label: "Delete List Info",value: "concept_deleteListInfoExplorer"},
+        {label: "Create List Info",value: "concept_createListInfoExplorer"},
+        {label: "Get Picklist Values",value: "concept_picklistValuesExplorer"},
         {label: "Get Object Infos",value: "concept_getObjectInfosComparator"},
         {label: "Get Object Info",value: "concept_objectFieldExplorer"},
         {label: "Update Record (UI API)",value: "concept_dynamicRecordUpdater"},
