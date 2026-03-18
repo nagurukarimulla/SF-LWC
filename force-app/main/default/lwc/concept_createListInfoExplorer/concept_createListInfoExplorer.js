@@ -96,7 +96,7 @@ export default class Concept_createListInfoExplorer extends LightningElement {
     handleFieldSelection(event) {
         const fieldValue = event.target.value;
         const isChecked = event.target.checked;
-        
+
         this.availableFields = this.availableFields.map(field => {
             if (field.value === fieldValue) {
                 return { ...field, selected: isChecked };
@@ -115,12 +115,12 @@ export default class Concept_createListInfoExplorer extends LightningElement {
     }
 
     get isFormValid() {
-        return this.selectedObject && 
-               this.listViewApiName && 
-               this.listViewApiName.trim() !== '' &&
-               this.listViewLabel && 
-               this.listViewLabel.trim() !== '' &&
-               this.selectedVisibility;
+        return this.selectedObject &&
+            this.listViewApiName &&
+            this.listViewApiName.trim() !== '' &&
+            this.listViewLabel &&
+            this.listViewLabel.trim() !== '' &&
+            this.selectedVisibility;
     }
 
     resetForm() {
@@ -154,7 +154,7 @@ export default class Concept_createListInfoExplorer extends LightningElement {
 
         try {
             const selectedFields = this.getSelectedFields();
-            
+
             if (selectedFields.length === 0) {
                 this.dispatchEvent(
                     new ShowToastEvent({
@@ -180,9 +180,9 @@ export default class Concept_createListInfoExplorer extends LightningElement {
             console.log('Creating list view with payload:', JSON.stringify(listInfoInput, null, 2));
 
             const result = await createListInfo(listInfoInput);
-            
+
             console.log('Success result:', result);
-            
+
             this.displayColumns = result.displayColumns || selectedFields;
 
             this.dispatchEvent(
@@ -196,18 +196,15 @@ export default class Concept_createListInfoExplorer extends LightningElement {
         } catch (error) {
             console.error('Error creating list view:', error);
             console.error('Error body:', JSON.stringify(error.body, null, 2));
-            
+
             let errorMessage = 'Failed to create list view';
-            
-            if (error?.body?.message) {
-                errorMessage = error.body.message;
+
+            if (error?.body?.output?.fieldErrors?.length > 0) {
+                errorMessage = error.body.output.fieldErrors[0].errorMessage;
             } else if (error?.body?.output?.errors?.length > 0) {
                 errorMessage = error.body.output.errors[0].message;
-            } else if (error?.body?.fieldErrors) {
-                const fieldErrors = Object.values(error.body.fieldErrors);
-                if (fieldErrors.length > 0 && fieldErrors[0].length > 0) {
-                    errorMessage = fieldErrors[0][0].message;
-                }
+            } else if (error?.body?.message) {
+                errorMessage = error.body.message;
             } else if (error?.message) {
                 errorMessage = error.message;
             }

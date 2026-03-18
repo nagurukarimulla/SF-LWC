@@ -179,5 +179,23 @@ return this.selectedComponent === 'concept_getLayoutExplorer';
 get isGetApexStringMethods(){
 return this.selectedComponent === 'concept_apexStringMethods';
 }
+get isGetRecordPicker(){
+return this.selectedComponent === 'concept_recordPicker';
+}
+get isGetNotifyRecordUpdateAvailable(){
+return this.selectedComponent === 'concept_notifyRecordUpdateAvailable';
+}
+get isGetNavItems(){
+return this.selectedComponent === 'concept_getNavItems';
+}
+get isGetRelatedListColumnSort(){
+return this.selectedComponent === 'concept_relatedListSortChecker';
+}
+get isGetSLDSMargin(){
+return this.selectedComponent === 'concept_sldsMarginExplorer';
+}
+get isGetApexDomainClass(){
+return this.selectedComponent === 'concept_apexDomainClass';
+}
 }
 

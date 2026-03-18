@@ -89,4 +89,20 @@ public with sharing class CaseController {
         public String LastName;
         public String Email;
     }
+     @AuraEnabled
+    public static void updateCasePriority(String caseId, String newPriority) {
+        try {
+            // Get the case
+            Case caseRecord = [SELECT Id, Priority FROM Case WHERE Id = :caseId LIMIT 1];
+            
+            // Update the priority
+            caseRecord.Priority = newPriority;
+            
+            // Update via DML (outside LDS)
+            update caseRecord;
+            
+        } catch (Exception e) {
+            throw new AuraHandledException('Error updating case: ' + e.getMessage());
+        }
+    }
 }

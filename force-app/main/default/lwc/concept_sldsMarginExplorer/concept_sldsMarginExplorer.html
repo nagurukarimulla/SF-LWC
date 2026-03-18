@@ -1,0 +1,116 @@
+<template>
+    <lightning-card title="Margin Explorer" icon-name="utility:spacing">
+        <div class="slds-p-around_medium">
+            
+            <!-- Tab Navigation -->
+            <lightning-tabset>
+                
+                <!-- Top Margin Tab -->
+                <lightning-tab label="Top Margin">
+                    <div class="slds-p-around_medium">
+                        <div class="slds-m-top_none" style="background-color: #f0f0f0; padding: 8px; border: 1px solid #ccc;">None (0px)</div>
+                        <div class="slds-m-top_xxx-small" style="background-color: #e6f3ff; padding: 8px; border: 1px solid #ccc;">XXX-Small (2px)</div>
+                        <div class="slds-m-top_xx-small" style="background-color: #b8d9ff; padding: 8px; border: 1px solid #ccc;">XX-Small (4px)</div>
+                        <div class="slds-m-top_x-small" style="background-color: #8abfff; padding: 8px; border: 1px solid #ccc;">X-Small (8px)</div>
+                        <div class="slds-m-top_small" style="background-color: #5ca5ff; padding: 8px; border: 1px solid #ccc;">Small (12px)</div>
+                        <div class="slds-m-top_medium" style="background-color: #2e8bff; padding: 8px; border: 1px solid #ccc;">Medium (16px)</div>
+                        <div class="slds-m-top_large" style="background-color: #0066cc; color: white; padding: 8px; border: 1px solid #ccc;">Large (24px)</div>
+                        <div class="slds-m-top_x-large" style="background-color: #004c99; color: white; padding: 8px; border: 1px solid #ccc;">X-Large (32px)</div>
+                        <div class="slds-m-top_xx-large" style="background-color: #003366; color: white; padding: 8px; border: 1px solid #ccc;">XX-Large (40px)</div>
+                    </div>
+                </lightning-tab>
+
+                <!-- Bottom Margin Tab -->
+                <lightning-tab label="Bottom Margin">
+                    <div class="slds-p-around_medium">
+                        <div class="slds-m-bottom_none" style="background-color: #f0f0f0; padding: 8px; border: 1px solid #ccc;">None (0px)</div>
+                        <div class="slds-m-bottom_xxx-small" style="background-color: #e6f3ff; padding: 8px; border: 1px solid #ccc;">XXX-Small (2px)</div>
+                        <div class="slds-m-bottom_xx-small" style="background-color: #b8d9ff; padding: 8px; border: 1px solid #ccc;">XX-Small (4px)</div>
+                        <div class="slds-m-bottom_x-small" style="background-color: #8abfff; padding: 8px; border: 1px solid #ccc;">X-Small (8px)</div>
+                        <div class="slds-m-bottom_small" style="background-color: #5ca5ff; padding: 8px; border: 1px solid #ccc;">Small (12px)</div>
+                        <div class="slds-m-bottom_medium" style="background-color: #2e8bff; padding: 8px; border: 1px solid #ccc;">Medium (16px)</div>
+                        <div class="slds-m-bottom_large" style="background-color: #0066cc; color: white; padding: 8px; border: 1px solid #ccc;">Large (24px)</div>
+                        <div class="slds-m-bottom_x-large" style="background-color: #004c99; color: white; padding: 8px; border: 1px solid #ccc;">X-Large (32px)</div>
+                        <div class="slds-m-bottom_xx-large" style="background-color: #003366; color: white; padding: 8px; border: 1px solid #ccc;">XX-Large (40px)</div>
+                    </div>
+                </lightning-tab>
+
+                <!-- Left Margin Tab -->
+                <lightning-tab label="Left Margin">
+                    <div class="slds-p-around_medium">
+                        <div class="slds-m-left_none" style="background-color: #f0f0f0; padding: 8px; border: 1px solid #ccc;">None (0px)</div>
+                        <div class="slds-m-left_xxx-small" style="background-color: #e6f3ff; padding: 8px; border: 1px solid #ccc;">XXX-Small (2px)</div>
+                        <div class="slds-m-left_xx-small" style="background-color: #b8d9ff; padding: 8px; border: 1px solid #ccc;">XX-Small (4px)</div>
+                        <div class="slds-m-left_x-small" style="background-color: #8abfff; padding: 8px; border: 1px solid #ccc;">X-Small (8px)</div>
+                        <div class="slds-m-left_small" style="background-color: #5ca5ff; padding: 8px; border: 1px solid #ccc;">Small (12px)</div>
+                        <div class="slds-m-left_medium" style="background-color: #2e8bff; padding: 8px; border: 1px solid #ccc;">Medium (16px)</div>
+                        <div class="slds-m-left_large" style="background-color: #0066cc; color: white; padding: 8px; border: 1px solid #ccc;">Large (24px)</div>
+                        <div class="slds-m-left_x-large" style="background-color: #004c99; color: white; padding: 8px; border: 1px solid #ccc;">X-Large (32px)</div>
+                        <div class="slds-m-left_xx-large" style="background-color: #003366; color: white; padding: 8px; border: 1px solid #ccc;">XX-Large (40px)</div>
+                    </div>
+                </lightning-tab>
+
+                <!-- Right Margin Tab -->
+                <lightning-tab label="Right Margin">
+                    <div class="slds-p-around_medium">
+                        <div class="slds-m-right_none" style="background-color: #f0f0f0; padding: 8px; border: 1px solid #ccc;">None (0px)</div>
+                        <div class="slds-m-right_xxx-small" style="background-color: #e6f3ff; padding: 8px; border: 1px solid #ccc;">XXX-Small (2px)</div>
+                        <div class="slds-m-right_xx-small" style="background-color: #b8d9ff; padding: 8px; border: 1px solid #ccc;">XX-Small (4px)</div>
+                        <div class="slds-m-right_x-small" style="background-color: #8abfff; padding: 8px; border: 1px solid #ccc;">X-Small (8px)</div>
+                        <div class="slds-m-right_small" style="background-color: #5ca5ff; padding: 8px; border: 1px solid #ccc;">Small (12px)</div>
+                        <div class="slds-m-right_medium" style="background-color: #2e8bff; padding: 8px; border: 1px solid #ccc;">Medium (16px)</div>
+                        <div class="slds-m-right_large" style="background-color: #0066cc; color: white; padding: 8px; border: 1px solid #ccc;">Large (24px)</div>
+                        <div class="slds-m-right_x-large" style="background-color: #004c99; color: white; padding: 8px; border: 1px solid #ccc;">X-Large (32px)</div>
+                        <div class="slds-m-right_xx-large" style="background-color: #003366; color: white; padding: 8px; border: 1px solid #ccc;">XX-Large (40px)</div>
+                    </div>
+                </lightning-tab>
+
+                <!-- Horizontal Margin Tab -->
+                <lightning-tab label="Horizontal">
+                    <div class="slds-p-around_medium">
+                        <div class="slds-m-horizontal_none" style="background-color: #f0f0f0; padding: 8px; border: 1px solid #ccc;">None (0px)</div>
+                        <div class="slds-m-horizontal_xxx-small" style="background-color: #e6f3ff; padding: 8px; border: 1px solid #ccc;">XXX-Small (2px)</div>
+                        <div class="slds-m-horizontal_xx-small" style="background-color: #b8d9ff; padding: 8px; border: 1px solid #ccc;">XX-Small (4px)</div>
+                        <div class="slds-m-horizontal_x-small" style="background-color: #8abfff; padding: 8px; border: 1px solid #ccc;">X-Small (8px)</div>
+                        <div class="slds-m-horizontal_small" style="background-color: #5ca5ff; padding: 8px; border: 1px solid #ccc;">Small (12px)</div>
+                        <div class="slds-m-horizontal_medium" style="background-color: #2e8bff; padding: 8px; border: 1px solid #ccc;">Medium (16px)</div>
+                        <div class="slds-m-horizontal_large" style="background-color: #0066cc; color: white; padding: 8px; border: 1px solid #ccc;">Large (24px)</div>
+                        <div class="slds-m-horizontal_x-large" style="background-color: #004c99; color: white; padding: 8px; border: 1px solid #ccc;">X-Large (32px)</div>
+                        <div class="slds-m-horizontal_xx-large" style="background-color: #003366; color: white; padding: 8px; border: 1px solid #ccc;">XX-Large (40px)</div>
+                    </div>
+                </lightning-tab>
+
+                <!-- Vertical Margin Tab -->
+                <lightning-tab label="Vertical">
+                    <div class="slds-p-around_medium">
+                        <div class="slds-m-vertical_none" style="background-color: #f0f0f0; padding: 8px; border: 1px solid #ccc;">None (0px)</div>
+                        <div class="slds-m-vertical_xxx-small" style="background-color: #e6f3ff; padding: 8px; border: 1px solid #ccc;">XXX-Small (2px)</div>
+                        <div class="slds-m-vertical_xx-small" style="background-color: #b8d9ff; padding: 8px; border: 1px solid #ccc;">XX-Small (4px)</div>
+                        <div class="slds-m-vertical_x-small" style="background-color: #8abfff; padding: 8px; border: 1px solid #ccc;">X-Small (8px)</div>
+                        <div class="slds-m-vertical_small" style="background-color: #5ca5ff; padding: 8px; border: 1px solid #ccc;">Small (12px)</div>
+                        <div class="slds-m-vertical_medium" style="background-color: #2e8bff; padding: 8px; border: 1px solid #ccc;">Medium (16px)</div>
+                        <div class="slds-m-vertical_large" style="background-color: #0066cc; color: white; padding: 8px; border: 1px solid #ccc;">Large (24px)</div>
+                        <div class="slds-m-vertical_x-large" style="background-color: #004c99; color: white; padding: 8px; border: 1px solid #ccc;">X-Large (32px)</div>
+                        <div class="slds-m-vertical_xx-large" style="background-color: #003366; color: white; padding: 8px; border: 1px solid #ccc;">XX-Large (40px)</div>
+                    </div>
+                </lightning-tab>
+
+                <!-- Around Margin Tab -->
+                <lightning-tab label="Around All">
+                    <div class="slds-p-around_medium">
+                        <div class="slds-m-around_none" style="background-color: #f0f0f0; padding: 8px; border: 1px solid #ccc;">None (0px)</div>
+                        <div class="slds-m-around_xxx-small" style="background-color: #e6f3ff; padding: 8px; border: 1px solid #ccc;">XXX-Small (2px)</div>
+                        <div class="slds-m-around_xx-small" style="background-color: #b8d9ff; padding: 8px; border: 1px solid #ccc;">XX-Small (4px)</div>
+                        <div class="slds-m-around_x-small" style="background-color: #8abfff; padding: 8px; border: 1px solid #ccc;">X-Small (8px)</div>
+                        <div class="slds-m-around_small" style="background-color: #5ca5ff; padding: 8px; border: 1px solid #ccc;">Small (12px)</div>
+                        <div class="slds-m-around_medium" style="background-color: #2e8bff; padding: 8px; border: 1px solid #ccc;">Medium (16px)</div>
+                        <div class="slds-m-around_large" style="background-color: #0066cc; color: white; padding: 8px; border: 1px solid #ccc;">Large (24px)</div>
+                        <div class="slds-m-around_x-large" style="background-color: #004c99; color: white; padding: 8px; border: 1px solid #ccc;">X-Large (32px)</div>
+                        <div class="slds-m-around_xx-large" style="background-color: #003366; color: white; padding: 8px; border: 1px solid #ccc;">XX-Large (40px)</div>
+                    </div>
+                </lightning-tab>
+
+            </lightning-tabset>
+        </div>
+    </lightning-card>
+</template>

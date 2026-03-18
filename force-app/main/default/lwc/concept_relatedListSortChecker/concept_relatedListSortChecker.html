@@ -1,0 +1,68 @@
+<template>
+    <lightning-card title="Related List Sorting Compatibility Checker" icon-name="standard:related_list">
+        <div class="slds-p-around_medium">
+            
+            <!-- Object Selection -->
+            <lightning-combobox
+                label="Select Standard Object"
+                value={selectedObject}
+                options={standardObjectOptions}
+                onchange={handleObjectChange}
+                required>
+            </lightning-combobox>
+
+            <!-- Compatibility Result -->
+            <lwc:if lwc:if={selectedObject}>
+                <div class="slds-m-top_medium slds-box">
+                    <h3 class="slds-text-heading_small">Multi-Column Sort Support</h3>
+                    
+                    <div class="slds-grid slds-wrap slds-gutters slds-m-top_small">
+                        <div class="slds-col slds-size_1-of-2">
+                            <p><strong>Object:</strong> {selectedObject}</p>
+                            <p><strong>Support Status:</strong></p>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <lwc:if lwc:if={isSupported}>
+                                <lightning-badge label="SUPPORTED" variant="success"></lightning-badge>
+                                <p class="slds-m-top_small slds-text-color_success">✓ Multiple column sorting available</p>
+                            </lwc:if>
+                            <lwc:if lwc:if={isNotSupported}>
+                                <lightning-badge label="NOT SUPPORTED" variant="error"></lightning-badge>
+                                <p class="slds-m-top_small slds-text-color_error">✗ Multiple column sorting NOT available</p>
+                            </lwc:if>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Info -->
+                <div class="slds-m-top_medium slds-box slds-theme_shade">
+                    <h3 class="slds-text-heading_small">Important Notes</h3>
+                    <ul class="slds-list_dotted slds-m-top_small">
+                        <li>Account related lists on Campaign records: ❌ Not supported</li>
+                        <li>OpportunityContactRole on Account: ❌ Not supported</li>
+                        <li>OpportunityContactRole on PersonAccount: ✓ Supported</li>
+                        <li>If "View all" doesn't show "Sort by multiple columns", it's not supported</li>
+                    </ul>
+                </div>
+            </lwc:if>
+
+            <!-- Exceptions List -->
+            <div class="slds-m-top_medium">
+                <lightning-accordion>
+                    <lightning-accordion-section name="exceptions" label="View All Unsupported Standard Objects">
+                        <div class="slds-box">
+                            <p class="slds-m-bottom_small"><strong>Total: {unsupportedCount} objects</strong></p>
+                            <div class="slds-grid slds-wrap">
+                                <template for:each={unsupportedObjects} for:item="obj">
+                                    <div key={obj} class="slds-col slds-size_1-of-3 slds-p-around_xx-small">
+                                        <lightning-badge label={obj} variant="light"></lightning-badge>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </lightning-accordion-section>
+                </lightning-accordion>
+            </div>
+        </div>
+    </lightning-card>
+</template>
