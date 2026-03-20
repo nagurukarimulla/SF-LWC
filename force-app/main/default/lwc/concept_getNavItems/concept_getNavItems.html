@@ -1,0 +1,72 @@
+<template>
+    <lightning-card title="App Navigation Dashboard" icon-name="standard:app">
+        <div class="slds-p-around_medium">
+            
+            <!-- Form Factor Selector -->
+            <lightning-combobox
+                label="Device View"
+                value={selectedFormFactor}
+                options={formFactorOptions}
+                onchange={handleFormFactorChange}
+                class="slds-m-bottom_medium">
+            </lightning-combobox>
+
+            <!-- Loading State -->
+            <lwc:if lwc:if={isLoading}>
+                <lightning-spinner alternative-text="Loading navigation items..."></lightning-spinner>
+            </lwc:if>
+
+            <!-- Error State -->
+            <lwc:if lwc:if={error}>
+                <div class="slds-theme_error slds-p-around_small">
+                    <p>{error}</p>
+                </div>
+            </lwc:if>
+
+            <!-- Navigation Items Grid -->
+            <lwc:if lwc:if={hasNavItems}>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <template for:each={navItems} for:item="item">
+                        <div key={item.id} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 slds-p-around_xx-small">
+                            <div class="slds-box slds-theme_shade slds-text-align_center">
+                                <!-- Icon -->
+                                <lwc:if lwc:if={item.icon}>
+                                    <lightning-icon
+                                        icon-name={item.icon}
+                                        size="large"
+                                        class="slds-m-bottom_small">
+                                    </lightning-icon>
+                                </lwc:if>
+                                
+                                <!-- Label -->
+                                <h3 class="slds-text-heading_small">{item.label}</h3>
+                                
+                                <!-- Developer Name -->
+                                <p class="slds-text-body_small slds-text-color_weak">{item.developerName}</p>
+                                
+                                <!-- Type Badge -->
+                                <lightning-badge
+                                    label={item.type}
+                                    variant={item.typeVariant}
+                                    class="slds-m-top_small">
+                                </lightning-badge>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Pagination Info -->
+                <div class="slds-m-top_medium slds-text-align_center">
+                    <p>Showing {navItems.length} of {totalNavItems} items</p>
+                </div>
+            </lwc:if>
+
+            <!-- No Items Message -->
+            <lwc:if lwc:if={showNoItems}>
+                <div class="slds-m-top_medium slds-align_absolute-center">
+                    <p>No navigation items found</p>
+                </div>
+            </lwc:if>
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,302 @@
+<template>
+    <lightning-card title="Salesforce Domain Information">
+        <div class="slds-var-m-around_medium">
+            <!-- Info Alert Banner -->
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info slds-m-bottom_medium" role="alert">
+                <span class="slds-assistive-text">info</span>
+                <h2 class="slds-m-bottom_xx-small">
+                    <lightning-icon icon-name="utility:info" size="x-small" class="slds-var-m-right_xx-small"></lightning-icon>
+                </h2>
+                <p class="slds-text-body_small">Note: System.DomainParser can only parse domains belonging to this org. Use your org's domains for testing.</p>
+            </div>
+
+            <!-- Current Domain Information Section -->
+            <template if:true={domainData}>
+                <div class="slds-box slds-m-bottom_medium">
+                    <h3 class="slds-section__title slds-theme_shade slds-m-bottom_small">
+                        <lightning-icon icon-name="utility:domain" size="x-small" class="slds-var-m-right_xx-small"></lightning-icon>
+                        Current Org Domain Details
+                    </h3>
+                    
+                    <lightning-layout multiple-rows="true">
+                        <!-- Domain Type -->
+                        <lightning-layout-item size="6" padding="horizontal-small" class="slds-m-bottom_small">
+                            <div class="slds-form-element">
+                                <span class="slds-form-element__label slds-text-body_regular">Domain Type:</span>
+                                <div class="slds-form-element__control">
+                                    <span class="slds-badge slds-theme_info">{domainData.domainType}</span>
+                                </div>
+                            </div>
+                        </lightning-layout-item>
+
+                        <!-- My Domain Name -->
+                        <lightning-layout-item size="6" padding="horizontal-small" class="slds-m-bottom_small">
+                            <div class="slds-form-element">
+                                <span class="slds-form-element__label slds-text-body_regular">My Domain Name:</span>
+                                <div class="slds-form-element__control">
+                                    <span class="slds-text-body_regular">{domainData.myDomainName}</span>
+                                </div>
+                            </div>
+                        </lightning-layout-item>
+
+                        <!-- Sandbox Name -->
+                        <lightning-layout-item size="6" padding="horizontal-small" class="slds-m-bottom_small">
+                            <div class="slds-form-element">
+                                <span class="slds-form-element__label slds-text-body_regular">Sandbox Name:</span>
+                                <div class="slds-form-element__control">
+                                    <template if:true={domainData.sandboxName}>
+                                        <span class="slds-text-body_regular">{domainData.sandboxName}</span>
+                                    </template>
+                                    <template if:false={domainData.sandboxName}>
+                                        <span class="slds-text-color_weak slds-text-body_regular">Not a sandbox org</span>
+                                    </template>
+                                </div>
+                            </div>
+                        </lightning-layout-item>
+
+                        <!-- Package Name -->
+                        <lightning-layout-item size="6" padding="horizontal-small" class="slds-m-bottom_small">
+                            <div class="slds-form-element">
+                                <span class="slds-form-element__label slds-text-body_regular">Package Name:</span>
+                                <div class="slds-form-element__control">
+                                    <template if:true={domainData.packageName}>
+                                        <span class="slds-text-body_regular">{domainData.packageName}</span>
+                                    </template>
+                                    <template if:false={domainData.packageName}>
+                                        <span class="slds-text-color_weak slds-text-body_regular">No package context</span>
+                                    </template>
+                                </div>
+                            </div>
+                        </lightning-layout-item>
+
+                        <!-- Sites Subdomain -->
+                        <lightning-layout-item size="6" padding="horizontal-small" class="slds-m-bottom_small">
+                            <div class="slds-form-element">
+                                <span class="slds-form-element__label slds-text-body_regular">Sites Subdomain:</span>
+                                <div class="slds-form-element__control">
+                                    <template if:true={domainData.sitesSubdomainName}>
+                                        <span class="slds-text-body_regular">{domainData.sitesSubdomainName}</span>
+                                    </template>
+                                    <template if:false={domainData.sitesSubdomainName}>
+                                        <span class="slds-text-color_weak slds-text-body_regular">Not available or enhanced domains enabled</span>
+                                    </template>
+                                </div>
+                            </div>
+                        </lightning-layout-item>
+
+                        <!-- Current Domain URL -->
+                        <lightning-layout-item size="12" padding="horizontal-small" class="slds-m-bottom_small">
+                            <div class="slds-form-element">
+                                <span class="slds-form-element__label slds-text-body_regular">Current Domain URL:</span>
+                                <div class="slds-form-element__control">
+                                    <span class="slds-text-body_regular slds-text-color_weak">{domainData.currentDomain}</span>
+                                </div>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+
+                    <!-- Valid Domains List -->
+                    <div class="slds-m-top_medium slds-border_top slds-pt_medium">
+                        <h4 class="slds-text-title_caps slds-m-bottom_small">
+                            <lightning-icon icon-name="utility:check" size="xx-small" class="slds-var-m-right_xx-small"></lightning-icon>
+                            Domains You Can Test (Click to use)
+                        </h4>
+                        <div class="slds-button-group" role="group">
+    <template for:each={validTestDomains} for:item="domain">
+        <button key={domain.value} 
+                class="slds-button slds-button_neutral slds-text-body_small slds-p-horizontal_small slds-p-vertical_xx-small" 
+                onclick={handleQuickTest} 
+                value={domain.value}
+                title="Click to test this domain">
+            <lightning-icon icon-name="utility:test" 
+                            size="xx-small" 
+                            class="slds-m-right_xx-small">
+            </lightning-icon>
+            {domain.label}
+        </button>
+    </template>
+</div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Custom Domain Lookup Section -->
+            <div class="slds-box">
+                <h3 class="slds-section__title slds-theme_shade slds-m-bottom_small">
+                    <lightning-icon icon-name="utility:search" size="x-small" class="slds-var-m-right_xx-small"></lightning-icon>
+                    Test Domain Parser
+                </h3>
+                
+                <!-- Quick Test Buttons (Alternative layout) -->
+                <div class="slds-m-bottom_medium">
+                    <span class="slds-text-body_small slds-text-color_weak slds-m-bottom_xx-small">Quick test with your domains:</span>
+                    <div class="slds-button-group" role="group">
+                        <template for:each={validTestButtons} for:item="button">
+                            <lightning-button
+                                key={button.value}
+                                label={button.label}
+                                value={button.value}
+                                onclick={handleQuickTest}
+                                variant="neutral"
+                                class="slds-var-m-right_xx-small">
+                            </lightning-button>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Manual Input Section -->
+                <div class="slds-form slds-m-bottom_medium">
+                    <lightning-input type="text" 
+                                    label="Or enter your org's domain manually" 
+                                    placeholder={placeholderDomain}
+                                    onchange={handleDomainInput}
+                                    value={customDomain}
+                                    variant="label-stacked"
+                                    class="slds-m-bottom_small">
+                    </lightning-input>
+                    
+                    <lightning-button label="Parse Domain" 
+                                    variant="brand" 
+                                    onclick={parseCustomDomain}
+                                    class="slds-m-right_small">
+                    </lightning-button>
+                    
+                    <lightning-button label="Clear" 
+                                    variant="neutral" 
+                                    onclick={clearResults}
+                                    >
+                    </lightning-button>
+                </div>
+
+                <!-- Loading Spinner -->
+                <template if:true={isLoading}>
+                    <div class="slds-is-relative slds-p-around_medium">
+                        <lightning-spinner alternative-text="Parsing domain..." size="small"></lightning-spinner>
+                    </div>
+                </template>
+
+                <!-- Parsed Results -->
+                <template if:true={customDomainData}>
+                    <div class="slds-m-top_medium slds-border_top slds-pt_medium">
+                        <h4 class="slds-text-title_caps slds-m-bottom_small">
+                            <lightning-icon icon-name="utility:success" size="xx-small" class="slds-var-m-right_xx-small"></lightning-icon>
+                            Parsed Domain Results
+                        </h4>
+                        <!-- Add Note if present -->
+        <template if:true={customDomainData.note}>
+            <div class="slds-m-bottom_small slds-theme_info slds-p-around_xx-small">
+                <lightning-icon icon-name="utility:info" size="xx-small" class="slds-var-m-right_xx-small"></lightning-icon>
+                <span class="slds-text-body_small">{customDomainData.note}</span>
+            </div>
+        </template>
+                        
+                        <lightning-layout multiple-rows="true">
+                            <!-- Parsed Hostname -->
+                            <lightning-layout-item size="12" padding="horizontal-small" class="slds-m-bottom_small">
+                                <div class="slds-form-element">
+                                    <span class="slds-form-element__label slds-text-body_regular">Parsed Hostname:</span>
+                                    <div class="slds-form-element__control">
+                                        <span class="slds-text-body_regular slds-text-color_weak">{customDomainData.parsedHostname}</span>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+
+                            <!-- Domain Type -->
+                            <lightning-layout-item size="6" padding="horizontal-small" class="slds-m-bottom_small">
+                                <div class="slds-form-element">
+                                    <span class="slds-form-element__label slds-text-body_regular">Domain Type:</span>
+                                    <div class="slds-form-element__control">
+                                        <span class="slds-badge slds-theme_info">{customDomainData.domainType}</span>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+
+                            <!-- My Domain Name -->
+                            <lightning-layout-item size="6" padding="horizontal-small" class="slds-m-bottom_small">
+                                <div class="slds-form-element">
+                                    <span class="slds-form-element__label slds-text-body_regular">My Domain Name:</span>
+                                    <div class="slds-form-element__control">
+                                        <span class="slds-text-body_regular">{customDomainData.myDomainName}</span>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+
+                            <!-- Sandbox Name -->
+                            <lightning-layout-item size="6" padding="horizontal-small" class="slds-m-bottom_small">
+                                <div class="slds-form-element">
+                                    <span class="slds-form-element__label slds-text-body_regular">Sandbox Name:</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={customDomainData.sandboxName}>
+                                            <span class="slds-text-body_regular">{customDomainData.sandboxName}</span>
+                                        </template>
+                                        <template if:false={customDomainData.sandboxName}>
+                                            <span class="slds-text-color_weak">None</span>
+                                        </template>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+
+                            <!-- Package Name -->
+                            <lightning-layout-item size="6" padding="horizontal-small" class="slds-m-bottom_small">
+                                <div class="slds-form-element">
+                                    <span class="slds-form-element__label slds-text-body_regular">Package Name:</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={customDomainData.packageName}>
+                                            <span class="slds-text-body_regular">{customDomainData.packageName}</span>
+                                        </template>
+                                        <template if:false={customDomainData.packageName}>
+                                            <span class="slds-text-color_weak">None</span>
+                                        </template>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+
+                            <!-- Sites Subdomain -->
+                            <lightning-layout-item size="12" padding="horizontal-small" class="slds-m-bottom_small">
+                                <div class="slds-form-element">
+                                    <span class="slds-form-element__label slds-text-body_regular">Sites Subdomain:</span>
+                                    <div class="slds-form-element__control">
+                                        <template if:true={customDomainData.sitesSubdomainName}>
+                                            <span class="slds-text-body_regular">{customDomainData.sitesSubdomainName}</span>
+                                        </template>
+                                        <template if:false={customDomainData.sitesSubdomainName}>
+                                            <span class="slds-text-color_weak">Not available or enhanced domains enabled</span>
+                                        </template>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </template>
+
+                <!-- Error Message -->
+                <template if:true={error}>
+                    <div class="slds-m-top_medium slds-theme_error slds-p-around_small slds-border_left" style="border-left: 3px solid #c23934;">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_1-of-12">
+                                <lightning-icon icon-name="utility:error" size="x-small" class="slds-var-m-right_xx-small"></lightning-icon>
+                            </div>
+                            <div class="slds-col slds-size_11-of-12">
+                                <p class="slds-text-body_regular">{error}</p>
+                                <template if:true={domainData}>
+                                    <p class="slds-text-body_small slds-m-top_xx-small">
+                                        <lightning-icon icon-name="utility:suggestion" size="xx-small" class="slds-var-m-right_xx-small"></lightning-icon>
+                                        Try using: <strong>{domainData.myDomainName}.lightning.force.com</strong>
+                                    </p>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- No Results Message -->
+                <template if:true={showNoResults}>
+                    <div class="slds-m-top_medium slds-text-align_center slds-text-color_weak">
+                        <lightning-icon icon-name="utility:search" size="small"></lightning-icon>
+                        <p class="slds-m-top_xx-small">Enter a domain and click Parse to see results</p>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </lightning-card>
+</template>

@@ -89,4 +89,83 @@ public with sharing class CaseController {
         public String LastName;
         public String Email;
     }
+     @AuraEnabled
+    public static void updateCasePriority(String caseId, String newPriority) {
+        try {
+            // Get the case
+            Case caseRecord = [SELECT Id, Priority FROM Case WHERE Id = :caseId LIMIT 1];
+            
+            // Update the priority
+            caseRecord.Priority = newPriority;
+            
+            // Update via DML (outside LDS)
+            update caseRecord;
+            
+        } catch (Exception e) {
+            throw new AuraHandledException('Error updating case: ' + e.getMessage());
+        }
+    }
+     @AuraEnabled(cacheable=true)
+    public static List<Case> getCaseDetails(List<Id> caseIds) {
+        try {
+            if(caseIds == null || caseIds.isEmpty()) {
+                return new List<Case>();
+            }
+            return new CaseSelector().selectByIdWithDetails(new Set<Id>(caseIds));
+        } catch (Exception e) {
+            throw new AuraHandledException('Error loading cases: ' + e.getMessage());
+        }
+    }
+    
+    @AuraEnabled
+    public static void escalateCases(List<Id> caseIds, String reason) {
+        try {
+            if(caseIds == null || caseIds.isEmpty()) {
+                throw new AuraHandledException('Please select at least one case');
+            }
+            if(String.isBlank(reason)) {
+                throw new AuraHandledException('Please provide an escalation reason');
+            }
+            
+            CaseService.escalateCases(caseIds, reason, true);
+            
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+    
+    @AuraEnabled
+    public static Map<String, Object> validateCases(List<Id> caseIds) {
+        Map<String, Object> result = new Map<String, Object>();
+        
+        try {
+            List<Case> cases = [SELECT Id, CaseNumber, Status FROM Case WHERE Id IN :caseIds];
+            
+            Set<String> validStatuses = new Set<String>{'New', 'Working', 'In Progress'};
+            Integer validCount = 0;
+            List<String> invalidCases = new List<String>();
+            
+            for(Case c : cases) {
+                if(validStatuses.contains(c.Status)) {
+                    validCount++;
+                } else {
+                    invalidCases.add(c.CaseNumber + ' (' + c.Status + ')');
+                }
+            }
+            
+            result.put('validCount', validCount);
+            result.put('invalidCount', invalidCases.size());
+            result.put('invalidCases', invalidCases);
+            result.put('totalCount', cases.size());
+            result.put('canEscalate', invalidCases.isEmpty());
+            
+            return result;
+            
+        } catch (Exception e) {
+            result.put('error', e.getMessage());
+            result.put('canEscalate', false);
+            return result;
+        }
+    }
+    
 }

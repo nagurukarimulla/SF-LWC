@@ -3,12 +3,19 @@ import { LightningElement } from 'lwc';
 export default class PortfolioExperience extends LightningElement {
 
     experienceList = [
+        // {
+        //     company: 'Tata Consultancy Services (TCS) Ltd, Hyderabad',
+        //     duration: 'Feb 2026 – Present',
+        //     client: 'Royal Bank of Canada (RBC)',
+        //     role: 'Salesforce Engineer',
+        //     description: 'Working on enterprise-scale Salesforce solutions for the Royal Bank of Canada, focusing on integrations, secure architecture, and scalable system design.'
+        // },
         {
-            company: 'Tata Consultancy Services (TCS) Ltd, Hyderabad',
-            duration: 'Feb 2026 – Present',
-            client: 'Royal Bank of Canada (RBC)',
-            role: 'Salesforce Engineer',
-            description: 'Working on enterprise-scale Salesforce solutions for the Royal Bank of Canada, focusing on integrations, secure architecture, and scalable system design.'
+            company: 'Professional Technical Trainer & Customer Service Associate, AP',
+            duration: 'Jan 2019 – Sept 2021',
+            client: 'Entertainments, Technical Institues, and Individuals',
+            role: 'Trainer & Consultant',
+            description: 'Worked as a technical trainer and customer service associate, providing training and support to clients across various industries.'
         },
         {
             company: 'P99Soft Pvt Ltd, Hyderabad',

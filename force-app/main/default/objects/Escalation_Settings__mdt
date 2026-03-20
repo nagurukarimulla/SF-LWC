@@ -1,0 +1,12 @@
+<!-- Defines that this metadata type exists and what fields it has -->
+<CustomObject>
+    <label>Escalation Settings</label>
+    <fields>
+        <fullName>Valid_Statuses__c</fullName>  <!-- Defines a text field -->
+        <type>Text</type>
+    </fields>
+    <fields>
+        <fullName>Escalation_Team_Email__c</fullName>  <!-- Defines an email field -->
+        <type>Email</type>
+    </fields>
+</CustomObject>

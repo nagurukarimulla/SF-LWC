@@ -1,0 +1,68 @@
+<template>
+    <lightning-card title="Service Console - Quick Assignment" icon-name="standard:service_resource">
+        <div class="slds-p-around_medium">
+            
+            <!-- Case Selection -->
+            <div class="slds-box slds-m-bottom_medium">
+                <h3 class="slds-text-heading_small slds-m-bottom_small">1. Select Case to Assign</h3>
+               <lightning-record-picker
+        data-id="case-picker"
+        label="Search Open Cases"
+        placeholder="Search by case number..."
+        object-api-name="Case"
+        value={selectedCaseId}
+        filter={openCasesFilter}
+        display-info={caseDisplayInfo}
+        onchange={handleCaseChange}
+        onerror={handleError}>
+    </lightning-record-picker>
+                
+                <template lwc:if={selectedCaseNumber}>
+                    <p class="slds-m-top_small">Selected: Case #{selectedCaseNumber} - {selectedCaseSubject}</p>
+                </template>
+            </div>
+
+            <!-- Agent Selection -->
+            <template lwc:if={selectedCaseId}>
+                <div class="slds-box slds-m-bottom_medium">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">2. Select Support Agent</h3>
+                     <lightning-record-picker
+            data-id="agent-picker"
+            label="Search Available Agents"
+            placeholder="Search by name or email..."
+            object-api-name="User"
+            value={selectedAgentId}
+            filter={activeAgentsFilter}
+            display-info={agentDisplayInfo}
+            matching-info={agentMatchingInfo}
+            onchange={handleAgentChange}
+            onerror={handleError}>
+        </lightning-record-picker>
+                    
+                    <template lwc:if={selectedAgentName}>
+                        <p class="slds-m-top_small">Selected Agent: {selectedAgentName}</p>
+                    </template>
+                </div>
+            </template>
+
+            <!-- Assignment Button -->
+            <template lwc:if={showAssignSection}>
+                <div class="slds-box">
+                     <lightning-button
+            label="Assign Case to Agent"
+            variant="brand"
+            onclick={handleAssignment}
+            disabled={isAssignButtonDisabled}
+            class="slds-size_full">
+        </lightning-button>
+                    
+                    <template lwc:if={assignmentComplete}>
+                        <div class="slds-m-top_medium slds-theme_success slds-p-around_small">
+                             Case {selectedCaseNumber} assigned to {selectedAgentName}
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

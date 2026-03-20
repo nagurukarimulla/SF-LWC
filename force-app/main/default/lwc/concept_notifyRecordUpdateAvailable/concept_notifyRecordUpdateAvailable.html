@@ -1,0 +1,72 @@
+<template>
+    <lightning-card title="Case Priority Updater" icon-name="standard:case">
+        <div class="slds-p-around_medium">
+            
+            <!-- Case Selection -->
+            <lightning-record-picker
+                label="Select Case to Update"
+                placeholder="Search by casenumber..."
+                object-api-name="Case"
+                value={selectedCaseId}
+                onchange={handleCaseChange}
+                required>
+            </lightning-record-picker>
+
+            <!-- Current Case Details (via LDS) -->
+            <lwc:if lwc:if={selectedCaseId}>
+                <div class="slds-m-top_medium slds-box">
+                    <h3 class="slds-text-heading_small">Current Case Details</h3>
+                    
+                    <lwc:if lwc:if={caseDetails.data}>
+                        <p><strong>Case Number:</strong> {caseDetails.data.fields.CaseNumber.value}</p>
+                        <p><strong>Subject:</strong> {caseDetails.data.fields.Subject.value}</p>
+                        <p><strong>Current Priority:</strong> {caseDetails.data.fields.Priority.value}</p>
+                        <p><strong>Status:</strong> {caseDetails.data.fields.Status.value}</p>
+                    </lwc:if>
+                    
+                    <lwc:if lwc:if={caseDetails.error}>
+                        <p class="slds-text-color_error">Error loading case: {caseDetails.error}</p>
+                    </lwc:if>
+                </div>
+
+                <!-- Priority Update Section -->
+                <div class="slds-m-top_medium slds-box">
+                    <h3 class="slds-text-heading_small">Update Priority</h3>
+                    
+                    <lightning-combobox
+                        label="New Priority"
+                        value={selectedPriority}
+                        options={priorityOptions}
+                        onchange={handlePriorityChange}
+                        required>
+                    </lightning-combobox>
+
+                   <div class="slds-m-top_medium">
+        <lightning-button
+            label="Update Priority via Apex"
+            variant="brand"
+            onclick={handleUpdatePriority}>
+        </lightning-button>
+    </div>
+
+                    <lwc:if lwc:if={isUpdating}>
+                        <lightning-spinner alternative-text="Updating..."></lightning-spinner>
+                    </lwc:if>
+
+                    <lwc:if lwc:if={updateSuccess}>
+                        <div class="slds-m-top_medium slds-theme_success slds-p-around_small">
+                            Case Priority updated to {selectedPriority}
+                        </div>
+                    </lwc:if>
+                </div>
+            </lwc:if>
+
+            <!-- Error Display -->
+            <lwc:if lwc:if={errorMessage}>
+                <div class="slds-m-top_medium slds-theme_error slds-p-around_small">
+                    ⚠ {errorMessage}
+                </div>
+            </lwc:if>
+        </div>
+    </lightning-card>
+</template>

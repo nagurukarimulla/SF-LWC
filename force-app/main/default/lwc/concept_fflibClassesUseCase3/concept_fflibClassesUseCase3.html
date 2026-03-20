@@ -1,0 +1,132 @@
+<template>
+    <lightning-card title="Bulk Case Escalation" icon-name="standard:case">
+        <div class="slds-p-around_medium">
+            
+            <!-- Case ID Input Section -->
+            <div class="slds-m-bottom_medium">
+                <lightning-input 
+                    type="text" 
+                    label="Enter Case IDs (comma separated)" 
+                    placeholder="e.g. 500xxx, 500xxx, 500xxx"
+                    value={caseIdsInput}
+                    onchange={handleCaseIdsChange}>
+                </lightning-input>
+                <lightning-button 
+                    label="Load Cases" 
+                    variant="brand" 
+                    onclick={loadCases}
+                    class="slds-m-top_small">
+                </lightning-button>
+            </div>
+
+            <!-- Loading Spinner -->
+            <template if:true={isLoading}>
+                <div class="slds-align_absolute-center slds-m-vertical_xx-large">
+                    <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+                    <p class="slds-m-left_small">Loading...</p>
+                </div>
+            </template>
+
+            <!-- Main Content -->
+            <template if:false={isLoading}>
+                
+                <!-- No Cases Loaded -->
+                <template if:false={hasCases}>
+                    <div class="slds-align_absolute-center slds-m-vertical_xx-large">
+                        <p class="slds-text-color_weak">Enter Case IDs above to load cases</p>
+                    </div>
+                </template>
+
+                <!-- Cases Loaded -->
+                <template if:true={hasCases}>
+                    
+                    <!-- Summary Cards -->
+                    <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_medium">
+                        <div class="slds-col slds-size_1-of-3">
+                            <div class="slds-box slds-box_x-small slds-text-align_center">
+                                <p class="slds-text-heading_small">{totalCases}</p>
+                                <p>Total Cases</p>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <div class="slds-box slds-box_x-small slds-theme_success slds-text-align_center">
+                                <p class="slds-text-heading_small">{validCount}</p>
+                                <p>Can Escalate</p>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <div class="slds-box slds-box_x-small slds-theme_error slds-text-align_center">
+                                <p class="slds-text-heading_small">{invalidCount}</p>
+                                <p>Cannot Escalate</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Warning for Invalid Cases -->
+                    <template if:true={invalidCasesList.length}>
+                        <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning slds-m-bottom_medium">
+                            <p>Warning: {invalidCasesList}</p>
+                        </div>
+                    </template>
+
+                    <!-- Cases List -->
+                    <div class="slds-box slds-box_x-small slds-m-bottom_medium">
+                        <h3 class="slds-text-heading_small slds-m-bottom_small">Loaded Cases</h3>
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                            <thead>
+                                <tr>
+                                    <th>Case Number</th>
+                                    <th>Subject</th>
+                                    <th>Status</th>
+                                    <th>Owner</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={cases} for:item="c">
+                                    <tr key={c.Id}>
+                                        <td>{c.CaseNumber}</td>
+                                        <td>{c.Subject}</td>
+                                        <td>
+                                            <span class="slds-badge {c.Status == 'Escalated' ? 'slds-badge_inverse' : ''}">
+                                                {c.Status}
+                                            </span>
+                                        </td>
+                                        <td>{c.Owner?.Name}</td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Escalation Reason -->
+                    <div class="slds-m-bottom_medium">
+                        <lightning-textarea
+                            label="Escalation Reason"
+                            value={reason}
+                            onchange={handleReasonChange}
+                            placeholder="Enter reason for escalation..."
+                            required>
+                        </lightning-textarea>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="slds-grid slds-grid_align-end">
+                        <lightning-button
+                            variant="neutral"
+                            label="Clear"
+                            onclick={handleClear}
+                            class="slds-m-right_small">
+                        </lightning-button>
+                        
+                        <lightning-button
+                            variant="destructive"
+                            label="Escalate Cases"
+                            onclick={handleEscalate}
+                            disabled={isEscalateDisabled}>
+                        </lightning-button>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>

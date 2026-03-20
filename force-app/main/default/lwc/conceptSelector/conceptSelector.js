@@ -7,9 +7,18 @@ export default class ConceptSelector extends LightningElement {
     @track pageSizes = [5, 10, 20, 50, 100];
     
     concepts = [
+        {label: "FFLIB Classes UseCase3",value: "concept_fflibClassesUseCase3"},
+        {label: "FFLIB Classes UseCase2",value: "concept_fflibClassesUseCase2"},
+        {label: "FFLIB Classes UseCase1",value: "concept_fflibClassesUseCase1"},
+        {label: "Apex Domain Class",value: "concept_domainClassApex"},
+        {label: "SLDS Margin",value: "concept_sldsMarginExplorer"},
+        {label: "RelatedList Column Checker",value: "concept_relatedListSortChecker"},
+        {label: "Get Nav Items",value: "concept_getNavItems"},
+        {label: "Notify Record Update Available",value: "concept_notifyRecordUpdateAvailable"},
+        {label: "Record Picker",value: "concept_recordPicker"},
         {label: "Apex String Methods",value: "concept_apexStringMethods"},
         {label: "Get Layout",value: "concept_getLayoutExplorer"},
-        {label: "List Info By name",value: "concept_getListInfoByNameExplorer"},
+        {label: "List Info By name",value: "concept_getListI nfoByNameExplorer"},
         {label: "Delete List Info",value: "concept_deleteListInfoExplorer"},
         {label: "Create List Info",value: "concept_createListInfoExplorer"},
         {label: "Get Picklist Values",value: "concept_picklistValuesExplorer"},

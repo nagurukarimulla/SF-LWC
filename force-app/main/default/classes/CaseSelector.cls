@@ -11,12 +11,17 @@ public with sharing class CaseSelector extends fflib_SObjectSelector {
 
     public List<Schema.SObjectField> getSObjectFieldList() {
         return new List<Schema.SObjectField>{
-            Case.Id,
+            Case.Id, 
             Case.CaseNumber,
+            Case.Status, 
+            Case.Priority, 
+            Case.Description,
             Case.Subject,
-            Case.Status,
+            Case.Origin,
+            Case.ContactId,
             Case.AccountId,
-            Case.ContactId
+            Case.OwnerId,
+            Case.CreatedDate
         };
     }
 
@@ -46,5 +51,21 @@ public with sharing class CaseSelector extends fflib_SObjectSelector {
             ORDER BY CreatedDate DESC
             LIMIT 10
         ];
+    }
+
+        public List<Case> selectByIdWithDetails(Set<Id> idSet) {
+        fflib_QueryFactory qf = newQueryFactory();
+        qf.setCondition('Id IN :idSet');
+        qf.selectField('Contact.Name');
+        qf.selectField('Account.Name');
+        qf.selectField('Owner.Name');
+        return (List<Case>) Database.query(qf.toSOQL());
+    }
+
+    public List<Case> selectByStatus(Set<String> statuses) {
+        fflib_QueryFactory qf = newQueryFactory();
+        qf.setCondition('Status IN :statuses');
+        qf.setOrdering('CreatedDate', fflib_QueryFactory.SortOrder.DESCENDING);
+        return (List<Case>) Database.query(qf.toSOQL());
     }
 }
