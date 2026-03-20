@@ -16,7 +16,8 @@ public with sharing class OpportunitiesSelector extends fflib_SObjectSelector {
             Opportunity.Probability,
             Opportunity.Type,
             Opportunity.CreatedDate,
-            Opportunity.LastModifiedDate
+            Opportunity.LastModifiedDate,
+            Opportunity.OwnerId
         };
     }
     
@@ -42,5 +43,23 @@ public with sharing class OpportunitiesSelector extends fflib_SObjectSelector {
         qf.setCondition('StageName = \'Closed Won\' AND CloseDate >= :fromDate');
         qf.setOrdering('Amount', fflib_QueryFactory.SortOrder.DESCENDING);
         return (List<Opportunity>) Database.query(qf.toSOQL());
+    }
+
+    public List<Opportunity> selectByIdWithAccount(Set<Id> idSet) {
+        fflib_QueryFactory qf = newQueryFactory();
+        
+        // Add the condition
+        qf.setCondition('Id IN :idSet');
+        
+        // Select related fields properly
+        qf.selectField('Account.Id');
+        qf.selectField('Account.Name');
+        qf.selectField('Account.Owner.Id');
+        qf.selectField('Account.Owner.Name');
+        
+        String soql = qf.toSOQL();
+        System.debug('Generated SOQL: ' + soql); // For debugging
+        
+        return (List<Opportunity>) Database.query(soql);
     }
 }

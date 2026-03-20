@@ -1,0 +1,32 @@
+<template>
+    <lightning-card title="Global Credit Limit Request" icon-name="standard:account">
+        <div class="slds-p-around_medium">
+            <template if:false={recordId}>
+                <lightning-record-picker
+                    label="Select Account"
+                    placeholder="Search Accounts..."
+                    object-api-name="Account"
+                    onchange={handleAccountChange}>
+                </lightning-record-picker>
+            </template>
+
+            <lightning-input 
+                type="number" 
+                label="Requested Limit" 
+                value={amount} 
+                formatter="currency"
+                onchange={handleAmountChange}
+                class="slds-m-top_small">
+            </lightning-input>
+
+            <div class="slds-m-top_medium">
+                <lightning-button 
+                    variant="brand" 
+                    label="Update via Service Layer" 
+                    onclick={handleSubmit}
+                    disabled={isButtonDisabled}>
+                </lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,22 @@
+.slds-scrollable_x {
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+}
+
+.slds-table {
+    min-width: 600px;
+}
+
+.slds-table td,
+.slds-table th {
+    white-space: normal;
+    word-break: break-word;
+}
+
+@media (max-width: 48em) {
+    .slds-table td,
+    .slds-table th {
+        padding: 0.5rem;
+    }
+}

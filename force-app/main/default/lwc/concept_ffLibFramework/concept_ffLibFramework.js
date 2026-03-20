@@ -129,7 +129,7 @@ export default class Concept_ffLibFramework extends LightningElement {
                     enhancedField.picklistOptions = this.typeOptions;
                 }
             }
-
+            enhancedField.value = this.formData[field.name] || '';
             return enhancedField;
         });
     }
@@ -184,8 +184,8 @@ export default class Concept_ffLibFramework extends LightningElement {
     this.formData = {};
     this.showCreateForm = true;
     this.showUpdateForm = false;
-    this.searchResults = []; // Clear search results when opening create form
-    this.searchTerm = ''; // Optional: clear search term too
+    this.searchResults = []; 
+    this.searchTerm = ''; 
 }
     showUpdateFormHandler() {
     if (!this.record?.Id) {
@@ -197,6 +197,7 @@ export default class Concept_ffLibFramework extends LightningElement {
     const newFormData = {};
     this.currentFields.forEach(field => {
         // Include the field even if it's empty (null/undefined) to show blank
+        const value = this.record[field.name];
         newFormData[field.name] = this.record[field.name] || '';
     });
     
@@ -342,6 +343,28 @@ export default class Concept_ffLibFramework extends LightningElement {
             this.isLoading = false;
         }
     }
+     
+    @track currentPage = 1;
+    pageSize = 4; 
+    @track paginatedResults = [];
+    
+    get totalPages() {
+        return Math.ceil(this.searchResults.length / this.pageSize);
+    }
+    
+   
+    get currentPageDisplay() {
+        return `Page ${this.currentPage} of ${this.totalPages || 1}`;
+    }
+    
+  
+    get disablePrevious() {
+        return this.currentPage === 1 || this.searchResults.length === 0;
+    }
+    
+    get disableNext() {
+        return this.currentPage === this.totalPages || this.searchResults.length === 0;
+    }
 
     async handleSearch() {
         if (!this.searchTerm) {
@@ -358,7 +381,8 @@ export default class Concept_ffLibFramework extends LightningElement {
                 searchTerm: this.searchTerm,
                 fields: fieldNames
             });
-            
+            this.currentPage = 1;
+            this.updatePaginatedResults();
             if (this.searchResults.length === 0) {
                 showInfo(this, 'Info', 'No records found');
             }
@@ -367,6 +391,25 @@ export default class Concept_ffLibFramework extends LightningElement {
             showError(this, 'Error', this.error);
         } finally {
             this.isLoading = false;
+        }
+    }
+    updatePaginatedResults() {
+        const start = (this.currentPage - 1) * this.pageSize;
+        const end = start + this.pageSize;
+        this.paginatedResults = this.searchResults.slice(start, end);
+    }
+    
+    nextPage() {
+        if (this.currentPage < this.totalPages) {
+            this.currentPage++;
+            this.updatePaginatedResults();
+        }
+    }
+    
+    previousPage() {
+        if (this.currentPage > 1) {
+            this.currentPage--;
+            this.updatePaginatedResults();
         }
     }
 
@@ -408,16 +451,19 @@ export default class Concept_ffLibFramework extends LightningElement {
     }
 
     selectSearchResult(event) {
-        const recordId = event.currentTarget.dataset.id;
+       const recordId = event.currentTarget.dataset.id;
         this.handleReadWithId(recordId);
-     // Option 1: Clear search after selection (uncomment if desired)
-    this.searchTerm = '';
-    this.queryResults = [];
+        this.searchTerm = '';
+        this.searchResults = [];
+        this.paginatedResults = [];
+        this.currentPage = 1;
     }
 
     clearSearch() {
-    this.searchTerm = '';
-    this.searchResults = [];
+        this.searchTerm = '';
+        this.searchResults = [];
+        this.paginatedResults = [];
+        this.currentPage = 1;
 }
     selectQueryResult(event) {
         const recordId = event.currentTarget.dataset.id;

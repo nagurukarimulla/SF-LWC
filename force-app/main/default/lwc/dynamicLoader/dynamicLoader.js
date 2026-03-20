@@ -194,8 +194,17 @@ return this.selectedComponent === 'concept_relatedListSortChecker';
 get isGetSLDSMargin(){
 return this.selectedComponent === 'concept_sldsMarginExplorer';
 }
-get isGetApexDomainClass(){
-return this.selectedComponent === 'concept_apexDomainClass';
+get isGetDomainClassApex(){
+return this.selectedComponent === 'concept_domainClassApex';
+}
+get isFFLIBClassesUseCase1(){
+return this.selectedComponent === 'concept_fflibClassesUseCase1';
+}
+get isFFLIBClassesUseCase2(){
+return this.selectedComponent === 'concept_fflibClassesUseCase2';
+}
+get isFFLIBClassesUseCase3(){
+return this.selectedComponent === 'concept_fflibClassesUseCase3';
 }
 }
 
