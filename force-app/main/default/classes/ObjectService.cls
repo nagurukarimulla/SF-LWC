@@ -26,33 +26,87 @@ public with sharing class ObjectService {
         }
     }
     
-    @AuraEnabled
-    public static Id createRecord(String objectName, Map<String, Object> fields) {
-        try {
-            Schema.SObjectType sObjType = getSObjectType(objectName);
-            validateFields(sObjType, fields);
-            
-            // Check create permission
-            if (!sObjType.getDescribe().isCreateable()) {
-                throw new AuraHandledException('Create permission missing for: ' + objectName);
-            }
-            
-            SObject sObj = sObjType.newSObject();
-            for (String key : fields.keySet()) {
-                sObj.put(key, fields.get(key));
-            }
-            
-            fflib_SObjectUnitOfWork uow = new fflib_SObjectUnitOfWork(
-                new List<SObjectType>{sObjType}
-            );
-            uow.registerNew(sObj);
-            uow.commitWork();
-            
-            return sObj.Id;
-        } catch (Exception e) {
-            throw new AuraHandledException('Error creating record: ' + e.getMessage());
+   @AuraEnabled
+public static Id createRecord(String objectName, Map<String, Object> fields) {
+    try {
+        Schema.SObjectType sObjType = getSObjectType(objectName);
+        validateFields(sObjType, fields);
+        
+        // Check create permission
+        if (!sObjType.getDescribe().isCreateable()) {
+            throw new AuraHandledException('Create permission missing for: ' + objectName);
         }
+        
+        SObject sObj = sObjType.newSObject();
+        
+        // Get field describe information
+        Map<String, Schema.SObjectField> fieldMap = sObjType.getDescribe().fields.getMap();
+        
+        for (String key : fields.keySet()) {
+            Object value = fields.get(key);
+            
+            // Check if field exists
+            if (fieldMap.containsKey(key)) {
+                Schema.DescribeFieldResult fieldDescribe = fieldMap.get(key).getDescribe();
+                
+                // Handle Date fields
+                if (fieldDescribe.getType() == Schema.DisplayType.Date && value != null) {
+                    if (value instanceof String) {
+                        String dateStr = (String)value;
+                        // Parse YYYY-MM-DD format
+                        if (Pattern.matches('\\d{4}-\\d{2}-\\d{2}', dateStr)) {
+                            List<String> parts = dateStr.split('-');
+                            Integer year = Integer.valueOf(parts[0]);
+                            Integer month = Integer.valueOf(parts[1]);
+                            Integer day = Integer.valueOf(parts[2]);
+                            value = Date.newInstance(year, month, day);
+                        }
+                    }
+                }
+                // Handle DateTime fields
+                else if (fieldDescribe.getType() == Schema.DisplayType.DateTime && value != null) {
+                    if (value instanceof String) {
+                        value = DateTime.valueOf((String)value);
+                    }
+                }
+                // Handle Decimal/Currency fields
+                else if ((fieldDescribe.getType() == Schema.DisplayType.Double || 
+                          fieldDescribe.getType() == Schema.DisplayType.Currency) && value != null) {
+                    if (value instanceof String) {
+                        value = Decimal.valueOf((String)value);
+                    } else if (value instanceof Integer) {
+                        value = Decimal.valueOf((Integer)value);
+                    }
+                }
+                // Handle Integer fields
+                else if (fieldDescribe.getType() == Schema.DisplayType.Integer && value != null) {
+                    if (value instanceof String) {
+                        value = Integer.valueOf((String)value);
+                    }
+                }
+                // Handle Boolean fields
+                else if (fieldDescribe.getType() == Schema.DisplayType.Boolean && value != null) {
+                    if (value instanceof String) {
+                        value = Boolean.valueOf((String)value);
+                    }
+                }
+            }
+            
+            sObj.put(key, value);
+        }
+        
+        fflib_SObjectUnitOfWork uow = new fflib_SObjectUnitOfWork(
+            new List<SObjectType>{sObjType}
+        );
+        uow.registerNew(sObj);
+        uow.commitWork();
+        
+        return sObj.Id;
+    } catch (Exception e) {
+        throw new AuraHandledException('Error creating record: ' + e.getMessage());
     }
+}
+
     
     @AuraEnabled
     public static SObject getRecord(String objectName, Id recordId) {
@@ -95,36 +149,88 @@ public with sharing class ObjectService {
     }
     
     @AuraEnabled
-    public static void updateRecord(String objectName, Id recordId, Map<String, Object> fields) {
-        try {
-            if (String.isBlank(recordId)) {
-                throw new AuraHandledException('Record ID is required for update');
-            }
-            
-            Schema.SObjectType sObjType = getSObjectType(objectName);
-            validateFields(sObjType, fields);
-            
-            // Check update permission
-            if (!sObjType.getDescribe().isUpdateable()) {
-                throw new AuraHandledException('Update permission missing for: ' + objectName);
-            }
-            
-            SObject sObj = sObjType.newSObject(recordId);
-            for (String key : fields.keySet()) {
-                sObj.put(key, fields.get(key));
-            }
-            
-            fflib_SObjectUnitOfWork uow = new fflib_SObjectUnitOfWork(
-                new List<SObjectType>{sObjType}
-            );
-            uow.registerDirty(sObj);
-            uow.commitWork();
-            
-        } catch (Exception e) {
-            throw new AuraHandledException('Error updating record: ' + e.getMessage());
+public static void updateRecord(String objectName, Id recordId, Map<String, Object> fields) {
+    try {
+        if (String.isBlank(recordId)) {
+            throw new AuraHandledException('Record ID is required for update');
         }
+        
+        Schema.SObjectType sObjType = getSObjectType(objectName);
+        validateFields(sObjType, fields);
+        
+        // Check update permission
+        if (!sObjType.getDescribe().isUpdateable()) {
+            throw new AuraHandledException('Update permission missing for: ' + objectName);
+        }
+        
+        SObject sObj = sObjType.newSObject(recordId);
+        
+        // Get field describe information
+        Map<String, Schema.SObjectField> fieldMap = sObjType.getDescribe().fields.getMap();
+        
+        for (String key : fields.keySet()) {
+            Object value = fields.get(key);
+            
+            // Check if field exists
+            if (fieldMap.containsKey(key)) {
+                Schema.DescribeFieldResult fieldDescribe = fieldMap.get(key).getDescribe();
+                
+                // Handle Date fields
+                if (fieldDescribe.getType() == Schema.DisplayType.Date && value != null) {
+                    if (value instanceof String) {
+                        String dateStr = (String)value;
+                        // Parse YYYY-MM-DD format
+                        if (Pattern.matches('\\d{4}-\\d{2}-\\d{2}', dateStr)) {
+                            List<String> parts = dateStr.split('-');
+                            Integer year = Integer.valueOf(parts[0]);
+                            Integer month = Integer.valueOf(parts[1]);
+                            Integer day = Integer.valueOf(parts[2]);
+                            value = Date.newInstance(year, month, day);
+                        }
+                    }
+                }
+                // Handle DateTime fields
+                else if (fieldDescribe.getType() == Schema.DisplayType.DateTime && value != null) {
+                    if (value instanceof String) {
+                        value = DateTime.valueOf((String)value);
+                    }
+                }
+                // Handle Decimal/Currency fields
+                else if ((fieldDescribe.getType() == Schema.DisplayType.Double || 
+                          fieldDescribe.getType() == Schema.DisplayType.Currency) && value != null) {
+                    if (value instanceof String) {
+                        value = Decimal.valueOf((String)value);
+                    } else if (value instanceof Integer) {
+                        value = Decimal.valueOf((Integer)value);
+                    }
+                }
+                // Handle Integer fields
+                else if (fieldDescribe.getType() == Schema.DisplayType.Integer && value != null) {
+                    if (value instanceof String) {
+                        value = Integer.valueOf((String)value);
+                    }
+                }
+                // Handle Boolean fields
+                else if (fieldDescribe.getType() == Schema.DisplayType.Boolean && value != null) {
+                    if (value instanceof String) {
+                        value = Boolean.valueOf((String)value);
+                    }
+                }
+            }
+            
+            sObj.put(key, value);
+        }
+        
+        fflib_SObjectUnitOfWork uow = new fflib_SObjectUnitOfWork(
+            new List<SObjectType>{sObjType}
+        );
+        uow.registerDirty(sObj);
+        uow.commitWork();
+        
+    } catch (Exception e) {
+        throw new AuraHandledException('Error updating record: ' + e.getMessage());
     }
-    
+}
     @AuraEnabled
     public static void deleteRecord(String objectName, Id recordId) {
         try {
@@ -180,33 +286,50 @@ public with sharing class ObjectService {
     }
     
     @AuraEnabled
-    public static List<SObject> queryRecords(String objectName, String conditions, String orderBy, Integer limitCount) {
-        try {
-            Schema.SObjectType sObjType = getSObjectType(objectName);
-            
-            if (!sObjType.getDescribe().isAccessible()) {
-                throw new AuraHandledException('Read permission missing for: ' + objectName);
-            }
-            
-            fflib_QueryFactory qf = new fflib_QueryFactory(sObjType);
-            qf.selectFields(new Set<String>{'Id', 'Name'});
-            
-            if (String.isNotBlank(conditions)) {
-                qf.setCondition(conditions);
-            }
-            
-            if (String.isNotBlank(orderBy)) {
-                qf.addOrdering(orderBy, fflib_QueryFactory.SortOrder.ASCENDING);
-            }
-            
-            if (limitCount > 0) {
-                qf.setLimit(limitCount);
-            }
-            
-            return Database.query(qf.toSOQL());
-            
-        } catch (Exception e) {
-            throw new AuraHandledException('Error querying records: ' + e.getMessage());
+public static List<SObject> queryRecords(String objectName, String conditions, String orderBy, Integer limitCount) {
+    try {
+        Schema.SObjectType sObjType = getSObjectType(objectName);
+        
+        if (!sObjType.getDescribe().isAccessible()) {
+            throw new AuraHandledException('Read permission missing for: ' + objectName);
         }
+        
+        fflib_QueryFactory qf = new fflib_QueryFactory(sObjType);
+        
+        // Get all fields that are accessible
+        Map<String, Schema.SObjectField> fieldMap = sObjType.getDescribe().fields.getMap();
+        Set<String> accessibleFields = new Set<String>();
+        
+        for (String fieldName : fieldMap.keySet()) {
+            Schema.DescribeFieldResult fieldDescribe = fieldMap.get(fieldName).getDescribe();
+            if (fieldDescribe.isAccessible()) {
+                accessibleFields.add(fieldName);
+            }
+        }
+        
+        // Always include Id and Name
+        accessibleFields.add('Id');
+        accessibleFields.add('Name');
+        
+        qf.selectFields(accessibleFields);
+        
+        if (String.isNotBlank(conditions)) {
+            qf.setCondition(conditions);
+        }
+        
+        if (String.isNotBlank(orderBy)) {
+            qf.addOrdering(orderBy, fflib_QueryFactory.SortOrder.ASCENDING);
+        }
+        
+        if (limitCount > 0) {
+            qf.setLimit(limitCount);
+        }
+        
+        System.debug('Query SOQL: ' + qf.toSOQL());
+        return Database.query(qf.toSOQL());
+        
+    } catch (Exception e) {
+        throw new AuraHandledException('Error querying records: ' + e.getMessage());
     }
+}
 }
