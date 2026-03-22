@@ -1,83 +1,71 @@
 public with sharing class ContactArchiveCursorJob implements Queueable {
-
-    private Database.Cursor contactCursor;
-    private Integer position;
-    private String jobId;
-    private Integer totalProcessed;
-    private Set<Id> failedIds;
+    private Id trackerId;
+    private Database.Cursor locator;
+    private Integer currentPosition;
+    private Integer totalRecords;
     
-    public ContactArchiveCursorJob() {
-        contactCursor = Database.getCursor(
-            'SELECT Id, LastActivityDate, Description FROM Contact WHERE LastActivityDate < LAST_N_DAYS:730',
+    // 1. Initial Constructor
+    public ContactArchiveCursorJob(Id trackerId) {
+        this.trackerId = trackerId;
+        this.locator = Database.getCursor(
+            'SELECT Id, Description FROM Contact WHERE Is_Processed_By_Cursor__c = false',
             AccessLevel.USER_MODE
         );
-        position = 0;
-        jobId = String.valueOf(System.currentTimeMillis());
-        totalProcessed = 0;
-        failedIds = new Set<Id>();
+        this.currentPosition = 0;
+        this.totalRecords = this.locator.getNumRecords();
+
+        update new CursorJobTracker__c(
+            Id = trackerId, 
+            TotalRecords__c = this.totalRecords,
+            Status__c = 'Processing',
+            Processed__c = 0
+        );
     }
     
-    // Overloaded constructor for resuming
-    public ContactArchiveCursorJob(Integer startPosition, Integer processed, Set<Id> failures) {
-        this();
-        this.position = startPosition;
-        this.totalProcessed = processed;
-        this.failedIds = failures != null ? failures : new Set<Id>();
+    // 2. Chaining Constructor
+    public ContactArchiveCursorJob(Id trackerId, Database.Cursor locator, Integer position, Integer total) {
+        this.trackerId = trackerId;
+        this.locator = locator;
+        this.currentPosition = position;
+        this.totalRecords = total;
     }
-
+    
     public void execute(QueueableContext ctx) {
-        Integer totalRows = contactCursor.getNumRecords();
-        Integer remaining = totalRows - position;
-        
-        if(remaining <= 0){
-            sendCompletionEmail();
-            return;
-        }
-
-        Integer fetchSize = Math.min(500, remaining);
-        List<Contact> contacts = contactCursor.fetch(position, fetchSize);
-        position += contacts.size();
-        
-        List<Contact> successList = archiveContacts(contacts);
-        totalProcessed += successList.size();
-
-        if(position < totalRows){
-            // Continue with next chunk
-            System.enqueueJob(new ContactArchiveCursorJob(position, totalProcessed, failedIds));
-        } else {
-            sendCompletionEmail();
-        }
-    }
-
-    private List<Contact> archiveContacts(List<Contact> contacts){
-        List<Contact> updates = new List<Contact>();
-        
-        for(Contact c : contacts){
-            try {
-                c.Description = 'Archived by system on ' + System.now().format() + 
-                              ' | Previous Activity: ' + c.LastActivityDate;
-                updates.add(c);
-            } catch(Exception e) {
-                failedIds.add(c.Id);
+        try {
+            if (totalRecords == 0 || currentPosition >= totalRecords) {
+                updateStatus('Completed');
+                return;
             }
-        }
-        
-        if(!updates.isEmpty()){
-            Database.SaveResult[] results = Database.update(updates, false);
-            for(Integer i = 0; i < results.size(); i++){
-                if(!results[i].isSuccess()){
-                    failedIds.add(updates[i].Id);
+
+            // Increase fetchCount to 2000 to process more data per transaction
+            Integer fetchCount = Math.min(2000, totalRecords - currentPosition);
+            List<Contact> scope = (List<Contact>)locator.fetch(currentPosition, fetchCount);
+            
+            if(!scope.isEmpty()) {
+                for(Contact con : scope) {
+                    con.Description = 'Processed by cursor on ' + System.now();
+                    con.Is_Processed_By_Cursor__c = true;
                 }
+                update scope;
+                currentPosition += scope.size();
+                
+                update new CursorJobTracker__c(Id = trackerId, Processed__c = currentPosition);
             }
+
+            // Chain next if records remain
+            if(currentPosition < totalRecords) {
+                System.enqueueJob(new ContactArchiveCursorJob(trackerId, locator, currentPosition, totalRecords));
+            } else {
+                updateStatus('Completed');
+            }
+            
+        } catch(Exception e) {
+            System.debug('❌ Error: ' + e.getMessage());
+            updateStatus('Failed');
         }
-        
-        return updates;
     }
-    
-    private void sendCompletionEmail() {
-        // Log results in custom object or platform event
-        System.debug('Job Completed - Total: ' + totalProcessed + 
-                    ', Failed: ' + failedIds.size() + 
-                    ', JobId: ' + jobId);
+
+    private void updateStatus(String status) {
+        update new CursorJobTracker__c(Id = trackerId, Status__c = status);
     }
 }

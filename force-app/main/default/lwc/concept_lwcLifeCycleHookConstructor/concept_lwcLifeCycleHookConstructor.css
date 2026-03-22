@@ -1,0 +1,240 @@
+/* constructorDemo.css */
+
+/* Base styles */
+.slds-card {
+    background: white;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+}
+
+.slds-box {
+    background: rgb(243, 242, 242);
+    border-radius: 0.25rem;
+}
+
+.slds-scrollable_y {
+    overflow-y: auto;
+}
+
+.slds-table tbody tr:hover {
+    background-color: rgb(250, 250, 249);
+}
+
+.slds-badge {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+/* Enterprise-style enhancements */
+.slds-page-header {
+    background: rgb(250, 250, 249);
+    border-bottom: 1px solid rgb(221, 219, 218);
+}
+
+.constructor-demo-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ========== RESPONSIVE FIXES - MOBILE ONLY ========== */
+
+@media (max-width: 768px) {
+    /* Fix container padding */
+    .slds-container {
+        padding: 0.5rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+    
+    /* Make all cards full width and prevent overflow */
+    .slds-card,
+    .slds-box {
+        width: 100% !important;
+        min-width: 0 !important;
+        overflow-x: auto !important;
+    }
+    
+    /* Stack the 3 status cards vertically */
+    .slds-grid.slds-grid_vertical-align-stretch {
+        flex-direction: column !important;
+    }
+    
+    .slds-grid.slds-grid_vertical-align-stretch .slds-col {
+        width: 100% !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    /* Stack environment section */
+    .slds-grid.slds-m-top_small {
+        flex-direction: column !important;
+    }
+    
+    .slds-grid.slds-m-top_small .slds-col {
+        width: 100% !important;
+        margin-bottom: 0.75rem !important;
+    }
+    
+    /* Stack best practices and limitations side by side to vertical */
+    .slds-grid.slds-grid_pull-padded {
+        flex-direction: column !important;
+    }
+    
+    .slds-grid.slds-grid_pull-padded .slds-col {
+        width: 100% !important;
+        margin-bottom: 1rem !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    /* Make tables horizontally scrollable */
+    .slds-card__body {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    .slds-table {
+        min-width: 600px !important;
+    }
+    
+    /* Fix logs table scroll */
+    .slds-scrollable_y {
+        max-height: 300px !important;
+    }
+    
+    .slds-scrollable_y .slds-table {
+        min-width: 500px !important;
+    }
+    
+    /* Stack buttons vertically */
+    .slds-card__body .slds-grid.slds-gutters {
+        flex-direction: column !important;
+    }
+    
+    .slds-card__body .slds-grid.slds-gutters .slds-col {
+        width: 100% !important;
+        margin-bottom: 0.75rem !important;
+    }
+    
+    /* Make buttons full width */
+    .slds-card__body .slds-grid.slds-gutters lightning-button {
+        width: 100% !important;
+        display: block !important;
+    }
+    
+    /* Fix text wrapping */
+    .slds-page-header__title {
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        font-size: 1.25rem !important;
+    }
+    
+    /* Adjust warning message */
+    .slds-notify_alert {
+        font-size: 0.875rem !important;
+        word-wrap: break-word !important;
+    }
+    
+    /* Fix list items wrapping */
+    .slds-list_dotted li {
+        word-wrap: break-word !important;
+        white-space: normal !important;
+    }
+    
+    /* Reduce padding on cards */
+    .slds-p-around_medium {
+        padding: 0.75rem !important;
+    }
+    
+    /* Fix feature list wrapping */
+    .slds-text-body_small {
+        word-wrap: break-word !important;
+    }
+    
+    /* Prevent any horizontal overflow */
+    .slds-container,
+    .slds-page-header,
+    .slds-card,
+    .slds-box {
+        overflow-x: hidden !important;
+    }
+}
+
+/* Small phones (up to 480px) */
+@media (max-width: 480px) {
+    .slds-container {
+        padding: 0.25rem !important;
+    }
+    
+    .slds-page-header__title {
+        font-size: 1rem !important;
+    }
+    
+    .slds-text-heading_medium {
+        font-size: 1rem !important;
+    }
+    
+    .slds-text-heading_small {
+        font-size: 0.875rem !important;
+    }
+    
+    .slds-card__header-title {
+        font-size: 0.875rem !important;
+    }
+}
+
+/* Tablet styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .slds-container {
+        padding: 0.75rem !important;
+    }
+    
+    /* Make buttons flexible on tablet */
+    .slds-card__body .slds-grid.slds-gutters {
+        flex-wrap: wrap !important;
+    }
+    
+    .slds-card__body .slds-grid.slds-gutters .slds-col {
+        flex: 1 0 auto !important;
+        min-width: 180px !important;
+    }
+}
+
+/* Landscape mode fix */
+@media (max-width: 768px) and (orientation: landscape) {
+    .slds-scrollable_y {
+        max-height: 200px !important;
+    }
+
+/* Scroll for Constructor Execution Logs - Debug Version */
+.slds-scrollable_y {
+    max-height: 150px !important;
+    overflow-y: scroll !important;
+    overflow-x: auto !important;
+    border: 2px solid red !important; /* This will show if CSS is applying */
+    background-color: #f9f9f9 !important;
+}
+
+/* Override truncate for logs section to allow scroll */
+.slds-scrollable_y .slds-truncate {
+    max-width: none !important;
+    overflow: visible !important;
+    white-space: normal !important;
+    text-overflow: clip !important;
+}
+
+/* Ensure the container doesn't overflow the parent card */
+.slds-scrollable_x {
+    width: 100%;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+/* Optional: Make the timestamp smaller on very small screens */
+@media (max-width: 480px) {
+    .slds-text-body_small {
+        font-size: 0.7rem;
+    }
+}
+
+
+}

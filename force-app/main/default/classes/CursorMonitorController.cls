@@ -1,51 +1,33 @@
 public with sharing class CursorMonitorController {
-
-    @AuraEnabled
-    public static Map<String, Object> startJob() {
-        ContactArchiveCursorJob job = new ContactArchiveCursorJob();
-        Id jobId = System.enqueueJob(job);
-        
-        // Get actual count of inactive contacts
-        Integer totalCount = [SELECT COUNT() FROM Contact WHERE LastActivityDate < LAST_N_DAYS:730];
-        
-        Map<String, Object> result = new Map<String, Object>();
-        result.put('total', totalCount);
-        result.put('jobId', jobId);
-        result.put('status', 'Started');
-        
-        return result;
-    }
     
     @AuraEnabled
-    public static Map<String, Object> getJobStatus(String jobId) {
-        Map<String, Object> status = new Map<String, Object>();
-        
+    public static Map<String, Object> startJob() {
         try {
-            // Query async job status
-            List<AsyncApexJob> jobs = [
-                SELECT Status, JobItemsProcessed, TotalJobItems, NumberOfErrors
-                FROM AsyncApexJob 
-                WHERE Id = :jobId
-            ];
-            
-            if(!jobs.isEmpty()) {
-                AsyncApexJob job = jobs[0];
-                status.put('status', job.Status);
-                status.put('processed', job.JobItemsProcessed);
-                status.put('failed', job.NumberOfErrors);
-                status.put('total', job.TotalJobItems);
-            } else {
-                // Job might be completed and removed from AsyncApexJob
-                // Check your custom job log here
-                status.put('status', 'Unknown');
-                status.put('processed', 0);
-                status.put('failed', 0);
-            }
+            CursorJobTracker__c tracker = new CursorJobTracker__c(
+                Status__c = 'Processing',
+                Processed__c = 0
+            );
+            insert tracker;
+
+            System.enqueueJob(new ContactArchiveCursorJob(tracker.Id));
+            return new Map<String, Object>{ 'jobId' => tracker.Id };
         } catch(Exception e) {
-            status.put('status', 'Error');
-            status.put('error', e.getMessage());
+            throw new AuraHandledException(e.getMessage());
         }
-        
-        return status;
+    }
+    
+    @AuraEnabled(cacheable=false)
+    public static Map<String, Object> getJobStatus(String jobId) {
+        CursorJobTracker__c tracker = [
+            SELECT Status__c, Processed__c, TotalRecords__c 
+            FROM CursorJobTracker__c WHERE Id = :jobId LIMIT 1
+        ];
+        return new Map<String, Object>{
+            'status' => tracker.Status__c,
+            'processed' => (Integer)(tracker.Processed__c != null ? tracker.Processed__c : 0),
+            'total' => (Integer)(tracker.TotalRecords__c != null ? tracker.TotalRecords__c : 0)
+        };
     }
 }
+            
+        

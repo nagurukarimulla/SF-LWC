@@ -338,47 +338,82 @@
                                 disabled={isLoading}>
                 </lightning-button>
 
-                <!-- Query Results -->
-                <template if:true={queryResults.length}>
-                    <div class="slds-box slds-m-top_small">
-                        <h4 class="slds-text-heading_small">Query Results ({queryResults.length})</h4>
-                        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Details</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <template for:each={queryResults} for:item="result">
-                                    <tr key={result.Id}>
-                                        <td>{result.Name}</td>
-                                        <td>
-                                            <template if:true={result.Industry}>
-                                                Industry: {result.Industry}<br>
-                                            </template>
-                                            <template if:true={result.StageName}>
-                                                Stage: {result.StageName}<br>
-                                            </template>
-                                            <template if:true={result.Amount}>
-                                                Amount: {result.Amount}
-                                            </template>
-                                        </td>
-                                        <td>
-                                            <lightning-button label="Select" 
-                                                            data-id={result.Id}
-                                                            onclick={selectQueryResult}
-                                                            variant="base"
-                                                            size="small">
-                                            </lightning-button>
-                                        </td>
-                                    </tr>
-                                </template>
-                            </tbody>
-                        </table>
-                    </div>
+              <!-- Query Results -->
+<template if:true={queryResults.length}>
+    <div class="slds-box slds-m-top_small">
+        <h4 class="slds-text-heading_small">Query Results ({queryResults.length})</h4>
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Details</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={queryResults} for:item="result">
+                    <tr key={result.Id}>
+                        <td>{result.Name}</td>
+                        <td>
+                            <!-- Account fields -->
+                            <template if:true={result.Industry}>
+                                Industry: {result.Industry}<br/>
+                            </template>
+                            <template if:true={result.Phone}>
+                                Phone: {result.Phone}<br/>
+                            </template>
+                            <template if:true={result.Type}>
+                                Type: {result.Type}<br/>
+                            </template>
+                            <template if:true={result.Rating}>
+                                Rating: {result.Rating}<br/>
+                            </template>
+                            <template if:true={result.AnnualRevenue}>
+                                Annual Revenue: {result.AnnualRevenue}<br/>
+                            </template>
+                            
+                            <!-- Contact fields -->
+                            <template if:true={result.FirstName}>
+                                Name: {result.FirstName} {result.LastName}<br/>
+                            </template>
+                            <template if:true={result.Email}>
+                                Email: {result.Email}<br/>
+                            </template>
+                            <template if:true={result.Title}>
+                                Title: {result.Title}<br/>
+                            </template>
+                            <template if:true={result.Department}>
+                                Department: {result.Department}<br/>
+                            </template>
+                            
+                            <!-- Opportunity fields -->
+                            <template if:true={result.StageName}>
+                                Stage: {result.StageName}<br/>
+                            </template>
+                            <template if:true={result.Amount}>
+                                Amount: {result.Amount}<br/>
+                            </template>
+                            <template if:true={result.CloseDate}>
+                                Close Date: {result.CloseDate}<br/>
+                            </template>
+                            <template if:true={result.Probability}>
+                                Probability: {result.Probability}%<br/>
+                            </template>
+                        </td>
+                        <td>
+                            <lightning-button label="Select" 
+                                            data-id={result.Id}
+                                            onclick={selectQueryResult}
+                                            variant="base"
+                                            size="small">
+                            </lightning-button>
+                        </td>
+                    </tr>
                 </template>
+            </tbody>
+        </table>
+    </div>
+</template>
         </div>
         </div>
     </lightning-card>

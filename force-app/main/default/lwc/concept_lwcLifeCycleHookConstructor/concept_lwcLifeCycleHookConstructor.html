@@ -1,0 +1,251 @@
+<!-- constructorDemo.html -->
+<template>
+    <div class="slds-container slds-container_center slds-p-around_medium">
+        <!-- Header Section -->
+        <div class="slds-page-header" role="banner">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <h1 class="slds-page-header__title slds-truncate">
+                        Enterprise Constructor Pattern Demo
+                    </h1>
+                    <p class="slds-text-body_small slds-m-top_xx-small">
+                        Demonstrating proper lifecycle hook implementation with enterprise patterns
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Summary Card -->
+        <div class="slds-box slds-m-top_medium slds-theme_shade">
+            <h2 class="slds-text-heading_medium slds-m-bottom_small">
+                Constructor Execution Status
+            </h2>
+            <div class="slds-grid slds-grid_vertical-align-stretch slds-m-bottom_small">
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <lightning-icon icon-name={statusIcon} size="small" alternative-text="Status"></lightning-icon>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-text-heading_small">
+                                {initializationStatus.started ? '✅ Initialized' : '⚠️ Not Started'}
+                            </div>
+                            <div class="slds-text-body_small">Status</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <lightning-icon icon-name="standard:time" size="small"></lightning-icon>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-text-heading_small">{statusSummary.duration}</div>
+                            <div class="slds-text-body_small">Duration</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <lightning-icon icon-name="standard:settings" size="small"></lightning-icon>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-text-heading_small">v{statusSummary.config.version}</div>
+                            <div class="slds-text-body_small">Config Version</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="slds-grid slds-m-top_small">
+                <div class="slds-col slds-size_1-of-2">
+                    <div class="slds-text-title_caps">Environment</div>
+                    <div class="slds-text-body_small">{statusSummary.config.environment}</div>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <div class="slds-text-title_caps">Features</div>
+                    <div class="slds-text-body_small">
+                        {statusSummary.config.features.join(', ')}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Property Access Timing Demo -->
+        <div class="slds-card slds-m-top_medium">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="standard:property" size="small"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">
+                            Property Access Timing
+                        </h2>
+                    </div>
+                </header>
+            </div>
+            <div class="slds-card__body slds-p-around_medium">
+                <div class="slds-notify slds-notify_alert slds-theme_warning slds-m-bottom_medium" role="alert">
+                    <span class="slds-assistive-text">Warning</span>
+                    <strong>⚠️ Important:</strong> @api properties are NOT accessible during constructor
+                </div>
+                
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th scope="col">Property</th>
+                            <th scope="col">Access Time</th>
+                            <th scope="col">Value in Constructor</th>
+                            <th scope="col">Current Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>componentId</td>
+                            <td>During Construction</td>
+                            <td class="slds-text-color_error">undefined ❌</td>
+                            <td class="slds-text-color_success">{componentId || 'Not Set'}</td>
+                        </tr>
+                        <tr>
+                            <td>debugMode</td>
+                            <td>During Construction</td>
+                            <td class="slds-text-color_error">false ❌</td>
+                            <td class="slds-text-color_success">{debugMode}</td>
+                        </tr>
+                        <tr>
+                            <td>requiredProps</td>
+                            <td>During Construction</td>
+                            <td class="slds-text-color_error">undefined ❌</td>
+                            <td class="slds-text-color_success">{requiredProps.join(', ')}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="slds-m-top_small slds-text-body_small slds-text-color_weak">
+                    <lightning-icon icon-name="utility:info" size="x-small" alternative-text="Info"></lightning-icon>
+                    Properties are assigned to the component after construction and before connectedCallback()
+                </div>
+            </div>
+        </div>
+
+        <!-- Best Practices vs Limitations -->
+        <div class="slds-grid slds-grid_pull-padded slds-m-top_medium">
+            <div class="slds-col slds-p-horizontal_small slds-size_1-of-2">
+                <div class="slds-card">
+                    <div class="slds-card__header">
+                        <h2 class="slds-text-heading_small slds-text-color_success">
+                            ✅ Constructor Best Practices
+                        </h2>
+                    </div>
+                    <div class="slds-card__body slds-p-around_small">
+                        <ul class="slds-list_dotted">
+                            <template for:each={constructorBestPractices} for:item="practice">
+                                <li key={practice} class="slds-m-bottom_x-small">{practice}</li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-p-horizontal_small slds-size_1-of-2">
+                <div class="slds-card">
+                    <div class="slds-card__header">
+                        <h2 class="slds-text-heading_small slds-text-color_error">
+                            ❌ Constructor Limitations
+                        </h2>
+                    </div>
+                    <div class="slds-card__body slds-p-around_small">
+                        <ul class="slds-list_dotted">
+                            <template for:each={constructorLimitations} for:item="limitation">
+                                <li key={limitation} class="slds-m-bottom_x-small">{limitation}</li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Constructor Execution Logs -->
+        <div class="slds-card slds-m-top_medium">
+    <div class="slds-card__header">
+        </div>
+    <div class="slds-card__body">
+        <div class="slds-scrollable_x slds-scrollable_y" style="max-height: 400px;">
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_fixed-layout">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th scope="col" style="width: 160px;">Timestamp</th>
+                        <th scope="col" style="width: 80px;">Level</th>
+                        <th scope="col" style="min-width: 200px;">Message</th>
+                        <th scope="col" style="width: 60px;">Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={constructorLogs} for:item="log">
+                        <tr key={log.id} class={logRowClass}>
+                            <td>
+                                <span class="slds-text-body_small">{log.timestamp}</span>
+                            </td>
+                            <td>
+                                <span class={logLevelBadgeClass}>{log.level}</span>
+                            </td>
+                            <td>
+                                <div class="slds-cell-wrap" title={log.message}>
+                                    {log.message}
+                                </div>
+                            </td>
+                            <td class="slds-text-align_center">
+                                <template if:true={log.data}>
+                                    <button class="slds-button slds-button_icon" 
+                                            onclick={handleShowData} 
+                                            data-id={log.id}
+                                            title="View Data">
+                                        <lightning-icon icon-name="utility:preview" size="xx-small"></lightning-icon>
+                                    </button>
+                                </template>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+        <!-- Interactive Demo Section -->
+        <div class="slds-card slds-m-top_medium">
+            <div class="slds-card__header">
+                <h2 class="slds-text-heading_small">Interactive Constructor Testing</h2>
+            </div>
+            <div class="slds-card__body slds-p-around_medium">
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col">
+                        <lightning-button label="Refresh Constructor Info" 
+                                          onclick={handleRefresh}
+                                          variant="brand">
+                        </lightning-button>
+                    </div>
+                    <div class="slds-col">
+                        <lightning-button label="Simulate Property Access" 
+                                          onclick={handleSimulatePropertyAccess}
+                                          variant="neutral">
+                        </lightning-button>
+                    </div>
+                    <div class="slds-col">
+                        <lightning-button label="Clear Logs" 
+                                          onclick={handleClearLogs}
+                                          variant="destructive-text">
+                        </lightning-button>
+                    </div>
+                </div>
+                
+                <div class="slds-m-top_medium slds-text-color_weak slds-border_top slds-p-top_medium">
+                    <lightning-icon icon-name="utility:help" size="x-small"></lightning-icon>
+                    <span class="slds-m-left_x-small">Note: This component demonstrates proper constructor patterns. 
+                    All @api properties are only accessible after the constructor completes and before connectedCallback().</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

@@ -206,5 +206,8 @@ return this.selectedComponent === 'concept_fflibClassesUseCase2';
 get isFFLIBClassesUseCase3(){
 return this.selectedComponent === 'concept_fflibClassesUseCase3';
 }
+get isLifecyccleHookConstructor(){
+return this.selectedComponent === 'concept_lwcLifeCycleHookConstructor';
+}
 }
 

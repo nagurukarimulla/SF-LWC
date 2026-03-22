@@ -1,110 +1,108 @@
 import { LightningElement, track } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent'; // 1. Import Toast
 import startCursorJob from '@salesforce/apex/CursorMonitorController.startJob';
 import getJobStatus from '@salesforce/apex/CursorMonitorController.getJobStatus';
 
-export default class Concept_apexCursorMonitor extends LightningElement {
-    
-   @track status = 'Idle';
+export default class Concept_ApexCursorMonitor extends LightningElement {
+    @track status = 'Idle';
     @track totalRecords = 0;
     @track processed = 0;
     @track failed = 0;
     @track jobId = '';
     @track error;
-    
-    // Computed property for button state
-    get isJobRunning() {
-        return this.status === 'Processing...' || this.status === 'Job Started';
-    }
-    
-    // FIXED: Computed property for progress percentage
+    pollingInterval;
+
+    get isJobRunning() { return this.status === 'Processing'; }
+    get isCompleted() { return this.status === 'Completed'; }
+    get isFailed() { return this.status === 'Failed'; }
+    get showProgress() { return this.totalRecords > 0; }
+
     get progressPercentage() {
-        if(this.totalRecords === 0) return 0;
-        return Math.round((this.processed / this.totalRecords) * 100);
+        return (this.totalRecords > 0) ? Math.round((this.processed / this.totalRecords) * 100) : 0;
     }
-    
-    // Fixed test version
+
+    get statusBadgeClass() {
+        let baseClass = 'slds-badge ';
+        if (this.status === 'Processing') baseClass += 'slds-theme_warning';
+        else if (this.status === 'Completed') baseClass += 'slds-theme_success';
+        else if (this.status === 'Failed') baseClass += 'slds-theme_error';
+        return baseClass;
+    }
+
     startJob() {
-        this.status = 'Processing...';
-        this.totalRecords = 10000;
-        this.jobId = 'TEST-' + Date.now();
-        this.processed = 0;  // Reset
-        this.failed = 0;      // Reset
-        
-        // Simulate progress
-        let count = 0;
-        // eslint-disable-next-line @lwc/lwc/no-async-operation
-        const interval = setInterval(() => {
-            count += 500;
-            this.processed = Math.min(count, this.totalRecords); // Don't exceed total
-            this.failed = Math.floor(count / 10000); // Simulate 1% failure
-            
-            if(count >= this.totalRecords) {
-                this.status = 'Completed';
-                clearInterval(interval);
-            }
-        }, 100);
-    }
-
-    
-
-    checkStatus() {
-        // Poll every 5 seconds
-        // eslint-disable-next-line @lwc/lwc/no-async-operation
-        window.setInterval(() => {
-            if(this.jobId && this.status !== 'Completed' && this.status !== 'Failed') {
-                getJobStatus({ jobId: this.jobId })
-                    .then(data => {
-                        this.processed = data.processed || 0;
-                        this.failed = data.failed || 0;
-                        
-                        if(data.status === 'Completed') {
-                            this.status = 'Completed';
-                        } else if(data.status === 'Failed') {
-                            this.status = 'Failed';
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Status check failed', error);
-                    });
-            }
-        }, 5000);
-    }
-}
-/*
-// Temporary test version of startJob
-startJob() {
-    this.status = 'Processing...';
-    this.totalRecords = 1000000;
-    this.jobId = 'TEST-' + Date.now();
-    
-    // Simulate progress
-    let count = 0;
-    // eslint-disable-next-line @lwc/lwc/no-async-operation
-    const interval = setInterval(() => {
-        count += 500;
-        this.processed = count;
-        this.failed = Math.floor(count / 10000); // Simulate 1% failure
-        
-        if(count >= this.totalRecords) {
-            this.status = 'Completed';
-            clearInterval(interval);
-        }
-    }, 100);
-}*/
-
-/*startJob() {
-        this.status = 'Processing...';
+        this.status = 'Processing';
         this.error = null;
+        this.processed = 0;
+        this.failed = 0;
         
         startCursorJob()
             .then(result => {
-                this.totalRecords = result.total;
                 this.jobId = result.jobId;
-                this.status = 'Job Started';
-                this.checkStatus();
+                this.startPolling();
             })
-            .catch(error => {
-                this.error = error.body.message;
+            .catch(err => {
+                this.error = err.body ? err.body.message : 'Unknown Error';
                 this.status = 'Failed';
+                this.showToast('Error', this.error, 'error'); // Show toast on start failure
             });
-    }*/
+    }
+
+    checkStatus() {
+        getJobStatus({ jobId: this.jobId })
+            .then(data => {
+                this.status = data.status;
+                this.processed = data.processed || 0;
+                this.totalRecords = data.total || 0;
+                this.failed = data.failed || 0;
+
+                if (this.status === 'Completed') {
+                    this.stopPolling();
+                    this.showToast('Success', 'All contacts processed successfully!', 'success');
+                } else if (this.status === 'Failed') {
+                    this.stopPolling();
+                    this.showToast('Job Failed', 'The migration encountered an error.', 'error');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                this.status = 'Failed';
+                this.stopPolling();
+            });
+    }
+
+    // 2. Helper Method to fire the Toast
+    showToast(title, message, variant) {
+        const event = new ShowToastEvent({
+            title: title,
+            message: message,
+            variant: variant, // success, error, warning, or info
+        });
+        this.dispatchEvent(event);
+    }
+
+    handleReset() {
+        this.status = 'Idle';
+        this.totalRecords = 0;
+        this.processed = 0;
+        this.failed = 0;
+        this.jobId = '';
+        this.error = null;
+        this.stopPolling();
+    }
+
+    startPolling() {
+        this.stopPolling();
+        this.pollingInterval = setInterval(() => this.checkStatus(), 2000);
+    }
+
+    stopPolling() {
+        if (this.pollingInterval) {
+            clearInterval(this.pollingInterval);
+            this.pollingInterval = null;
+        }
+    }
+
+    disconnectedCallback() {
+        this.stopPolling();
+    }
+}

@@ -86,53 +86,63 @@ export default class Concept_ffLibFramework extends LightningElement {
 
     // Computed getters for template
     get currentFields() {
-        let fields = [];
+    let fields = [];
+    
+    if (this.selectedObject === 'Account') {
+        fields = this.accountFields;
+    } else if (this.selectedObject === 'Contact') {
+        fields = this.contactFields;
+    } else if (this.selectedObject === 'Opportunity') {
+        fields = this.opportunityFields;
+    }
+
+    // Enhance fields with computed properties
+    return fields.map(field => {
+        const enhancedField = { ...field };
         
-        if (this.selectedObject === 'Account') {
-            fields = this.accountFields;
-        } else if (this.selectedObject === 'Contact') {
-            fields = this.contactFields;
-        } else if (this.selectedObject === 'Opportunity') {
-            fields = this.opportunityFields;
+        // Add input type
+        if (field.name === 'AnnualRevenue' || field.name === 'Amount') {
+            enhancedField.inputType = 'number';
+            enhancedField.step = '0.01';
+        } else if (field.name === 'Probability') {
+            enhancedField.inputType = 'number';
+            enhancedField.step = '1';
+        } else if (field.name === 'CloseDate') {
+            enhancedField.inputType = 'date';
+        } else if (field.name === 'Email') {
+            enhancedField.inputType = 'email';
+        } else if (field.name === 'Phone') {
+            enhancedField.inputType = 'tel';
+        } else {
+            enhancedField.inputType = 'text';
         }
 
-        // Enhance fields with computed properties
-        return fields.map(field => {
-            const enhancedField = { ...field };
-            
-            // Add input type
-            if (field.name === 'AnnualRevenue' || field.name === 'Amount') {
-                enhancedField.inputType = 'number';
-                enhancedField.step = '0.01';
-            } else if (field.name === 'Probability') {
-                enhancedField.inputType = 'number';
-                enhancedField.step = '1';
-            } else if (field.name === 'CloseDate') {
-                enhancedField.inputType = 'date';
-            } else if (field.name === 'Email') {
-                enhancedField.inputType = 'email';
-            } else if (field.name === 'Phone') {
-                enhancedField.inputType = 'tel';
-            } else {
-                enhancedField.inputType = 'text';
+        // Add picklist options
+        if (field.isPicklist) {
+            if (field.name === 'Industry') {
+                enhancedField.picklistOptions = this.industryOptions;
+            } else if (field.name === 'StageName') {
+                enhancedField.picklistOptions = this.stageOptions;
+            } else if (field.name === 'Rating') {
+                enhancedField.picklistOptions = this.ratingOptions;
+            } else if (field.name === 'Type') {
+                enhancedField.picklistOptions = this.typeOptions;
             }
-
-            // Add picklist options
-            if (field.isPicklist) {
-                if (field.name === 'Industry') {
-                    enhancedField.picklistOptions = this.industryOptions;
-                } else if (field.name === 'StageName') {
-                    enhancedField.picklistOptions = this.stageOptions;
-                } else if (field.name === 'Rating') {
-                    enhancedField.picklistOptions = this.ratingOptions;
-                } else if (field.name === 'Type') {
-                    enhancedField.picklistOptions = this.typeOptions;
-                }
-            }
-            enhancedField.value = this.formData[field.name] || '';
-            return enhancedField;
-        });
-    }
+        }
+        
+        // Handle value formatting for display
+        let displayValue = this.formData[field.name];
+        
+        // Format date for display in template
+        if (field.name === 'CloseDate' && displayValue) {
+            // If it's a date string, keep as is
+            displayValue = displayValue;
+        }
+        
+        enhancedField.value = displayValue !== null && displayValue !== undefined ? displayValue : '';
+        return enhancedField;
+    });
+}
 
     get showCreateButton() {
         return !this.showCreateForm && !this.showUpdateForm;
@@ -158,19 +168,29 @@ export default class Concept_ffLibFramework extends LightningElement {
 }
 
     handleInputChange(event) {
-        const field = event.target.dataset.field;
-        let value = event.target.value;
-        
-        // Handle different input types
-        if (event.target.type === 'number') {
-            value = value ? parseFloat(value) : null;
+    const field = event.target.dataset.field;
+    let value = event.target.value;
+    
+    if (event.target.type === 'number') {
+      
+        if (value === '') {
+            value = null;
+        } else {
+            const parsedValue = parseFloat(value);
+            value = isNaN(parsedValue) ? null : parsedValue;
         }
-        
-        this.formData = {
-            ...this.formData,
-            [field]: value
-        };
     }
+     // Handle date fields
+    else if (event.target.type === 'date') {
+        if (value === '') {
+            value = null;
+        }
+    }
+    this.formData = {
+        ...this.formData,
+        [field]: value
+    };
+}
 
     handlePicklistChange(event) {
         const field = event.target.dataset.field;
@@ -193,71 +213,118 @@ export default class Concept_ffLibFramework extends LightningElement {
         return;
     }
     
-    // Populate form with current record data - include ALL fields even if empty
+    // Populate form with current record data
     const newFormData = {};
     this.currentFields.forEach(field => {
-        // Include the field even if it's empty (null/undefined) to show blank
         const value = this.record[field.name];
-        newFormData[field.name] = this.record[field.name] || '';
+        
+        // Handle number fields
+        if (field.name === 'AnnualRevenue' || field.name === 'Amount' || field.name === 'Probability') {
+            newFormData[field.name] = value !== null && value !== undefined ? value : null;
+        }
+        // Handle date fields
+        else if (field.name === 'CloseDate') {
+            if (value) {
+                // If value is a Date object or string, format as YYYY-MM-DD
+                let dateObj;
+                if (value instanceof Date) {
+                    dateObj = value;
+                } else {
+                    dateObj = new Date(value);
+                }
+                
+                if (!isNaN(dateObj.getTime())) {
+                    // Format as YYYY-MM-DD for date input
+                    const year = dateObj.getFullYear();
+                    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+                    const day = String(dateObj.getDate()).padStart(2, '0');
+                    newFormData[field.name] = `${year}-${month}-${day}`;
+                } else {
+                    newFormData[field.name] = null;
+                }
+            } else {
+                newFormData[field.name] = null;
+            }
+        }
+        else {
+            newFormData[field.name] = value !== null && value !== undefined ? value : '';
+        }
     });
     
     this.formData = newFormData;
     this.showUpdateForm = true;
     this.showCreateForm = false;
-    this.searchResults = []; // Clear search results when opening update form
-    this.searchTerm = ''; // Optional: clear search term too
+    this.searchResults = []; 
+    this.searchTerm = ''; 
     
+    console.log('Form data after prefill:', this.formData);
     showInfo(this, 'Info', 'Form pre-filled with current record data. Modify and click Update.');
 }
-
     cancelForm() {
         this.showCreateForm = false;
         this.showUpdateForm = false;
         this.formData = {};
     }
 
-    validateForm() {
-        const requiredFields = this.currentFields.filter(f => f.required);
-        for (let field of requiredFields) {
-            if (!this.formData[field.name]) {
+  validateForm() {
+    const requiredFields = this.currentFields.filter(f => f.required);
+    for (let field of requiredFields) {
+        const value = this.formData[field.name];
+        
+        // Special handling for date fields
+        if (field.name === 'CloseDate') {
+            const isEmpty = value === null || value === undefined || value === '';
+            if (isEmpty) {
                 showWarning(this, 'Validation Error', `${field.label} is required`);
                 return false;
             }
         }
-        return true;
+        else {
+            const isEmpty = value === null || value === undefined || value === '';
+            if (isEmpty) {
+                showWarning(this, 'Validation Error', `${field.label} is required`);
+                return false;
+            }
+        }
     }
+    return true;
+}
 
     async handleCreate() {
-        if (!this.validateForm()) {
-            return;
-        }
-
-        this.isLoading = true;
-        this.error = null;
-        
-        try {
-            const fields = { ...this.formData };
-            
-            const id = await createRecord({ 
-                objectName: this.selectedObject, 
-                fields: fields 
-            });
-            
-            this.record = await getRecord({ 
-                objectName: this.selectedObject, 
-                recordId: id 
-            });
-            
-            this.showCreateForm = false;
-            this.formData = {};
-            showSuccess(this, 'Success', 'Record created successfully');
-        } catch (error) {
-            this.error = error.body ? error.body.message : error.message;
-            showError(this, 'Error', this.error);
-        } finally {
-            this.isLoading = false;
-        }
+    if (!this.validateForm()) {
+        return;
     }
+
+    this.isLoading = true;
+    this.error = null;
+    
+    try {
+        // Send the form data as-is - Apex will handle type conversion
+        const fieldsToCreate = { ...this.formData };
+        
+        console.log('Fields being sent to create:', JSON.stringify(fieldsToCreate, null, 2));
+        
+        const id = await createRecord({ 
+            objectName: this.selectedObject, 
+            fields: fieldsToCreate 
+        });
+        
+        this.record = await getRecord({ 
+            objectName: this.selectedObject, 
+            recordId: id 
+        });
+        
+        this.showCreateForm = false;
+        this.formData = {};
+        showSuccess(this, 'Success', 'Record created successfully');
+    } catch (error) {
+        console.error('Create error:', error);
+        this.error = error.body?.message || error.message || 'Unknown error occurred';
+        showError(this, 'Error', this.error);
+    } finally {
+        this.isLoading = false;
+    }
+}
 
     async handleRead() {
         if (!this.record?.Id) {
@@ -283,41 +350,47 @@ export default class Concept_ffLibFramework extends LightningElement {
     }
 
     async handleUpdate() {
-        if (!this.record?.Id) {
-            showWarning(this, 'Warning', 'Please create or select a record first');
-            return;
-        }
-
-        if (!this.validateForm()) {
-            return;
-        }
-        
-        this.isLoading = true;
-        this.error = null;
-        try {
-            await updateRecord({ 
-                objectName: this.selectedObject, 
-                recordId: this.record.Id, 
-                fields: this.formData 
-            });
-            
-            this.record = await getRecord({ 
-                objectName: this.selectedObject, 
-                recordId: this.record.Id 
-            });
-            
-            this.showUpdateForm = false;
-            this.formData = {};
-            showSuccess(this, 'Success', 'Record updated successfully');
-        } catch (error) {
-            this.error = error.body ? error.body.message : error.message;
-            showError(this, 'Error', this.error);
-        } finally {
-            this.isLoading = false;
-        }
+    if (!this.record?.Id) {
+        showWarning(this, 'Warning', 'Please create or select a record first');
+        return;
     }
 
-    async handleDelete() {
+    if (!this.validateForm()) {
+        return;
+    }
+    
+    this.isLoading = true;
+    this.error = null;
+    try {
+        // Send the form data as-is - Apex will handle type conversion
+        const fieldsToUpdate = { ...this.formData };
+        
+        console.log('Fields being sent to update:', JSON.stringify(fieldsToUpdate, null, 2));
+        
+        await updateRecord({ 
+            objectName: this.selectedObject, 
+            recordId: this.record.Id, 
+            fields: fieldsToUpdate 
+        });
+        
+        this.record = await getRecord({ 
+            objectName: this.selectedObject, 
+            recordId: this.record.Id 
+        });
+        
+        this.showUpdateForm = false;
+        this.formData = {};
+        showSuccess(this, 'Success', 'Record updated successfully');
+    } catch (error) {
+        console.error('Update error:', error);
+        this.error = error.body?.message || error.message || 'Unknown error occurred';
+        showError(this, 'Error', this.error);
+    } finally {
+        this.isLoading = false;
+    }
+}
+
+ async handleDelete() {
         if (!this.record?.Id) {
             showWarning(this, 'Warning', 'Please create or select a record first');
             return;
@@ -429,7 +502,7 @@ export default class Concept_ffLibFramework extends LightningElement {
                 orderBy = 'LastName';
             } else if (this.selectedObject === 'Opportunity') {
                 conditions = 'IsClosed = false';
-                orderBy = 'CloseDate ASC';
+                orderBy = 'CloseDate';
             }
             
             this.queryResults = await queryRecords({ 

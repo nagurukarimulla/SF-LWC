@@ -7,6 +7,7 @@ export default class ConceptSelector extends LightningElement {
     @track pageSizes = [5, 10, 20, 50, 100];
     
     concepts = [
+        {label: "Lifecyccle Hook Constructor",value: "concept_lwcLifeCycleHookConstructor"},
         {label: "FFLIB Classes UseCase3",value: "concept_fflibClassesUseCase3"},
         {label: "FFLIB Classes UseCase2",value: "concept_fflibClassesUseCase2"},
         {label: "FFLIB Classes UseCase1",value: "concept_fflibClassesUseCase1"},
