@@ -1,0 +1,177 @@
+.slds-card {
+    background: white;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+    margin-bottom: 1rem;
+}
+
+.slds-box {
+    background: rgb(243, 242, 242);
+    border-radius: 0.25rem;
+    padding: 1rem;
+}
+
+.slds-scrollable_y {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.slds-table {
+    width: 100%;
+}
+
+.slds-table th,
+.slds-table td {
+    padding: 0.5rem;
+    text-align: left;
+}
+
+.slds-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+}
+
+.slds-theme_success {
+    background-color: #4caf50;
+    color: white;
+}
+
+.slds-theme_warning {
+    background-color: #ff9800;
+    color: white;
+}
+
+.slds-theme_error {
+    background-color: #f44336;
+    color: white;
+}
+
+.slds-theme_info {
+    background-color: #2196f3;
+    color: white;
+}
+
+.slds-theme_light {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.slds-text-color_success {
+    color: #4caf50;
+    font-weight: bold;
+}
+
+.slds-text-color_error {
+    color: #f44336;
+    font-weight: bold;
+}
+
+.slds-list_dotted {
+    list-style: none;
+    padding-left: 0;
+}
+
+.slds-list_dotted li {
+    padding-left: 1rem;
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.slds-list_dotted li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+}
+
+.slds-grid {
+    display: flex;
+    gap: 1rem;
+}
+
+.slds-col {
+    flex: 1;
+}
+
+.slds-media {
+    display: flex;
+    align-items: center;
+}
+
+.slds-media__figure {
+    margin-right: 0.75rem;
+}
+
+.slds-media__body {
+    flex: 1;
+}
+
+.slds-text-heading_small {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.slds-text-heading_medium {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.slds-text-body_small {
+    font-size: 0.75rem;
+}
+
+.slds-text-title_caps {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.slds-m-top_medium {
+    margin-top: 1rem;
+}
+
+.slds-m-bottom_small {
+    margin-bottom: 0.5rem;
+}
+
+.slds-p-around_medium {
+    padding: 1rem;
+}
+
+.slds-p-around_small {
+    padding: 0.75rem;
+}
+
+.slds-border_top {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.slds-button_icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .slds-container {
+        padding: 0.5rem;
+    }
+    
+    .slds-grid {
+        flex-direction: column;
+    }
+    
+    .slds-col {
+        margin-bottom: 1rem;
+    }
+    
+    .slds-scrollable_y {
+        max-height: 300px;
+    }
+}

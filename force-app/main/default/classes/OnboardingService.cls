@@ -55,9 +55,16 @@ public with sharing class OnboardingService {
             uow.registerNew(t, Task.WhatId, con);
             uow.commitWork();
             
+            
+        } catch (Opportunities.OnboardingException de) {
+            // Create the exception, set the message, THEN throw it
+            AuraHandledException e = new AuraHandledException(de.getMessage());
+            e.setMessage(de.getMessage()); 
+            throw e;
         } catch (Exception e) {
-            System.debug('Error: ' + e.getMessage() + ' at line ' + e.getLineNumber());
-            throw new AuraHandledException('Onboarding failed: ' + e.getMessage());
+            AuraHandledException hex = new AuraHandledException('Onboarding failed: ' + e.getMessage());
+            hex.setMessage('Onboarding failed: ' + e.getMessage());
+            throw hex;
         }
     }
 }

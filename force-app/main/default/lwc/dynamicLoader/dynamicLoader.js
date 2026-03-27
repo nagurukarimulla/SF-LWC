@@ -209,5 +209,8 @@ return this.selectedComponent === 'concept_fflibClassesUseCase3';
 get isLifecyccleHookConstructor(){
 return this.selectedComponent === 'concept_lwcLifeCycleHookConstructor';
 }
+get isConnectedandDisconnectedCallbacks(){
+return this.selectedComponent === 'concept_lifecycleCallbacks';
+}
 }
 

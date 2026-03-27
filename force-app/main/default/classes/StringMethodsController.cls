@@ -135,7 +135,7 @@ public with sharing class StringMethodsController {
         
         staticUtils.put('join', String.join(new List<String>{'A','B','C'}, ','));
         staticUtils.put('format', String.format('Hello {0}, age {1}', 
-                        new List<Object>{'John', 30}));
+                        new List<Object>{'Spring', 26}));
         staticUtils.put('valueOf', String.valueOf(123.45));
         staticUtils.put('fromCharArray', String.fromCharArray(new Integer[]{72,101,108,108,111}));
         result.put('staticUtils', staticUtils);
@@ -215,14 +215,14 @@ public with sharing class StringMethodsController {
         examples.put('email', emailParse);
         
         // CSV parsing
-        String csvLine = 'John,Doe,30,New York';
+        String csvLine = 'SF,Spring,26,New York';
         examples.put('csv', csvLine.split(','));
         
         // Name formatting
         Map<String, String> nameFormat = new Map<String, String>();
-        nameFormat.put('firstName', 'john');
-        nameFormat.put('lastName', 'DOE');
-        nameFormat.put('formatted', 'john'.capitalize() + ' ' + 'DOE'.uncapitalize());
+        nameFormat.put('firstName', 'apex');
+        nameFormat.put('lastName', 'STRINGCLASS');
+        nameFormat.put('formatted', 'apex'.capitalize() + ' ' + 'STRINGCLASS'.uncapitalize());
         examples.put('name', nameFormat);
         
         // Phone cleaning
