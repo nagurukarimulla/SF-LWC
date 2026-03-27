@@ -3,7 +3,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent'; // 1. Import 
 import startCursorJob from '@salesforce/apex/CursorMonitorController.startJob';
 import getJobStatus from '@salesforce/apex/CursorMonitorController.getJobStatus';
 
-export default class Concept_ApexCursorMonitor extends LightningElement {
+export default class ApexCursorMonitor extends LightningElement {
     @track status = 'Idle';
     @track totalRecords = 0;
     @track processed = 0;

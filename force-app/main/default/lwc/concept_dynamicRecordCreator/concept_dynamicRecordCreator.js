@@ -1,4 +1,3 @@
-  
 import { LightningElement, track } from 'lwc';
 import { createRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
