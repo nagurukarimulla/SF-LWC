@@ -70,4 +70,5 @@ export default class Concept_inputComponents extends LightningElement {
     connectedCallback() {
         console.log('Input Components component loaded successfully');
     }
+    
 }

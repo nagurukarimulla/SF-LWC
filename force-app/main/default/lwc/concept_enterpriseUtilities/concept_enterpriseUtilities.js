@@ -58,7 +58,7 @@ export default class UtilityModulesPlayground extends NavigationMixin(LightningE
         .then(url => {
             this.generatedUrl = url;
             this.resultMessage = 'URL generated successfully';
-            this.outputMessage = 'URL is now available below';
+            this.outputMessage = 'URL is now available please click the link to navigate';
             this.showSpinner = false;
         })
         .catch(error => {

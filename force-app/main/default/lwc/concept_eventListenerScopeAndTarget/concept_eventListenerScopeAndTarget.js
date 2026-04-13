@@ -1,4 +1,5 @@
 import { LightningElement } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class Concept_eventListenerScopeAndTarget extends LightningElement {
 
@@ -40,6 +41,15 @@ export default class Concept_eventListenerScopeAndTarget extends LightningElemen
                 message: `Event from: ${sourceComponent.tagName}`
             }
         ];
-         console.log('Updated logs:', this.logs)
+         console.log('Updated logs:', this.logs);
+
+        const toastEvent = new ShowToastEvent({
+            title: 'Action Triggered',
+            message: `Event from: ${sourceComponent.tagName}`,
+            variant: 'success'
+        });
+        this.dispatchEvent(toastEvent);
+
+        console.log('Toast event dispatched:', toastEvent);
     };
 }

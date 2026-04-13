@@ -68,8 +68,6 @@
 
 
 import { LightningElement, track } from 'lwc';
-import { getObjectInfo } from 'lightning/uiObjectInfoApi';
-import { getRecord } from 'lightning/uiRecordApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class Concept_enterpriseRecordForms extends LightningElement {

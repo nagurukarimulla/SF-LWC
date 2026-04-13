@@ -1,140 +1,89 @@
 <template>
-
     <lightning-card title="Container Components Explorer" icon-name="utility:apps">
-
         <!-- GRID LAYOUT -->
         <lightning-layout multiple-rows>
-
             <!-- LEFT PANEL -->
             <lightning-layout-item size="6" padding="around-small">
-
-                <lightning-card title="Accordion Example">
-
+                <lightning-card title="Accordion In Action">
                     <lightning-accordion allow-multiple-sections-open>
-
                         <lightning-accordion-section label="Accounts">
                             Account related information
                         </lightning-accordion-section>
-
                         <lightning-accordion-section label="Contacts">
                             Contact related information
                         </lightning-accordion-section>
-
                         <lightning-accordion-section label="Opportunities">
                             Opportunity data insights
                         </lightning-accordion-section>
-
                     </lightning-accordion>
-
                 </lightning-card>
-
             </lightning-layout-item>
 
             <!-- RIGHT PANEL -->
             <lightning-layout-item size="6" padding="around-small">
-
-                <lightning-card title="Tabs Example">
-
+                <lightning-card title="Tabs In Action">
                     <lightning-tabset>
-
                         <lightning-tab label="Summary">
-
                             <lightning-tile label="Customer 360">
                                 Enterprise customer insights dashboard
                             </lightning-tile>
-
                         </lightning-tab>
-
                         <lightning-tab label="Analytics">
-
                             <p class="slds-p-around_medium">
                                 Analytics insights displayed here
                             </p>
-
                         </lightning-tab>
-
                     </lightning-tabset>
-
                 </lightning-card>
-
             </lightning-layout-item>
-
         </lightning-layout>
 
 
         <!-- CAROUSEL SECTION -->
-
-        <lightning-card title="Carousel Example">
-
+        <lightning-card title="Carousel In Action">
             <lightning-carousel>
-
                 <lightning-carousel-image
                         src="https://picsum.photos/800/300?1"
                         header="Customer Engagement"
                         description="Real-time engagement insights">
                 </lightning-carousel-image>
-
                 <lightning-carousel-image
                         src="https://picsum.photos/800/300?2"
                         header="Sales Performance"
                         description="Track revenue performance">
                 </lightning-carousel-image>
-
             </lightning-carousel>
-
         </lightning-card>
 
-
         <!-- MODAL BUTTON -->
-
         <div class="slds-p-around_medium">
-
             <lightning-button
                     label="Open Modal"
                     onclick={openModal}>
             </lightning-button>
-
         </div>
-
     </lightning-card>
 
-
-
     <!-- MODAL -->
-
     <template if:true={showModal}>
-
         <section role="dialog" class="slds-modal slds-fade-in-open">
-
             <div class="slds-modal__container">
-
                 <header class="slds-modal__header">
                     <h2 class="slds-text-heading_medium">
                         Container Components Modal
                     </h2>
                 </header>
-
                 <div class="slds-modal__content slds-p-around_medium">
-
                     This modal demonstrates enterprise UI interaction.
-
                 </div>
-
                 <footer class="slds-modal__footer">
-
                     <lightning-button
                             label="Close"
                             onclick={closeModal}>
                     </lightning-button>
-
                 </footer>
-
             </div>
-
         </section>
-
         <div class="slds-backdrop slds-backdrop_open"></div>
-
     </template>
-
 </template>
