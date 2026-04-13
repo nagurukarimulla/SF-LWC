@@ -1,4 +1,5 @@
 import { LightningElement } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class Concept_eventRetargeting extends LightningElement {
 
@@ -33,7 +34,15 @@ export default class Concept_eventRetargeting extends LightningElement {
                 message: `Event target seen by parent: ${event.target.tagName}`
             }
         ];
-        console.log('Updated logs:', this.logs)
+        console.log('Updated logs:', this.logs);
+
+        const toastEvent = new ShowToastEvent({
+            title: 'Retargeting Event Received',
+            message: `Parent saw event target: ${event.target.tagName}`,
+            variant: 'info'
+        });
+        this.dispatchEvent(toastEvent);
+        console.log('Toast event dispatched:', toastEvent);
     };
 
 }

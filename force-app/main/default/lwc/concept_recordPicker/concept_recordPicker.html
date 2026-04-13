@@ -1,24 +1,26 @@
 <template>
-    <lightning-card title="Service Console - Quick Assignment" icon-name="standard:service_resource">
+    <lightning-card title="Service Console - Quick Case Assignment" icon-name="standard:service_resource">
         <div class="slds-p-around_medium">
             
             <!-- Case Selection -->
             <div class="slds-box slds-m-bottom_medium">
                 <h3 class="slds-text-heading_small slds-m-bottom_small">1. Select Case to Assign</h3>
-               <lightning-record-picker
-        data-id="case-picker"
-        label="Search Open Cases"
-        placeholder="Search by case number..."
-        object-api-name="Case"
-        value={selectedCaseId}
-        filter={openCasesFilter}
-        display-info={caseDisplayInfo}
-        onchange={handleCaseChange}
-        onerror={handleError}>
-    </lightning-record-picker>
+                <template lwc:if={showCasePicker}>
+                    <lightning-record-picker
+                        data-id="case-picker"
+                        label="Search Open Cases"
+                        placeholder="Search by case number..."
+                        object-api-name="Case"
+                        value={selectedCaseId}
+                        filter={openCasesFilter}
+                        display-info={caseDisplayInfo}
+                        onchange={handleCaseChange}
+                        onerror={handleError}>
+                    </lightning-record-picker>
+                </template>
                 
-                <template lwc:if={selectedCaseNumber}>
-                    <p class="slds-m-top_small">Selected: Case #{selectedCaseNumber} - {selectedCaseSubject}</p>
+                <template lwc:if={selectedCaseId}>
+                    <p class="slds-m-top_small">Selected: {selectedCaseLabel}</p>
                 </template>
             </div>
 
@@ -55,12 +57,12 @@
             disabled={isAssignButtonDisabled}
             class="slds-size_full">
         </lightning-button>
-                    
-                    <template lwc:if={assignmentComplete}>
-                        <div class="slds-m-top_medium slds-theme_success slds-p-around_small">
-                             Case {selectedCaseNumber} assigned to {selectedAgentName}
-                        </div>
-                    </template>
+                </div>
+            </template>
+
+            <template lwc:if={assignmentComplete}>
+                <div class="slds-m-top_medium slds-theme_success slds-p-around_small">
+                    Case {lastAssignedCaseNumber} assigned to {lastAssignedAgentName}
                 </div>
             </template>
         </div>

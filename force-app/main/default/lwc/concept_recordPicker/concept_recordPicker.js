@@ -4,6 +4,8 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import NAME_FIELD from '@salesforce/schema/User.Name';
 import ID_FIELD from '@salesforce/schema/Case.Id';
 import OWNER_ID_FIELD from '@salesforce/schema/Case.OwnerId';
+import CASE_NUMBER_FIELD from '@salesforce/schema/Case.CaseNumber';
+import SUBJECT_FIELD from '@salesforce/schema/Case.Subject';
 
 export default class Concept_RecordPicker extends LightningElement {
     selectedCaseId = null;
@@ -12,61 +14,64 @@ export default class Concept_RecordPicker extends LightningElement {
     selectedAgentId = null;
     selectedAgentName = null;
     assignmentComplete = false;
+    lastAssignedCaseNumber = null;
+    lastAssignedAgentName = null;
     errorMessage = null;
     isAssigning = false;
+    showCasePicker = true;
 
-    // Filter for open cases only
     openCasesFilter = {
         criteria: [
             {
-                fieldPath: "IsClosed",
-                operator: "eq",
+                fieldPath: 'IsClosed',
+                operator: 'eq',
                 value: false
             }
         ]
     };
 
-    // Filter for active support agents
     activeAgentsFilter = {
         criteria: [
             {
-                fieldPath: "IsActive",
-                operator: "eq",
+                fieldPath: 'IsActive',
+                operator: 'eq',
                 value: true
             }
         ]
     };
 
-    // Display info for cases
     caseDisplayInfo = {
-        primaryField: "CaseNumber",
-        additionalFields: ["Subject"]
+        primaryField: 'CaseNumber',
+        additionalFields: ['Subject']
     };
 
-    // Display info for agents
     agentDisplayInfo = {
-        primaryField: "Name",
-        additionalFields: ["Email"]
+        primaryField: 'Name',
+        additionalFields: ['Email']
     };
 
-    // Search agents by name or email
     agentMatchingInfo = {
-        primaryField: { fieldPath: "Name", mode: "contains" },
-        additionalFields: [{ fieldPath: "Email", mode: "contains" }]
+        primaryField: { fieldPath: 'Name', mode: 'contains' },
+        additionalFields: [{ fieldPath: 'Email', mode: 'contains' }]
     };
 
-    // Wire adapter to get agent name when ID changes
+    @wire(getRecord, { recordId: '$selectedCaseId', fields: [CASE_NUMBER_FIELD, SUBJECT_FIELD] })
+    wiredCase({ error, data }) {
+        if (data) {
+            this.selectedCaseNumber = data.fields.CaseNumber.value;
+            this.selectedCaseSubject = data.fields.Subject.value;
+        } else if (error) {
+            this.selectedCaseNumber = null;
+            this.selectedCaseSubject = null;
+        }
+    }
+
     @wire(getRecord, { recordId: '$selectedAgentId', fields: [NAME_FIELD] })
     wiredAgent({ error, data }) {
         if (data) {
             this.selectedAgentName = data.fields.Name.value;
-            console.log('Agent name from wire:', this.selectedAgentName);
         } else if (error) {
-            console.error('Error fetching agent:', error);
-            const agentPicker = this.template.querySelector('[data-id="agent-picker"]');
-            if (agentPicker && agentPicker.displayValue) {
-                this.selectedAgentName = agentPicker.displayValue;
-            }
+            this.selectedAgentName = null;
         }
     }
 
@@ -78,48 +83,57 @@ export default class Concept_RecordPicker extends LightningElement {
         return this.isAssigning || !this.selectedCaseId || !this.selectedAgentId;
     }
 
-    handleCaseChange(event) {
-        console.log('Case selected:', event.detail.recordId);
-        this.selectedCaseId = event.detail.recordId;
-        
-        // Get case number from the picker's display value
-        const casePicker = event.target;
-        
-        if (casePicker) {
-            // Try displayValue first
-            if (casePicker.displayValue) {
-                const displayText = casePicker.displayValue;
-                const parts = displayText.split(' - ');
-                this.selectedCaseNumber = parts[0] || displayText;
-                this.selectedCaseSubject = parts[1] || '';
-            }
-            // Try value.label next
-            else if (casePicker.value && casePicker.value.label) {
-                const displayText = casePicker.value.label;
-                const parts = displayText.split(' - ');
-                this.selectedCaseNumber = parts[0] || displayText;
-                this.selectedCaseSubject = parts[1] || '';
-            }
-            // Last resort - use part of ID
-            else {
-                this.selectedCaseNumber = this.selectedCaseId.substring(0, 8);
-            }
+    get selectedCaseLabel() {
+        if (!this.selectedCaseNumber) {
+            return '';
         }
-        
-        console.log('Extracted case number:', this.selectedCaseNumber);
+
+        return this.selectedCaseSubject
+            ? `Case ${this.selectedCaseNumber} - ${this.selectedCaseSubject}`
+            : `Case ${this.selectedCaseNumber}`;
+    }
+
+    handleCaseChange(event) {
+        const recordId = event.detail.recordId;
+
+        if (!recordId) {
+            this.clearSelections();
+            return;
+        }
+
+        this.selectedCaseId = recordId;
+        this.selectedCaseNumber = null;
+        this.selectedCaseSubject = null;
+        this.selectedAgentId = null;
+        this.selectedAgentName = null;
         this.assignmentComplete = false;
+        this.errorMessage = null;
+
+        const displayText = event.target?.displayValue || event.target?.value?.label || '';
+        if (displayText) {
+            const parts = displayText.split(' - ');
+            this.selectedCaseNumber = parts[0] || this.selectedCaseNumber;
+            this.selectedCaseSubject = parts.length > 1 ? parts.slice(1).join(' - ') : this.selectedCaseSubject;
+        }
     }
 
     handleAgentChange(event) {
-        console.log('Agent selected:', event.detail.recordId);
-        this.selectedAgentId = event.detail.recordId;
+        const recordId = event.detail.recordId;
+
+        if (!recordId) {
+            this.selectedAgentId = null;
+            this.selectedAgentName = null;
+            this.assignmentComplete = false;
+            return;
+        }
+
+        this.selectedAgentId = recordId;
         this.selectedAgentName = null;
         this.assignmentComplete = false;
     }
 
     handleError(event) {
-        this.errorMessage = event.detail.error.message;
-        console.error('Picker error:', event.detail);
+        this.errorMessage = event.detail?.error?.message || 'Unknown picker error';
     }
 
     async handleAssignment() {
@@ -127,45 +141,34 @@ export default class Concept_RecordPicker extends LightningElement {
         this.errorMessage = null;
 
         try {
-            // Create the recordInput object for update
             const fields = {};
             fields[ID_FIELD.fieldApiName] = this.selectedCaseId;
             fields[OWNER_ID_FIELD.fieldApiName] = this.selectedAgentId;
 
-            const recordInput = { fields };
+            await updateRecord({ fields });
 
-            // Update the case with new owner
-            await updateRecord(recordInput);
+            this.lastAssignedCaseNumber = this.selectedCaseNumber;
+            this.lastAssignedAgentName = this.selectedAgentName;
+            this.assignmentComplete = true;
 
-            // Show success message
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Success',
-                    message: `Case #${this.selectedCaseNumber} assigned to ${this.selectedAgentName}`,
+                    message: `Case ${this.lastAssignedCaseNumber} assigned to ${this.lastAssignedAgentName}`,
                     variant: 'success'
                 })
             );
 
-            // Show success in component
-            this.assignmentComplete = true;
-            
-            // Reset after 3 seconds
-            setTimeout(() => {
-                this.selectedCaseId = null;
-                this.selectedCaseNumber = null;
-                this.selectedCaseSubject = null;
-                this.selectedAgentId = null;
-                this.selectedAgentName = null;
-                this.assignmentComplete = false;
-                this.errorMessage = null;
-                this.isAssigning = false;
-            }, 3000);
+            this.clearSelections(true);
 
+            // Force the picker to remount so the case input is fully reset.
+            this.showCasePicker = false;
+            window.requestAnimationFrame(() => {
+                this.showCasePicker = true;
+            });
         } catch (error) {
-            console.error('Assignment error:', error);
-            
             let errorMessage = 'Error assigning case';
-            if (error.body && error.body.message) {
+            if (error.body?.message) {
                 errorMessage = error.body.message;
             } else if (error.message) {
                 errorMessage = error.message;
@@ -180,7 +183,23 @@ export default class Concept_RecordPicker extends LightningElement {
             );
 
             this.errorMessage = errorMessage;
+        } finally {
             this.isAssigning = false;
+        }
+    }
+
+    clearSelections(keepCompletion = false) {
+        this.selectedCaseId = null;
+        this.selectedCaseNumber = null;
+        this.selectedCaseSubject = null;
+        this.selectedAgentId = null;
+        this.selectedAgentName = null;
+        this.errorMessage = null;
+
+        if (!keepCompletion) {
+            this.assignmentComplete = false;
+            this.lastAssignedCaseNumber = null;
+            this.lastAssignedAgentName = null;
         }
     }
 }

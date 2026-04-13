@@ -1,4 +1,5 @@
 import { LightningElement } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class Concept_imperativeEventListenerRegistration extends LightningElement {
 
@@ -32,5 +33,14 @@ export default class Concept_imperativeEventListenerRegistration extends Lightni
                 message: event.detail.message
             }
         ];
+
+        const toastEvent = new ShowToastEvent({
+            title: 'Notification Received',
+            message: event.detail.message,
+            variant: 'info'
+        });
+        this.dispatchEvent(toastEvent);
+
+        console.log('Toast event dispatched in notification handler:', toastEvent);
     }
 }

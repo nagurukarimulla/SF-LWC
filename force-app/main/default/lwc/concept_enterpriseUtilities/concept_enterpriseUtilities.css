@@ -1,0 +1,15 @@
+/* Add this to your component's CSS file */
+/*@media (max-width: 48rem) {
+    .slds-grid.slds-wrap.slds-gutters_small {
+        margin: 0;
+    }
+    
+    .slds-grid.slds-wrap.slds-gutters_small > .slds-col {
+        padding: 0 0.25rem 0.5rem 0.25rem;
+    }
+    
+    lightning-button {
+        display: block;
+        width: 100%;
+    }
+}*/

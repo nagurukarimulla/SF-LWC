@@ -57,62 +57,78 @@
                         <div class="slds-col slds-size_1-of-3 slds-p-around_x-small">
                             <strong>ID:</strong> {layoutData.id}
                         </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                            <strong>Object:</strong> {layoutData.objectApiName}
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                            <strong>Layout Type:</strong> {layoutData.layoutType}
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                            <strong>Mode:</strong> {layoutData.mode}
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_x-small">
+                            <strong>Record Type ID:</strong> {layoutData.recordTypeId}
+                        </div>
                         <div class="slds-col slds-size_1-of-1 slds-p-around_x-small">
-                            <strong>Full Name:</strong> {layoutData.fullName}
+                            <strong>Layout Name:</strong> {layoutDisplayName}
                         </div>
                     </div>
                 </div>
 
                 <!-- Detailed Layout Sections -->
-                <div class="slds-accordion">
+                <div>
                     <template for:each={processedSections} for:item="section">
-                        <div key={section.id} class="slds-accordion__section">
-                            <div class="slds-accordion__summary">
-                                <div class="slds-accordion__summary-heading">
-                                    <h3 class="slds-section__title slds-theme_shade">
-                                        <span class="slds-truncate" title={section.name}>
-                                            <lightning-icon icon-name="utility:table" size="x-small" class="slds-m-right_x-small"></lightning-icon>
-                                            {section.name} ({section.fieldCount} fields)
-                                        </span>
-                                    </h3>
-                                </div>
-                            </div>
-                            
-                            <!-- Section Fields -->
-                            <div class="slds-accordion__content slds-p-around_medium">
-                                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
-                                    <thead>
-                                        <tr class="slds-line-height_reset">
-                                            <th>Field Label</th>
-                                            <th>Field API Name</th>
-                                            <th>Required</th>
-                                            <th>Read Only</th>
-                                            <th>Type</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <template for:each={section.fields} for:item="field">
-                                            <tr key={field.field}>
-                                                <td>{field.label}</td>
-                                                <td>
-                                                    <span class="slds-badge slds-m-right_xx-small">{field.field}</span>
-                                                </td>
-                                                <td>
-                                                    <lightning-icon icon-name={field.requiredIcon} size="x-small" class={field.requiredClass}></lightning-icon>
-                                                    <span class="slds-assistive-text">{field.required}</span>
-                                                </td>
-                                                <td>
-                                                    <lightning-icon icon-name={field.readOnlyIcon} size="x-small" class={field.readOnlyClass}></lightning-icon>
-                                                    <span class="slds-assistive-text">{field.readOnly}</span>
-                                                </td>
-                                                <td>
-                                                    <span class="slds-badge">{field.displayType}</span>
-                                                </td>
+                        <div key={section.id} class="slds-box slds-m-bottom_small">
+                            <button type="button" class="slds-button slds-button_neutral slds-m-bottom_small" 
+                                    onclick={handleSectionToggle}
+                                    data-section-id={section.id}
+                                    aria-expanded={section.ariaExpanded} 
+                                    aria-controls={section.contentId}>
+                                <lightning-icon icon-name={section.toggleIconName} 
+                                                size="x-small" 
+                                                class="slds-m-right_x-small">
+                                </lightning-icon>
+                                <span class="slds-truncate" title={section.name}>
+                                    <lightning-icon icon-name="utility:table" size="x-small" class="slds-m-right_x-small"></lightning-icon>
+                                    {section.name} ({section.fieldCount} fields)
+                                </span>
+                            </button>
+                            <template if:true={section.expanded}>
+                                <div id={section.contentId} class="slds-p-around_medium">
+                                    <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                                        <thead>
+                                            <tr class="slds-line-height_reset">
+                                                <th>Field Label</th>
+                                                <th>Field API Name</th>
+                                                <th>Required</th>
+                                                <th>Read Only</th>
+                                                <th>Type</th>
                                             </tr>
-                                        </template>
-                                    </tbody>
-                                </table>
-                            </div>
+                                        </thead>
+                                        <tbody>
+                                            <template for:each={section.fields} for:item="field">
+                                                <tr key={field.id}>
+                                                    <td>{field.label}</td>
+                                                    <td>
+                                                        <span class="slds-badge slds-m-right_xx-small">{field.field}</span>
+                                                    </td>
+                                                    <td>
+                                                        <lightning-icon icon-name={field.requiredIcon} size="x-small" class={field.requiredClass}></lightning-icon>
+                                                        <span class="slds-assistive-text">{field.required}</span>
+                                                    </td>
+                                                    <td>
+                                                        <lightning-icon icon-name={field.readOnlyIcon} size="x-small" class={field.readOnlyClass}></lightning-icon>
+                                                        <span class="slds-assistive-text">{field.readOnly}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="slds-badge">{field.displayType}</span>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </template>
                         </div>
                     </template>
                 </div>

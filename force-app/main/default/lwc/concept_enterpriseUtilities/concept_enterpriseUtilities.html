@@ -2,33 +2,54 @@
     <lightning-card title="Salesforce Utility Modules Live" icon-name="utility:settings">
         <div class="slds-p-around_medium">
             <div class="slds-grid slds-wrap slds-gutters">
+                <!-- Responsive buttons container -->
                 <div class="slds-col slds-size_1-of-1 slds-m-bottom_medium">
-                    <lightning-button-group>
-                        <lightning-button label="Navigate to Account Home" 
-                                        onclick={navigateToAccount}
-                                        variant="outline-brand">
-                        </lightning-button>
+                    <div class="slds-grid slds-wrap slds-gutters_small">
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_auto slds-m-bottom_x-small">
+                            <lightning-button 
+                                label="Navigate to Account Home" 
+                                onclick={navigateToAccount}
+                                variant="brand"
+                                class="slds-size_1-of-1">
+                            </lightning-button>
+                        </div>
                         
-                        <lightning-button label="Generate Record URL" 
-                                        onclick={generateUrl}
-                                        variant="outline-brand">
-                        </lightning-button>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_auto slds-m-bottom_x-small">
+                            <lightning-button 
+                                label="Generate Record URL" 
+                                onclick={generateUrl}
+                                variant="success"
+                                class="slds-size_1-of-1">
+                            </lightning-button>
+                        </div>
                         
-                        <lightning-button label="Encode Default Fields" 
-                                        onclick={encodeFields}
-                                        variant="outline-brand">
-                        </lightning-button>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_auto slds-m-bottom_x-small">
+                            <lightning-button 
+                                label="Encode Default Fields" 
+                                onclick={encodeFields}
+                                variant="brand"
+                                class="slds-size_1-of-1">
+                            </lightning-button>
+                        </div>
                         
-                        <lightning-button label="Log Event" 
-                                        onclick={logEvent}
-                                        variant="outline-brand">
-                        </lightning-button>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_auto slds-m-bottom_x-small">
+                            <lightning-button 
+                                label="Log Event" 
+                                onclick={logEvent}
+                                variant="neutral"
+                                class="slds-size_1-of-1">
+                            </lightning-button>
+                        </div>
                         
-                        <lightning-button label="Check Cookie Consent" 
-                                        onclick={checkCookie}
-                                        variant="outline-brand">
-                        </lightning-button>
-                    </lightning-button-group>
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_auto">
+                            <lightning-button 
+                                label="Check Cookie Consent" 
+                                onclick={checkCookie}
+                                variant="destructive-text"
+                                class="slds-size_1-of-1">
+                            </lightning-button>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Status messages -->
