@@ -218,4 +218,7 @@ return this.selectedComponent === 'concept_caseCDC';
 get isPostalPincodeSearch(){
 return this.selectedComponent === 'concept_postalPincodeSearch';    
 }
+get isGitHbUserFetcher(){
+return this.selectedComponent === 'concept_githubUserFetcher';    
+}
 }
