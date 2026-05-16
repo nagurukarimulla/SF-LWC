@@ -4,17 +4,18 @@
         title="Default Event Propagation (bubbles:false)"
         icon-name="utility:lock">
 
-        <div class="slds-p-around_medium">
+        <div class="slds-p-around_medium" oninternalaction={handleEvent}>
 
-            <p>Grandparent Component</p>
+            <p><strong>Grandparent Component</strong></p>
+            <p>This component is trying to handle the event here in the grandparent component but unable to receive the message because bubbles:false and composed:false.</p>
 
             <c-ui_default-propagation-parent></c-ui_default-propagation-parent>
 
-            <p class="slds-m-top_medium">
-
-                If the parent receives the event, message will appear.
-
+            <p class="slds-m-top_medium slds-text-color_weak">
+                The child dispatches the event with bubbles:false and composed:false. This means the grandparent listener is attached, but it will not receive the event in this configuration.
             </p>
+
+            <p class="slds-m-top_small"><strong>Message received in grand parent: </strong> {eventMessage}</p>
 
         </div>
 

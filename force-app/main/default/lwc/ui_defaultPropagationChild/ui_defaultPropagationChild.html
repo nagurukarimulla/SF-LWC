@@ -1,8 +1,14 @@
 <template>
 
-    <lightning-button
-        label="Fire Internal Event"
-        onclick={handleClick}>
-    </lightning-button>
+    <div class="wrapper slds-p-around_small slds-border_bottom" oninternalaction={handleEvent}>
+
+        <p><strong>Parent Component</strong></p>
+        <p>This component handles the internal event from the child because the event does not bubble beacuse in child bubbles:false.</p>
+
+        <c-ui_default-propagation-child></c-ui_default-propagation-child>
+
+        <p class="slds-m-top_small"><strong>Message received in Parent:</strong> <span class="slds-text-color_success">{childMessage}</span></p>
+
+    </div>
 
 </template>

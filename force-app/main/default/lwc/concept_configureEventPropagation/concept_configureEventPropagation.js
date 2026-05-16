@@ -1,4 +1,5 @@
 import { LightningElement } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class Concept_configureEventPropagation extends LightningElement {
 
@@ -13,6 +14,15 @@ export default class Concept_configureEventPropagation extends LightningElement 
         console.log('Target:', event.target);
 
         console.log('CurrentTarget:', event.currentTarget);
+
+        // Show toast notification
+        this.dispatchEvent(
+            new ShowToastEvent({
+                title: 'Grandparent Event Received',
+                message: `Message: ${this.eventMessage}`,
+                variant: 'success',
+            })
+        );
 
     }
 

@@ -1,4 +1,5 @@
 import { LightningElement } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class Ui_propagationChild extends LightningElement {
 
@@ -16,7 +17,17 @@ export default class Ui_propagationChild extends LightningElement {
         });
 
         this.dispatchEvent(evt);
-console.log('Custom event dispatched from child component:', evt);
+        console.log('Custom event dispatched from child component:', evt);
+
+        // Show toast notification
+        this.dispatchEvent(
+            new ShowToastEvent({
+                title: 'Child Event Fired',
+                message: 'Custom event dispatched with bubbles and composed',
+                variant: 'warning',
+            })
+        );
+
     }
 
 }

@@ -1,6 +1,9 @@
 <template>
 
-    <lightning-button
+    <p><strong>Child Component</strong></p>
+    <p>Click the button to dispatch an event that bubbles and composes fully.</p>
+
+    <lightning-button variant="success"
         label="Trigger Full Propagation Event"
         onclick={handleClick}>
     </lightning-button>

@@ -1,8 +1,15 @@
 <template>
 
-    <lightning-button
-        label="Fire Event"
-        onclick={handleClick}>
-    </lightning-button>
-
+    <div class="slds-p-around_small">
+        <p><strong>Child Component</strong></p>
+        <p>Click the button to fire a custom event that bubbles up.</p>
+<div class="slds-m-top_x-small">
+        <lightning-button
+            label="Fire Event"
+            onclick={handleClick}
+            variant="brand"
+            class="slds-m-top_small">
+        </lightning-button>
+    </div>
+</div>
 </template>

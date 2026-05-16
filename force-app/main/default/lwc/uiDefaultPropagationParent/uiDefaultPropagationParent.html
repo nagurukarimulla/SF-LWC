@@ -1,12 +1,13 @@
 <template>
 
-    <div class="wrapper" oninternalaction={handleEvent}>
+    <div class="wrapper slds-p-around_small slds-border_bottom" oninternalaction={handleEvent}>
 
-        <p>Parent Component</p>
+        <p><strong>Parent Component</strong></p>
+        <p>This component handles the internal event from the child because the event does not bubble beacuse in child bubbles:false.</p>
 
-        <c-ui-default-propagation-child></c-ui-default-propagation-child>
+        <c-ui_default-propagation-child></c-ui_default-propagation-child>
 
-        <p>Message: {childMessage}</p>
+        <p class="slds-m-top_small"><strong>Message received in Parent:</strong> <span class="slds-text-color_success">{childMessage}</span></p>
 
     </div>
 

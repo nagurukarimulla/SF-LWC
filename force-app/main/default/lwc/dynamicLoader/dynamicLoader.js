@@ -212,4 +212,10 @@ return this.selectedComponent === 'concept_lwcLifeCycleHookConstructor';
 get isConnectedandDisconnectedCallbacks(){
 return this.selectedComponent === 'concept_lifecycleCallbacks';
 }
+get isGetCDC(){
+return this.selectedComponent === 'concept_caseCDC';   
+}
+get isPostalPincodeSearch(){
+return this.selectedComponent === 'concept_postalPincodeSearch';    
+}
 }

@@ -1,0 +1,64 @@
+.records-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.record-card {
+    width: 100%;
+}
+
+.record-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.record-field:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.field-label {
+    font-weight: 600;
+    color: #3c3c3c;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.025rem;
+}
+
+.field-value {
+    color: #1f2937;
+    word-break: break-word;
+    font-size: 1rem;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .records-container {
+        grid-template-columns: 1fr;
+    }
+
+    .record-field {
+        padding-bottom: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+}
+
+/* Tablet */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .records-container {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+    .records-container {
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    }
+}
