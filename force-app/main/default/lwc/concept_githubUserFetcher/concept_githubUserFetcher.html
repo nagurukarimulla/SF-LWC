@@ -1,0 +1,76 @@
+<template>
+
+    <lightning-card title="GitHub User Fetcher" icon-name="standard:avatar">
+
+        <div class="slds-p-around_medium">
+
+            <lightning-input
+                label="Enter GitHub Username"
+                value={username}
+                onchange={handleChange}>
+            </lightning-input>
+
+            <div class="slds-m-top_medium">
+                <lightning-button
+                    label="Fetch User"
+                    variant="brand"
+                    onclick={fetchUser}>
+                </lightning-button>
+            </div>
+
+        </div>
+
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading">
+            </lightning-spinner>
+        </template>
+
+        <template if:true={userData}>
+
+            <div class="slds-p-around_medium profile-section">
+
+                <img src={userData.avatarUrl}
+                     class="avatar"/>
+
+                <h1 class="title">{userData.name}</h1>
+
+                <p class="username">@{userData.login}</p>
+
+                <p class="bio">{userData.bio}</p>
+
+                <div class="stats">
+
+                    <div class="stat-box">
+                        <h2>{userData.publicRepos}</h2>
+                        <p>Repositories</p>
+                    </div>
+
+                    <div class="stat-box">
+                        <h2>{userData.followers}</h2>
+                        <p>Followers</p>
+                    </div>
+
+                    <div class="stat-box">
+                        <h2>{userData.following}</h2>
+                        <p>Following</p>
+                    </div>
+
+                </div>
+
+                <p><b>Company:</b> {userData.company}</p>
+                <p><b>Location:</b> {userData.location}</p>
+
+                <p class="slds-m-top_medium">
+                    <a href={userData.profileUrl}
+                       target="_blank">
+                        Open GitHub Profile
+                    </a>
+                </p>
+
+            </div>
+
+        </template>
+
+    </lightning-card>
+
+</template>
