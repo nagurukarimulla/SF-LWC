@@ -7,6 +7,8 @@ export default class ConceptSelector extends LightningElement {
     @track pageSizes = [5, 10, 20, 50, 100];
     
     concepts = [
+        {label: "Postal PIN Code API",value: "concept_postalPincodeSearch"},
+        {label: "Change Data Capture",value: "concept_caseCDC"},
         {label: "Connected & Disconnected Callbacks",value: "concept_lifecycleCallbacks"},
         {label: "Lifecyccle Hook Constructor",value: "concept_lwcLifeCycleHookConstructor"},
         {label: "FFLIB Classes UseCase3",value: "concept_fflibClassesUseCase3"},

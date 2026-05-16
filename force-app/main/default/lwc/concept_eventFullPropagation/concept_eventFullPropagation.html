@@ -7,14 +7,13 @@
         <div class="slds-p-around_medium"
              oncrm__globalaction={handleEvent}>
 
-            <p>Grandparent Component</p>
+            <p><strong>Grandparent Component</strong></p>
+            <p>This demonstrates full event propagation where events bubble up through the component hierarchy.</p>
 
             <c-ui_full-propagation-parent></c-ui_full-propagation-parent>
 
             <p class="slds-m-top_medium">
-
-                Grandparent Received: {grandMessage}
-
+                <strong>Grandparent Received:</strong> {grandMessage}
             </p>
 
         </div>

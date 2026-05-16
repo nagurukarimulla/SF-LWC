@@ -1,22 +1,21 @@
 <template>
 
     <lightning-card
-        title="Configure Event Propagation"
+        title="Configure Event Propagation Demo"
         icon-name="utility:flow">
 
         <div class="slds-p-around_medium"
              onpropagationdemo={handleEvent}>
 
-            <p>Grandparent Component</p>
+            <p><strong>Grandparent Component</strong></p>
+            <p>This component listens for the 'propagationdemo' custom event from its child components.</p>
+            <p>The event bubbles up from Child → Parent → Grandparent.</p>
 
             <c-ui_propagation-parent></c-ui_propagation-parent>
 
             <div class="slds-m-top_medium">
-
-                <p><strong>Last Event Message from onpropagationdemo:</strong></p>
-
-                <p>{eventMessage}</p>
-
+                <p><strong>Last Event Message received in Grandparent:</strong></p>
+                <p class="slds-text-color_success">{eventMessage}</p>
             </div>
 
         </div>

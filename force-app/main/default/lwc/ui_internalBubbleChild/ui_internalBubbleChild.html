@@ -1,8 +1,18 @@
 <template>
-
-    <lightning-button
-        label="Trigger Internal Bubble Event"
-        onclick={handleClick}>
-    </lightning-button>
-
+    <div class="child-container">
+        <h3>🧒 Child Component (Inside Shadow DOM)</h3>
+        <p class="info-text">
+            <strong>bubbles: true</strong> - Event will bubble up through parent elements<br>
+            <strong>composed: false</strong> - Event STOPS at shadow boundary, won't reach outside
+        </p>
+        <lightning-button
+            label="Click Me - Dispatch Event"
+            onclick={handleClick}
+            class="btn-dispatch">
+        </lightning-button>
+        <div class="event-details">
+            <p>⬆️ Event will bubble UP to parent's wrapper div</p>
+            <p>🚫 Event will NOT cross the shadow boundary</p>
+        </div>
+    </div>
 </template>

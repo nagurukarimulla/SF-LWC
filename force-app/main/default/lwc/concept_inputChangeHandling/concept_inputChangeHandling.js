@@ -1,4 +1,5 @@
 import { LightningElement } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class Concept_inputChangeHandling extends LightningElement {
 
@@ -21,7 +22,23 @@ export default class Concept_inputChangeHandling extends LightningElement {
 
             console.log('Processed value:', normalizedValue);
 
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Input Processed',
+                    message: `Debounced value: "${normalizedValue}"`,
+                    variant: 'success'
+                })
+            );
+
         }, 500); // delay 500ms
+
+        this.dispatchEvent(
+            new ShowToastEvent({
+                title: 'Typing Detected',
+                message: 'Debounce timer reset. Waiting 500ms before processing.',
+                variant: 'info'
+            })
+        );
 
     }
 

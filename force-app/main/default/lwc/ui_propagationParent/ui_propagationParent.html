@@ -1,12 +1,13 @@
 <template>
 
-    <div class="wrapper" onpropagationdemo={handleEvent}>
+    <div class="wrapper slds-p-around_small slds-border_bottom" onpropagationdemo={handleEvent}>
 
-        <p>Parent Component</p>
+        <p><strong>Parent Component</strong></p>
+        <p>This component also listens for the event and passes it up to the grandparent.</p>
 
         <c-ui_propagation-child></c-ui_propagation-child>
 
-        <p>Message from Child: {childMessage}</p>
+        <p class="slds-m-top_small"><strong>Message received in Parent: </strong> <span class="slds-text-color_info">{childMessage}</span></p>
 
     </div>
 

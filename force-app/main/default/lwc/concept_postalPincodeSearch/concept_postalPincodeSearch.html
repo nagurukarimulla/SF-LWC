@@ -1,0 +1,85 @@
+<template>
+
+    <lightning-card title="India Postal PIN Code Search" icon-name="utility:search">
+
+        <div class="slds-p-around_medium">
+
+            <lightning-combobox label="Search Type" value={searchType} options={searchOptions}
+                onchange={handleTypeChange}>
+            </lightning-combobox>
+
+            <lightning-input class="slds-m-top_medium" label={inputLabel} value={searchValue}
+                onchange={handleInputChange}>
+            </lightning-input>
+            <div class="slds-m-top_x-small">
+                <lightning-button class="slds-m-top_medium" label="Search" variant="brand" onclick={handleSearch}>
+                </lightning-button>
+            </div>
+        </div>
+
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </template>
+
+        <template if:true={errorMessage}>
+            <div class="slds-text-color_error slds-p-horizontal_medium">
+                {errorMessage}
+            </div>
+        </template>
+
+        <template if:true={records}>
+
+            <div class="slds-p-around_medium">
+
+                <div class="records-container">
+                    <template for:each={records} for:item="record">
+                        <div key={record.Name} class="record-card slds-m-bottom_medium">
+                            <div class="slds-box slds-box_small slds-theme_default">
+
+                                <div class="record-field">
+                                    <span class="field-label">Post Office:</span>
+                                    <span class="field-value">{record.Name}</span>
+                                </div>
+
+                                <div class="record-field">
+                                    <span class="field-label">PIN Code:</span>
+                                    <span class="field-value">{record.Pincode}</span>
+                                </div>
+
+                                <div class="record-field">
+                                    <span class="field-label">Branch Type:</span>
+                                    <span class="field-value">{record.BranchType}</span>
+                                </div>
+
+                                <div class="record-field">
+                                    <span class="field-label">Delivery Status:</span>
+                                    <span class="field-value">{record.DeliveryStatus}</span>
+                                </div>
+
+                                <div class="record-field">
+                                    <span class="field-label">District:</span>
+                                    <span class="field-value">{record.District}</span>
+                                </div>
+
+                                <div class="record-field">
+                                    <span class="field-label">State:</span>
+                                    <span class="field-value">{record.State}</span>
+                                </div>
+
+                                <div class="record-field">
+                                    <span class="field-label">Country:</span>
+                                    <span class="field-value">{record.Country}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+            </div>
+
+        </template>
+
+    </lightning-card>
+
+</template>

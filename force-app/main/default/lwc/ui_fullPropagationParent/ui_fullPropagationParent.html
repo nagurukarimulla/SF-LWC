@@ -3,11 +3,14 @@
     <div class="wrapper"
          oncrm__globalaction={handleEvent}>
 
-        <p>Parent Component</p>
+        <p><strong>Parent Component</strong></p>
+        <p>This parent component receives the event from its child and can re-dispatch it.</p>
 
         <c-ui_full-propagation-child></c-ui_full-propagation-child>
 
-        <p>Parent Received: {parentMessage}</p>
+        <p class="slds-m-top_medium">
+            <strong>Parent Received:</strong> {parentMessage}
+        </p>
 
     </div>
 

@@ -167,5 +167,33 @@ public with sharing class CaseController {
             return result;
         }
     }
+    @AuraEnabled(cacheable=true)
+    public static List<Case> getCases() {
+        try {
+            return [SELECT Id, CaseNumber, Status, Priority, Subject 
+                    FROM Case 
+                    ORDER BY CreatedDate DESC
+                    LIMIT 3];
+        } catch (Exception e) {
+            throw new AuraHandledException('Error loading cases: ' + e.getMessage());
+        }
+    }
     
+    @AuraEnabled
+    public static String updateCaseRecord(String caseId, String subject, String status, String priority) {
+        try {
+            Case caseToUpdate = [SELECT Id, CaseNumber, Status, Priority, Subject 
+                                 FROM Case 
+                                 WHERE Id = :caseId LIMIT 1];
+            
+            if (subject != null) caseToUpdate.Subject = subject;
+            if (status != null) caseToUpdate.Status = status;
+            if (priority != null) caseToUpdate.Priority = priority;
+            
+            update caseToUpdate;
+            return 'Success';
+        } catch (Exception e) {
+            throw new AuraHandledException('Error updating case: ' + e.getMessage());
+        }
+    }
 }

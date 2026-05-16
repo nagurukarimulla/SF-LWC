@@ -1,8 +1,17 @@
 <template>
 
-    <lightning-button
-        label="Fire Internal Event"
-        onclick={handleClick}>
-    </lightning-button>
+    <div class="slds-p-around_small slds-border">
+        <p><strong>Child Component</strong></p>
+        <p>This component dispatches an internal event from the child host and handles it directly inside the child.</p>
+<div class="slds-m-top_x-small">
+        <lightning-button
+            label="Fire Internal Event"
+            onclick={handleClick}
+            variant="destructive"
+            class="slds-m-top_small">
+        </lightning-button>
+</div>  
+        <p class="slds-m-top_small"><strong>Message received in Child: </strong> <span class="slds-text-color_success">{childMessage}</span></p>
+    </div>
 
 </template>
