@@ -1,0 +1,69 @@
+<template>
+    <lightning-card title="Device Calendar Synchronizer" icon-name="utility:event">
+        <div class="slds-var-p-around_medium">
+            
+            <!-- Dynamic UI Input Fields -->
+            <lightning-input 
+                label="Event Title" 
+                type="text" 
+                value={eventTitle}
+                data-field="eventTitle"
+                onchange={handleInputChange}
+                required>
+            </lightning-input>
+
+            <lightning-input 
+                label="Start Date & Time" 
+                type="datetime" 
+                value={startDate}
+                data-field="startDate"
+                onchange={handleInputChange}
+                required>
+            </lightning-input>
+
+            <lightning-input 
+                label="End Date & Time" 
+                type="datetime" 
+                value={endDate}
+                data-field="endDate"
+                onchange={handleInputChange}
+                required>
+            </lightning-input>
+
+            <lightning-input 
+                label="Location / Address" 
+                type="text" 
+                value={location}
+                data-field="location"
+                onchange={handleInputChange}>
+            </lightning-input>
+
+            <lightning-textarea 
+                label="Event Description / Notes" 
+                value={notes}
+                data-field="notes"
+                onchange={handleInputChange}>
+            </lightning-textarea>
+
+            <!-- Action Button -->
+            <div class="slds-var-m-top_medium">
+                <lightning-button 
+                    label="Export to Phone Calendar" 
+                    variant="brand" 
+                    icon-name="utility:forward"
+                    onclick={handleAddToCalendar}
+                    class="slds-size_full">
+                </lightning-button>
+            </div>
+<!-- Calendar Service Status -->
+
+<div class="slds-var-m-bottom_medium">
+
+    <p class={serviceClass}>
+        {serviceMessage}
+    </p>
+
+</div>
+        </div>
+    </lightning-card>
+</template>

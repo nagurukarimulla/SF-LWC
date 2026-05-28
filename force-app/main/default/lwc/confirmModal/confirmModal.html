@@ -1,0 +1,33 @@
+<template>
+    <lightning-card title="Lightning Confirm Modal LWC" icon-name="utility:warning">
+
+        <div class="slds-p-around_medium">
+
+            <lightning-button
+                label="Open Headerless Confirm"
+                variant="brand"
+                onclick={handleHeaderlessConfirm}>
+            </lightning-button>
+
+            <br/><br/>
+
+            <lightning-button
+                label="Open Default Confirm"
+                variant="destructive"
+                onclick={handleDefaultConfirm}>
+            </lightning-button>
+
+            <br/><br/>
+
+            <template if:true={userChoice}>
+                <div class="slds-box slds-theme_success">
+                    <p>
+                        <strong>Last Action:</strong> {userChoice}
+                    </p>
+                </div>
+            </template>
+
+        </div>
+
+    </lightning-card>
+</template>

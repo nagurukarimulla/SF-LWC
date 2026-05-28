@@ -1,0 +1,31 @@
+<template>
+    <lightning-card title="Lightning Alert Modal Demo" icon-name="utility:warning">
+        
+        <div class="slds-p-around_medium">
+
+            <lightning-button
+                label="Open Error Alert"
+                variant="destructive"
+                onclick={handleErrorAlert}>
+            </lightning-button>
+
+            <br/><br/>
+
+            <lightning-button
+                label="Open Warning Alert"
+                variant="brand"
+                onclick={handleWarningAlert}>
+            </lightning-button>
+
+            <br/><br/>
+
+            <lightning-button
+                label="Open Success Alert"
+                variant="success"
+                onclick={handleSuccessAlert}>
+            </lightning-button>
+
+        </div>
+
+    </lightning-card>
+</template>

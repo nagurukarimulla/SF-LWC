@@ -1,0 +1,41 @@
+<template>
+    <lightning-card title="📍 Current Location Tracker" icon-name="utility:location">
+        <!-- Loading Spinner -->
+        <template if:true={isLoading}>
+            <div class="slds-is-relative slds-p-around_large">
+                <lightning-spinner
+                    alternative-text="Fetching Location"
+                    size="medium">
+                </lightning-spinner>
+            </div>
+        </template>
+        <!-- Location Details -->
+        <template if:true={currentLocation}>
+            <div class="slds-p-around_medium">
+                <p class="slds-text-heading_small">
+                    <strong>Latitude:</strong>
+                    {latitude}
+                </p>
+                <p class="slds-text-heading_small slds-m-bottom_medium">
+                    <strong>Longitude:</strong>
+                    {longitude}
+                </p>
+                <!-- Google Style Map -->
+                <lightning-map
+                    map-markers={mapMarkers}
+                    zoom-level="16">
+                </lightning-map>
+            </div>
+        </template>
+        <!-- Button -->
+        <div class="slds-p-around_medium slds-align_absolute-center">
+            <lightning-button
+                variant="brand"
+                label="Get Current Location"
+                icon-name="utility:target"
+                onclick={handleGetLocation}
+                disabled={disableButton}>
+            </lightning-button>
+        </div>
+    </lightning-card>
+</template>

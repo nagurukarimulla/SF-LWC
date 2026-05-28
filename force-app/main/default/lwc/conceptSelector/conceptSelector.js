@@ -7,6 +7,8 @@ export default class ConceptSelector extends LightningElement {
     @track pageSizes = [5, 10, 20, 50, 100];
     
     concepts = [
+        {label: "GraphQl Pagination", value: "graphqlPagination"},
+        {label: "GraphQl Aggregate Results", value: "aggregateOpportunityStats"},
         {label: "Git Hub User Fetcher",value: "concept_githubUserFetcher"},
         {label: "Postal PIN Code API",value: "concept_postalPincodeSearch"},
         {label: "Change Data Capture",value: "concept_caseCDC"},

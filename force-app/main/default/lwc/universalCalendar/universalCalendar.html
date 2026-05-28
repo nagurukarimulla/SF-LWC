@@ -1,0 +1,92 @@
+<template>
+
+    <lightning-card
+        title="Universal Calendar Integration"
+        icon-name="standard:event">
+
+        <div class="slds-p-around_medium">
+
+            <!-- Event Title -->
+
+            <lightning-input
+                label="Event Title"
+                value={eventTitle}
+                data-field="eventTitle"
+                onchange={handleInputChange}
+                required>
+            </lightning-input>
+
+            <!-- Start -->
+
+            <lightning-input
+                type="datetime"
+                label="Start Date & Time"
+                value={startDate}
+                data-field="startDate"
+                onchange={handleInputChange}
+                required>
+            </lightning-input>
+
+            <!-- End -->
+
+            <lightning-input
+                type="datetime"
+                label="End Date & Time"
+                value={endDate}
+                data-field="endDate"
+                onchange={handleInputChange}
+                required>
+            </lightning-input>
+
+            <!-- Location -->
+
+            <lightning-input
+                label="Location"
+                value={location}
+                data-field="location"
+                onchange={handleInputChange}>
+            </lightning-input>
+
+            <!-- Notes -->
+
+            <lightning-textarea
+                label="Description / Notes"
+                value={notes}
+                data-field="notes"
+                onchange={handleInputChange}>
+            </lightning-textarea>
+
+            <!-- Buttons -->
+
+            <div class="slds-m-top_large">
+
+                <lightning-button
+                    label="Google Calendar"
+                    icon-name="utility:email"
+                    variant="brand"
+                    onclick={openGoogleCalendar}
+                    class="slds-m-right_small">
+                </lightning-button>
+
+                <lightning-button
+                    label="Outlook Calendar"
+                    icon-name="utility:email"
+                    variant="success"
+                    onclick={openOutlookCalendar}
+                    class="slds-m-right_small">
+                </lightning-button>
+
+                <lightning-button
+        label="Clear"
+        icon-name="utility:clear"
+        variant="destructive-text"
+        onclick={clearForm}>
+    </lightning-button>
+
+            </div>
+
+        </div>
+
+    </lightning-card>
+
+</template>
