@@ -1,0 +1,70 @@
+<template>
+
+    <lightning-card
+        title="GraphQL Cases"
+        icon-name="standard:case">
+
+        <template lwc:if={cases}>
+
+            <template for:each={cases} for:item="caseRecord">
+
+                <div
+                    key={caseRecord.Id}
+                    class="slds-box slds-m-around_small">
+
+                    <p>
+                        <strong>Case Number:</strong>
+                        {caseRecord.CaseNumber.value}
+                    </p>
+
+                    <p>
+                        <strong>Subject:</strong>
+                        {caseRecord.Subject.value}
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        {caseRecord.Status.value}
+                    </p>
+
+                    <p>
+                        <strong>Priority:</strong>
+                        {caseRecord.Priority.value}
+                    </p>
+
+                    <p>
+                        <strong>Created Date:</strong>
+                        {caseRecord.CreatedDate.value}
+                    </p>
+
+                    <p>
+                        <strong>Account:</strong>
+
+                        <template lwc:if={caseRecord.Account}>
+                            {caseRecord.Account.Name.value}
+                        </template>
+                    </p>
+
+                    <p>
+                        <strong>Owner:</strong>
+
+                        <template lwc:if={caseRecord.Owner}>
+                            {caseRecord.Owner.Name.value}
+                        </template>
+                    </p>
+
+                </div>
+
+            </template>
+
+        </template>
+
+        <template lwc:if={errors}>
+            <div class="slds-text-color_error slds-p-around_medium">
+                Error loading Cases
+            </div>
+        </template>
+
+    </lightning-card>
+
+</template>

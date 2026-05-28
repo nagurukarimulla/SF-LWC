@@ -1,0 +1,108 @@
+<template>
+
+    <lightning-card
+        title="Multiple Objects GraphQL"
+        icon-name="standard:contact">
+
+        <!-- Loading Spinner -->
+
+        <template if:true={isLoading}>
+
+            <lightning-spinner
+                alternative-text="Loading"
+                size="medium">
+            </lightning-spinner>
+
+        </template>
+
+        <div class="slds-p-around_medium">
+
+            <!-- Contacts Section -->
+
+            <div class="section-title">
+                Contacts Related To Account
+            </div>
+
+            <template if:true={hasContacts}>
+
+                <template
+                    for:each={contacts}
+                    for:item="contact">
+
+                    <div
+                        class="record-box"
+                        key={contact.Id}>
+
+                        <p class="record-name">
+                            {contact.Name.value}
+                        </p>
+
+                        <p>
+                            {contact.Email.value}
+                        </p>
+
+                        <p>
+                            {contact.Phone.value}
+                        </p>
+
+                    </div>
+
+                </template>
+
+            </template>
+
+            <template if:false={hasContacts}>
+
+                <p class="empty-text">
+                    No Contacts Found
+                </p>
+
+            </template>
+
+            <!-- User Section -->
+
+            <div class="section-title slds-m-top_large">
+                Current Logged In User
+            </div>
+
+            <template if:true={hasUsers}>
+
+                <template
+                    for:each={users}
+                    for:item="user">
+
+                    <div
+                        class="record-box"
+                        key={user.Id}>
+
+                        <p class="record-name">
+                            {user.Name.value}
+                        </p>
+
+                        <p>
+                            {user.Email.value}
+                        </p>
+
+                    </div>
+
+                </template>
+
+            </template>
+
+            <!-- Error Section -->
+
+            <template if:true={queryError}>
+
+                <div class="error-box">
+
+                    Error loading GraphQL records
+
+                </div>
+
+            </template>
+
+        </div>
+
+    </lightning-card>
+
+</template>

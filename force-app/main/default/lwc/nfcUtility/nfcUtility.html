@@ -1,0 +1,66 @@
+<template>
+    <lightning-card title="NFC Utility" icon-name="utility:scan_card">
+
+        <div class="slds-p-around_medium">
+
+            <!-- Availability -->
+            <lightning-button
+                label="Check NFC Availability"
+                onclick={checkAvailability}
+                variant="brand">
+            </lightning-button>
+
+            <template if:true={isAvailable}>
+                <p class="slds-m-top_small slds-text-color_success">
+                    NFC is Available on this device
+                </p>
+            </template>
+
+            <template if:false={isAvailable}>
+                <p class="slds-m-top_small slds-text-color_error">
+                    NFC is NOT Available
+                </p>
+            </template>
+
+            <hr class="slds-m-vertical_medium"/>
+
+            <!-- Read NFC -->
+            <lightning-button
+                label="Read NFC Tag"
+                onclick={readNFC}
+                variant="success">
+            </lightning-button>
+
+            <template if:true={readPayload}>
+                <div class="slds-box slds-theme_default slds-m-top_medium">
+                    <p><strong>Read Payload:</strong></p>
+                    <p>{readPayload}</p>
+                </div>
+            </template>
+
+            <hr class="slds-m-vertical_medium"/>
+
+            <!-- Write NFC -->
+            <lightning-input
+                label="Enter Text to Write"
+                value={writeText}
+                onchange={handleInput}>
+            </lightning-input>
+
+            <lightning-button
+                label="Write NFC Tag"
+                onclick={writeNFC}
+                variant="brand"
+                class="slds-m-top_medium">
+            </lightning-button>
+
+            <!-- Error -->
+            <template if:true={errorMessage}>
+                <div class="slds-box slds-theme_error slds-m-top_medium">
+                    {errorMessage}
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

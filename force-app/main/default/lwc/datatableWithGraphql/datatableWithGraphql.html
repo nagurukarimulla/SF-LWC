@@ -1,0 +1,21 @@
+<template>
+    <lightning-card title="Accounts DataTable Using GraphQL" icon-name="standard:account">
+
+        <template if:true={accounts}>
+            <lightning-datatable
+                key-field="Id"
+                data={accounts}
+                columns={columns}
+                hide-checkbox-column
+                show-row-number-column>
+            </lightning-datatable>
+        </template>
+
+        <template if:true={errors}>
+            <div class="slds-text-color_error slds-p-around_medium">
+                Error loading account records.
+            </div>
+        </template>
+
+    </lightning-card>
+</template>

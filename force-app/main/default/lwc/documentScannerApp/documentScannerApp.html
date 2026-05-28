@@ -1,0 +1,48 @@
+<template>
+    <lightning-card title="Document Scanner" icon-name="doctype:scan">
+        <div class="slds-p-around_medium">
+            <!-- Action Buttons -->
+            <div class="button-section">
+                <lightning-button
+                    variant="brand"
+                    label="Scan From Camera"
+                    icon-name="utility:camera"
+                    onclick={handleScanCamera}>
+                </lightning-button>
+                <lightning-button
+                    variant="neutral"
+                    label="Scan From Gallery"
+                    icon-name="utility:image"
+                    onclick={handleScanGallery}
+                    class="slds-m-left_small">
+                </lightning-button>
+            </div>
+            <!-- Error Message -->
+            <template if:true={scannerError}>
+                <div class="error-box slds-m-top_medium">
+                    {scannerError}
+                </div>
+            </template>
+            <!-- Success Preview -->
+            <template if:true={scannedDocument}>
+                <div class="slds-m-top_large">
+                    <h2 class="section-title">
+                        Extracted Text
+                    </h2>
+                    <lightning-textarea
+                        value={scannedDocument.text}
+                        readonly>
+                    </lightning-textarea>
+                </div>
+                <!-- Image Preview -->
+                <div class="preview-wrapper slds-m-top_large">
+                    <img
+                        src={scannedDocument.imageBytes}
+                        class="preview-image"
+                        onload={addImageHighlights}/>
+                    <div class="overlay-container" lwc:dom="manual"></div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

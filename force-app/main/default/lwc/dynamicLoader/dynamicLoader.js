@@ -221,4 +221,13 @@ return this.selectedComponent === 'concept_postalPincodeSearch';
 get isGitHbUserFetcher(){
 return this.selectedComponent === 'concept_githubUserFetcher';    
 }
+get isCaseGraphQL(){
+return this.selectedComponent === 'concept_caseGraphQL';
+}
+get isAggregateOpportunityStats(){
+return this.selectedComponent === 'aggregateOpportunityStats';
+}
+get isGraphQlPagination(){
+return this.selectedComponent === 'graphqlPagination';
+}
 }

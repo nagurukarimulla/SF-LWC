@@ -1,0 +1,29 @@
+<template>
+    <lightning-card title="Lightning Prompt Modal LWC" icon-name="utility:prompt">
+
+        <div class="slds-p-around_medium">
+
+            <lightning-button
+                label="Open Prompt Modal"
+                variant="brand"
+                onclick={handlePromptClick}>
+            </lightning-button>
+
+            <template if:true={userInput}>
+                <div class="slds-m-top_medium">
+                    <p>
+                        <strong>User Entered:</strong> {userInput}
+                    </p>
+                </div>
+            </template>
+
+            <template if:true={cancelMessage}>
+                <div class="slds-m-top_medium slds-text-color_error">
+                    {cancelMessage}
+                </div>
+            </template>
+
+        </div>
+
+    </lightning-card>
+</template>

@@ -1,0 +1,49 @@
+<template>
+    <lightning-card title="LWC Toast Notification Explorer" icon-name="utility:notification">
+        
+        <div class="slds-p-around_medium">
+
+            <div class="button-container">
+
+                <lightning-button
+                    label="Success Toast"
+                    variant="success"
+                    onclick={showSuccessToast}>
+                </lightning-button>
+
+                <lightning-button
+                    label="Error Toast"
+                    variant="destructive"
+                    onclick={showErrorToast}>
+                </lightning-button>
+
+                <lightning-button
+                    label="Warning Toast"
+                    variant="brand"
+                    onclick={showWarningToast}>
+                </lightning-button>
+
+                <lightning-button
+                    label="Info Toast"
+                    variant="neutral"
+                    onclick={showInfoToast}>
+                </lightning-button>
+
+                <lightning-button
+                    label="Sticky Toast"
+                    variant="success"
+                    onclick={showStickyToast}>
+                </lightning-button>
+
+                <lightning-button
+                    label="Pester Toast"
+                    variant="destructive"
+                    onclick={showPesterToast}>
+                </lightning-button>
+
+            </div>
+
+        </div>
+
+    </lightning-card>
+</template>
