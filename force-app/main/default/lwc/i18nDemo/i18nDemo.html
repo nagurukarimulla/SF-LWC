@@ -1,0 +1,40 @@
+<template>
+    <lightning-card title="Internationalization (i18n) Demo" icon-name="custom:custom63">  
+        <!-- User Information Section -->
+        <div class="slds-box slds-theme_default slds-m-bottom_medium">
+            <h3 class="slds-text-heading_small">User Settings</h3>
+            <ul class="slds-list_dotted">
+                <li><strong>Language: </strong> {lang}</li>
+                <li><strong>Text Direction: </strong> {dir}</li>
+                <li><strong>Locale: </strong> {locale}</li>
+                <li><strong>Currency: </strong> {currency}</li>
+                <li><strong>Time Zone: </strong> {timeZone}</li>
+                <li><strong>First Day of Week: </strong> {firstDayOfWeek}</li>
+            </ul>
+        </div>
+
+        <!-- Date Formatting Section -->
+        <div class="slds-box slds-theme_default slds-m-bottom_medium">
+            <h3 class="slds-text-heading_small">Date Formatting</h3>
+        <ul class="slds-list_dotted">
+            <li><strong>Original Date: </strong> June 21, 2026</li>
+            <li><strong>Formatted Date: </strong> {formattedDate}</li>
+            <li><strong>Short Date Format: </strong> {shortDateFormat}</li>
+            <li><strong>Long Date Format: </strong> {longDateFormat}</li>
+        </ul>
+        </div>
+
+        <!-- Number Formatting Section -->
+        <div class="slds-box slds-theme_default slds-m-bottom_medium">
+            <h3 class="slds-text-heading_small">Number & Currency Formatting</h3>
+             <ul class="slds-list_dotted">
+            <li><strong>Original Number: </strong> 123456.78</li>
+            <li><strong>Formatted Number: </strong> {formattedNumber}</li>
+            <li><strong>Currency Format: </strong> {currencyFormat}</li>
+            <li><strong>Currency Symbol: </strong> {currencySymbol}</li>
+            <li><strong>Formatted Currency: </strong> {formattedCurrency}</li>
+            <li><strong>Percent Format: </strong> {percentFormat}</li>
+        </ul>
+        </div>
+    </lightning-card>
+</template>

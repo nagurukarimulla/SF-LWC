@@ -7,4 +7,18 @@ public with sharing class AccountController {
             throw new AuraHandledException(e.getMessage());
         }
     }
+    @AuraEnabled(cacheable=true)
+    public static Account getAccountDetails(Id accountId) {
+
+        return [
+            SELECT Id,
+                   Name,
+                   Industry,
+                   AnnualRevenue,
+                   NumberOfEmployees
+            FROM Account
+            WHERE Id = :accountId
+            LIMIT 1
+        ];
+    }
 }

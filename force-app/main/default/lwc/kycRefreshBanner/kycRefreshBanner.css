@@ -1,0 +1,33 @@
+.banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.warning {
+    background: #fff4ce;
+    border-left: 6px solid #ffb75d;
+}
+
+.info {
+    background: #d9f7ff;
+    border-left: 6px solid #1890ff;
+}
+
+.error {
+    background: #fff1f0;
+    border-left: 6px solid #ff4d4f;
+}
+
+.content h3 {
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.days {
+    margin-top: 6px;
+    font-weight: 600;
+}

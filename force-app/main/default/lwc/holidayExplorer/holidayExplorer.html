@@ -1,0 +1,98 @@
+<template>
+
+    <lightning-card>
+
+        <div class="slds-p-around_large">
+
+            <div
+                class="slds-text-align_center slds-p-around_medium"
+                style="background:linear-gradient(135deg,#0d6efd,#6610f2,#d63384);border-radius:16px;color:white;">
+
+                <h1 class="slds-text-heading_large">
+                    🌍 Global Holiday Explorer
+                </h1>
+
+                <p class="slds-m-top_small">
+                    Search Public Holidays Across Countries
+                </p>
+
+            </div>
+
+            <div class="slds-grid slds-wrap slds-gutters slds-m-top_large">
+
+                <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-12">
+                    <lightning-input
+                        label="Country Code"
+                        value={countryCode}
+                        onchange={handleCountryChange}
+                        placeholder="IN, US, GB">
+                    </lightning-input>
+                </div>
+
+                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                    <lightning-input
+                        type="number"
+                        label="Year"
+                        value={year}
+                        onchange={handleYearChange}>
+                    </lightning-input>
+                </div>
+
+                <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12">
+
+                    <div style="margin-top:24px">
+
+                        <lightning-button
+                            variant="brand"
+                            label="Get Holidays"
+                            icon-name="utility:event"
+                            onclick={loadHolidays}>
+                        </lightning-button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <template if:true={isLoading}>
+                <div class="slds-align_absolute-center slds-m-top_large">
+                    <lightning-spinner
+                        alternative-text="Loading"
+                        size="large">
+                    </lightning-spinner>
+                </div>
+            </template>
+
+            <template if:true={holidayCount}>
+
+                <div
+                    class="slds-box slds-theme_success slds-m-top_large">
+
+                    <strong>Total Holidays :</strong>
+                    {holidayCount}
+
+                </div>
+
+            </template>
+
+            <template if:true={holidays}>
+
+                <div class="slds-m-top_large">
+
+                    <lightning-datatable
+                        key-field="uuid"
+                        data={holidays}
+                        columns={columns}
+                        hide-checkbox-column>
+                    </lightning-datatable>
+
+                </div>
+
+            </template>
+
+        </div>
+
+    </lightning-card>
+
+</template>

@@ -6,16 +6,13 @@
 
         <div class="slds-p-around_medium">
 
-            <p><strong>Grandparent Component</strong></p>
-            <p>This shows how events bubble within the Shadow DOM of nested components.</p>
+            <p>Grandparent Component</p>
 
             <c-ui_internal-bubble-parent
                 oninternalbubble={handleEvent}>
             </c-ui_internal-bubble-parent>
 
-            <p class="slds-m-top_medium">
-                <strong>Message from Child:</strong> {childMessage}
-            </p>
+            <p>Message from Child: {childMessage}</p>
 
         </div>
 

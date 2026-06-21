@@ -1,0 +1,54 @@
+<template>
+    <lightning-card title="Bitly URL Shortener" icon-name="utility:link">
+        <!-- URL Input -->
+        <div class="slds-form-element slds-m-bottom_medium">
+            <label class="slds-form-element__label">Enter Long URL</label>
+            <input type="text" 
+                   class="slds-input" 
+                   placeholder="https://example.com or example.com"
+                   value={longUrl}
+                   onchange={handleUrlChange}>
+        </div>
+
+        <!-- Buttons -->
+        <div class="slds-m-bottom_medium">
+            <div class="slds-button-group" role="group">
+                <button type="button" class="slds-button slds-button_brand slds-m-right_small"
+                        onclick={shortenUrl}
+                        disabled={isLoading}>
+                    <template if:false={isLoading}>Shorten URL</template>
+                    <template if:true={isLoading}>Processing...</template>
+                </button>
+                <button type="button" class="slds-button slds-button_neutral"
+                        onclick={clearForm}>
+                    Clear
+                </button>
+            </div>
+        </div>
+
+        <!-- Error Message -->
+        <template if:true={errorMessage}>
+            <div class="slds-theme_error slds-p-around_medium slds-m-top_medium">
+                <strong>Error:</strong> {errorMessage}
+            </div>
+        </template>
+
+        <!-- Success Result -->
+        <template if:true={shortenedLink}>
+            <div class="slds-theme_success slds-p-around_medium slds-m-top_medium slds-grid slds-grid_vertical-align-center">
+                <div class="slds-col">
+                    <strong>Shortened URL:</strong>
+                    <a href={shortenedLink} target="_blank" class="slds-m-left_small">
+                        {shortenedLink}
+                    </a>
+                </div>
+                <div class="slds-col slds-no-flex">
+                    <button class="slds-button slds-button_success" 
+                            onclick={copyToClipboard}>
+                        Copy
+                    </button>
+                </div>
+            </div>
+        </template>
+    </lightning-card>
+</template>
