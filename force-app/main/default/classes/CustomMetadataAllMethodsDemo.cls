@@ -137,5 +137,3 @@ public class CustomMetadataAllMethodsDemo {
 // CustomMetadataAllMethodsDemo.getByRecordId();
 
 // CustomMetadataAllMethodsDemo.getByQualifiedApiName();
-
-

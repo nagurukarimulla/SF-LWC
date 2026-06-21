@@ -6,14 +6,15 @@
 
             <template if:true={navItems}>
                 <template for:each={navItems} for:item="item">
-                    <div key={item.name} style="background:linear-gradient(135deg,#eef2ff,#e0f7fa);
+                    <div key={item.name}
+     style="background:linear-gradient(135deg,#eef2ff,#e0f7fa);
             padding:12px;
             margin:6px 0;
             border-radius:8px;
             font-weight:bold;
             box-shadow:0 2px 4px rgba(0,0,0,0.1);">
-                        📁 {item.label}
-                    </div>
+    📁 {item.label}
+</div>
                 </template>
             </template>
 

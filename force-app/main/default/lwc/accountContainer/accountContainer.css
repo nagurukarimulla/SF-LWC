@@ -1,0 +1,18 @@
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+li {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+p {
+    margin: 8px 0;
+}
+
+strong {
+    color: #2c3e50;
+}

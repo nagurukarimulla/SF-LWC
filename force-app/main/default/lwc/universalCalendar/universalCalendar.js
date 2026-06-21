@@ -1,5 +1,4 @@
 import { LightningElement } from 'lwc';
-
 export default class UniversalCalendar extends LightningElement {
 
     eventTitle = '';

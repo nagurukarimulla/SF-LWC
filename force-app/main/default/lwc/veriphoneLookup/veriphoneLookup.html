@@ -1,0 +1,149 @@
+<template>
+
+    <lightning-card title="📱 Veriphone Phone Validator" icon-name="utility:call">
+
+        <div class="slds-p-around_large">
+
+            <lightning-layout multiple-rows>
+
+                <lightning-layout-item size="12">
+
+                    <div style="
+                        background:linear-gradient(135deg,#0176D3,#9050E9);
+                        padding:20px;
+                        border-radius:16px;
+                        color:white;
+                        text-align:center;
+                        margin-bottom:20px;">
+
+                        <h1 style="font-size:28px;font-weight:bold;">
+                            Phone Validation & Carrier Lookup
+                        </h1>
+
+                        <p style="font-size:14px;margin-top:8px;">
+                            Validate phone numbers across 240+ countries
+                        </p>
+
+                    </div>
+
+                </lightning-layout-item>
+
+                <lightning-layout-item size="12">
+
+                    <lightning-input
+                        type="tel"
+                        label="Phone Number"
+                        placeholder="+919876543210"
+                        value={phoneNumber}
+                        onchange={handleChange}>
+                    </lightning-input>
+
+                </lightning-layout-item>
+
+                <lightning-layout-item
+                    size="12"
+                    class="slds-m-top_medium">
+
+                    <lightning-button
+                        variant="brand"
+                        label="Validate Number"
+                        icon-name="utility:search"
+                        onclick={validatePhone}>
+                    </lightning-button>
+
+                </lightning-layout-item>
+
+            </lightning-layout>
+
+            <template if:true={isLoading}>
+                <div class="slds-align_absolute-center slds-m-top_large">
+                    <lightning-spinner
+                        alternative-text="Loading"
+                        size="medium">
+                    </lightning-spinner>
+                </div>
+            </template>
+
+            <template if:true={result}>
+
+                <div class="slds-m-top_large">
+
+                    <lightning-layout multiple-rows>
+
+                        <lightning-layout-item
+                            size="12">
+
+                            <div style="
+                                background:#f3f3f3;
+                                border-radius:15px;
+                                padding:20px;">
+
+                                <div class="slds-grid slds-wrap">
+
+                                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                                        <strong>Status</strong><br/>
+                                        {result.status}
+                                    </div>
+
+                                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                                        <strong>Valid Number</strong><br/>
+                                        {result.phone_valid}
+                                    </div>
+
+                                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                                        <strong>Phone Type</strong><br/>
+                                        {result.phone_type}
+                                    </div>
+
+                                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                                        <strong>Carrier</strong><br/>
+                                        {result.carrier}
+                                    </div>
+
+                                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                                        <strong>Country</strong><br/>
+                                        {result.country}
+                                    </div>
+
+                                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                                        <strong>Country Code</strong><br/>
+                                        {result.country_code}
+                                    </div>
+
+                                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                                        <strong>Region</strong><br/>
+                                        {result.phone_region}
+                                    </div>
+
+                                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                                        <strong>Prefix</strong><br/>
+                                        +{result.country_prefix}
+                                    </div>
+
+                                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                                        <strong>International Format</strong><br/>
+                                        {result.international_number}
+                                    </div>
+
+                                    <div class="slds-col slds-size_1-of-2 slds-p-around_small">
+                                        <strong>Local Format</strong><br/>
+                                        {result.local_number}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </lightning-layout-item>
+
+                    </lightning-layout>
+
+                </div>
+
+            </template>
+
+        </div>
+
+    </lightning-card>
+
+</template>

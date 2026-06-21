@@ -1,0 +1,19 @@
+.spinner {
+    position: relative;
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+}
+.backgroundInverse {
+    position: relative;
+    background-color: #16325c;
+    height: 80px;
+}
+.spinnerCondition {
+    position: relative;
+    display: inline-block;
+    margin-left: 15px;
+    width: 55px;
+    vertical-align: middle;
+    white-space: nowrap;
+}

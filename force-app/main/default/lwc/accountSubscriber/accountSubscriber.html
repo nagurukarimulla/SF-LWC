@@ -1,0 +1,42 @@
+<template>
+    <lightning-card title="Real-Time Account Notifications">
+        <div class="slds-p-around_medium">
+            <div class="slds-grid slds-grid_align-spread slds-m-bottom_medium">
+                <lightning-badge label="{badgeLabel}" variant="{badgeVariant}">
+                </lightning-badge>
+                <lightning-button label="Clear" 
+                                variant="neutral" 
+                                onclick={clearAccounts}>
+                </lightning-button>
+            </div>
+            
+            <template if:true={error}>
+                <div class="slds-text-color_error slds-m-bottom_medium">
+                    Error: {error}
+                </div>
+            </template>
+            
+            <template if:true={accounts.length} for:each={accounts} for:item="acc">
+                <div key={acc.id} class="slds-box slds-m-bottom_small">
+                    <div class="slds-grid slds-grid_align-spread">
+                        <div>
+                            <p><strong>Account:</strong> {acc.name}</p>
+                            <p><strong>Industry:</strong> {acc.industry}</p>
+                            <p><strong>Id:</strong> {acc.id}</p>
+                        </div>
+                        <div class="slds-text-color_weak">
+                            <small>{acc.receivedAt}</small>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            
+            <template if:false={accounts.length}>
+                <div class="slds-text-align_center slds-text-color_weak slds-p-vertical_medium">
+                    No account notifications received yet.
+                    <br/>Create an account to see real-time updates.
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

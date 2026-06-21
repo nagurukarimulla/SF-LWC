@@ -1,0 +1,68 @@
+<template>
+    <lightning-card title="Smart QR & Barcode Scanner"
+                    icon-name="utility:scan">
+
+        <div class="slds-p-around_medium">
+
+            <lightning-button
+                variant="brand"
+                label="Scan Barcode"
+                icon-name="utility:scan"
+                onclick={startScan}>
+            </lightning-button>
+
+            <template if:true={isScannerAvailable}>
+                <div class="slds-m-top_medium">
+                    <lightning-badge label="Scanner Ready"></lightning-badge>
+                </div>
+            </template>
+
+            <template if:false={isScannerAvailable}>
+                <div class="slds-m-top_medium slds-text-color_error">
+                    Scanner unavailable. Open in Salesforce Mobile App.
+                </div>
+            </template>
+
+            <template if:true={scannedValue}>
+                <div class="scan-result">
+                    <h3>Latest Scan</h3>
+
+                    <lightning-textarea
+                        value={scannedValue}
+                        readonly>
+                    </lightning-textarea>
+
+                </div>
+            </template>
+
+            <template if:true={scanHistory.length}>
+                <div class="history-section">
+
+                    <h3 class="slds-text-heading_small">
+                        Scan History
+                    </h3>
+
+                    <template for:each={scanHistory}
+                              for:item="item">
+
+                        <div key={item.id}
+                             class="history-item">
+
+                            <lightning-icon
+                                icon-name="utility:scan"
+                                size="x-small">
+                            </lightning-icon>
+
+                            <span>{item.value}</span>
+
+                        </div>
+
+                    </template>
+
+                </div>
+            </template>
+
+        </div>
+
+    </lightning-card>
+</template>

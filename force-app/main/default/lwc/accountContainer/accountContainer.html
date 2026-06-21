@@ -1,0 +1,39 @@
+<template>
+    <lightning-card title="Organization Data Dashboard" icon-name="custom:custom63">
+        <!-- Pass content into slots -->
+        <c-reusable-card>
+            <!-- Header Slot Content -->
+            <div slot="header">
+                <p><strong>Org Name:</strong> {orgName}</p>
+                <p><strong>Org ID:</strong> {orgId}</p>
+                <p><strong>Instance:</strong> {instanceUrl}</p>
+            </div>
+
+            <!-- Middle Slot Content -->
+            <div slot="middle">
+                <p><strong>Total Accounts:</strong> {totalAccounts}</p>
+                <template if:true={recentAccounts}>
+                    <p><strong>Recent Accounts:</strong></p>
+                    <ul>
+                        <template for:each={recentAccounts} for:item="account">
+                            <li key={account.Id}>{account.Name}</li>
+                        </template>
+                    </ul>
+                </template>
+            </div>
+
+            <!-- Footer Slot Content -->
+            <div slot="footer">
+                <p><strong>Total Opportunities:</strong> {totalOpportunities}</p>
+                <template if:true={recentOpportunities}>
+                    <p><strong>Recent Opportunities:</strong></p>
+                    <ul>
+                        <template for:each={recentOpportunities} for:item="opportunity">
+                            <li key={opportunity.Id}>{opportunity.Name} - {opportunity.StageName}</li>
+                        </template>
+                    </ul>
+                </template>
+            </div>
+        </c-reusable-card>
+    </lightning-card>
+</template>

@@ -1,0 +1,28 @@
+<template>
+
+    <template if:true={showBanner}>
+
+        <div class={bannerClass}>
+
+            <lightning-icon
+                icon-name={iconName}
+                size="small">
+            </lightning-icon>
+
+            <div class="content">
+
+                <h3>{bannerTitle}</h3>
+
+                <p>{message}</p>
+
+                <p class="days">
+                    Days Remaining : {daysDifference}
+                </p>
+
+            </div>
+
+        </div>
+
+    </template>
+
+</template>

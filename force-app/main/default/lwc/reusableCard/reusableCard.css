@@ -1,0 +1,38 @@
+.slot-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.header-section {
+    background-color: #f0f4f8;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.middle-section {
+    background-color: #e8f0fe;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.footer-section {
+    background-color: #fef3e8;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.slot-content {
+    background-color: white;
+    padding: 10px;
+    border-radius: 4px;
+    min-height: 50px;
+}
+
+h2 {
+    margin-top: 0;
+    color: #333;
+    font-size: 18px;
+}

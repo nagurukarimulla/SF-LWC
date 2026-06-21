@@ -1,0 +1,25 @@
+<template>
+    <lightning-card title="Create Account">
+        <div class="slds-p-around_medium">
+            <lightning-input
+                label="Account Name"
+                required
+                onchange={handleNameChange}>
+            </lightning-input>
+
+            <lightning-input
+                label="Industry"
+                onchange={handleIndustryChange}>
+            </lightning-input>
+
+            <br/>
+
+            <lightning-button
+                label="Create Account"
+                variant="brand"
+                onclick={createAccount}
+                disabled={isLoading}>
+            </lightning-button>
+        </div>
+    </lightning-card>
+</template>

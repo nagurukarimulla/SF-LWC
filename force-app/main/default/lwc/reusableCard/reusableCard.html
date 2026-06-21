@@ -1,0 +1,27 @@
+<template>
+    <div class="slot-container">
+        <!-- Header Section -->
+        <div class="header-section">
+            <h2>Organization Header</h2>
+            <div class="slot-content">
+                <slot name="header"></slot>
+            </div>
+        </div>
+
+        <!-- Middle Section -->
+        <div class="middle-section">
+            <h2>Accounts Section</h2>
+            <div class="slot-content">
+                <slot name="middle"></slot>
+            </div>
+        </div>
+
+        <!-- Footer Section -->
+        <div class="footer-section">
+            <h2>Opportunities Section</h2>
+            <div class="slot-content">
+                <slot name="footer"></slot>
+            </div>
+        </div>
+    </div>
+</template>

@@ -29,5 +29,3 @@ public with sharing class CursorMonitorController {
         };
     }
 }
-            
-        
